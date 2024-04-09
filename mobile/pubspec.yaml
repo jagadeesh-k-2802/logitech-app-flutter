@@ -1,0 +1,56 @@
+name: logitech
+description: 'Logitech Mobile App'
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.6 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  app_settings: ^5.1.1
+  cupertino_icons: ^1.0.2
+  cached_network_image: ^3.3.1
+  camerawesome: ^2.0.0+1
+  dio: ^5.4.1
+  flutter_native_splash: ^2.3.10
+  flutter_secure_storage: ^9.0.0
+  freezed_annotation: ^2.4.1
+  flutter_riverpod: ^2.4.10
+  firebase_core: ^2.25.5
+  firebase_messaging: ^14.7.17
+  go_router: ^13.2.0
+  internet_connection_checker: ^1.0.0+1
+  infinite_scroll_pagination: ^3.2.0
+  image_cropper: ^5.0.1
+  image_picker: ^1.0.7
+  json_annotation: ^4.8.1
+  moment_dart: ^1.1.0
+  riverpod_annotation: ^2.3.4
+  riverpod_infinite_scroll: ^1.0.9
+  visibility_detector: ^0.4.0+2
+
+dependency_overrides:
+  photo_manager: ^3.0.0-dev.2
+  image_cropper_platform_interface: any
+  http: any
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  custom_lint: ^0.6.2
+  build_runner: ^2.4.8
+  flutter_lints: ^3.0.1
+  freezed: ^2.4.7
+  json_serializable: ^6.7.1
+  riverpod_generator: ^2.3.11
+  riverpod_lint: ^2.3.9
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
