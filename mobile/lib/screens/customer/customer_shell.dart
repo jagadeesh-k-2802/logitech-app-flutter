@@ -2,6 +2,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logitech/state/global_state_provider.dart';
+import 'package:logitech/state/notification/notifications_provider.dart';
 
 // This is only shell of home screen not full page
 class CustomerShell extends ConsumerStatefulWidget {
@@ -24,7 +26,8 @@ class _CustomerShellState extends ConsumerState<CustomerShell> {
 
       // Update state when notification recieved when on foreground
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-        // TODO: Update notification
+        ref.read(globalStateProvider.notifier).onNotification();
+        ref.read(notificationsProvider.notifier).invalidate();
       });
 
       if (!mounted) return;

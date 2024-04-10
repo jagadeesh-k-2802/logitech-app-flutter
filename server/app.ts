@@ -4,6 +4,8 @@ import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
 import errorHandler from '@middlewares/error';
 import authRoutes from '@routes/auth';
+import orderRoutes from '@routes/order';
+import notificationRoutes from '@routes/notification';
 
 const app = express();
 
@@ -18,6 +20,8 @@ if (process.env.NODE_ENV === 'production') {
 
 // Routes
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/notification', notificationRoutes);
+app.use('/api/v1/order', orderRoutes);
 
 // Error Handler
 app.use(errorHandler);

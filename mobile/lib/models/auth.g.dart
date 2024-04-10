@@ -62,7 +62,7 @@ _$UserResponseDataImpl _$$UserResponseDataImplFromJson(
       id: json['_id'] as String,
       avatar: json['avatar'] as String,
       name: json['name'] as String,
-      type: json['type'] as String,
+      type: $enumDecode(_$UserTypeEnumMap, json['type']),
       email: json['email'] as String,
       dateOfBirth: json['dateOfBirth'] as String,
       gender: json['gender'] as String,
@@ -71,6 +71,7 @@ _$UserResponseDataImpl _$$UserResponseDataImplFromJson(
           ? null
           : DriverDetails.fromJson(
               json['driverDetails'] as Map<String, dynamic>),
+      unReadNotificationsCount: json['unReadNotificationsCount'] as int,
       fcmToken: json['fcmToken'] as String?,
       createdAt: json['createdAt'] as String,
     );
@@ -81,12 +82,18 @@ Map<String, dynamic> _$$UserResponseDataImplToJson(
       '_id': instance.id,
       'avatar': instance.avatar,
       'name': instance.name,
-      'type': instance.type,
+      'type': _$UserTypeEnumMap[instance.type]!,
       'email': instance.email,
       'dateOfBirth': instance.dateOfBirth,
       'gender': instance.gender,
       'phone': instance.phone,
       'driverDetails': instance.driverDetails,
+      'unReadNotificationsCount': instance.unReadNotificationsCount,
       'fcmToken': instance.fcmToken,
       'createdAt': instance.createdAt,
     };
+
+const _$UserTypeEnumMap = {
+  UserType.customer: 'customer',
+  UserType.driver: 'driver',
+};

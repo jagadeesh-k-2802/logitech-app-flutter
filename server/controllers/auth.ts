@@ -1,6 +1,7 @@
 import { Response } from 'express';
 import { formidable } from 'formidable';
 import { UserType, User } from '@models/User';
+import { Notification } from '@models/Notification';
 import { Confirmation } from '@models/Confirmations';
 import catchAsync from '@utils/catchAsync';
 import ErrorResponse from '@utils/errorResponse';
@@ -191,11 +192,16 @@ export const verifyConfirmationCode = catchAsync(async (req, res, next) => {
  */
 export const getCurrentUser = catchAsync(async (req, res) => {
   await isAuthenticated(req); // Injects req.user
-  const user = req.user;
+  const user = req.user.toObject();
+
+  const unReadNotificationsCount = await Notification.countDocuments({
+    user: user,
+    isRead: false
+  });
 
   res.status(200).json({
     success: true,
-    data: user
+    data: { ...user, unReadNotificationsCount }
   });
 });
 

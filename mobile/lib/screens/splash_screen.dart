@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logitech/models/auth.dart';
 import 'package:logitech/router/routes.dart';
 import 'package:logitech/state/global_state_provider.dart';
 import 'package:logitech/services/auth.dart';
@@ -25,7 +26,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         if (!mounted) return;
 
         // Navigate according to user type
-        if (user.data.type == 'customer') {
+        if (user.data.type == UserType.customer) {
           context.goNamed(Routes.customerHome);
         } else {
           context.goNamed(Routes.driverHome);

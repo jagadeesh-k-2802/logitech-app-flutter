@@ -663,12 +663,13 @@ mixin _$UserResponseData {
   String get id => throw _privateConstructorUsedError;
   String get avatar => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  String get type => throw _privateConstructorUsedError;
+  UserType get type => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get dateOfBirth => throw _privateConstructorUsedError;
   String get gender => throw _privateConstructorUsedError;
   String? get phone => throw _privateConstructorUsedError;
   DriverDetails? get driverDetails => throw _privateConstructorUsedError;
+  int get unReadNotificationsCount => throw _privateConstructorUsedError;
   String? get fcmToken => throw _privateConstructorUsedError;
   @DateTimeConvertor()
   String get createdAt => throw _privateConstructorUsedError;
@@ -689,12 +690,13 @@ abstract class $UserResponseDataCopyWith<$Res> {
       {@JsonKey(name: '_id') String id,
       String avatar,
       String name,
-      String type,
+      UserType type,
       String email,
       String dateOfBirth,
       String gender,
       String? phone,
       DriverDetails? driverDetails,
+      int unReadNotificationsCount,
       String? fcmToken,
       @DateTimeConvertor() String createdAt});
 
@@ -723,6 +725,7 @@ class _$UserResponseDataCopyWithImpl<$Res, $Val extends UserResponseData>
     Object? gender = null,
     Object? phone = freezed,
     Object? driverDetails = freezed,
+    Object? unReadNotificationsCount = null,
     Object? fcmToken = freezed,
     Object? createdAt = null,
   }) {
@@ -742,7 +745,7 @@ class _$UserResponseDataCopyWithImpl<$Res, $Val extends UserResponseData>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as UserType,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -763,6 +766,10 @@ class _$UserResponseDataCopyWithImpl<$Res, $Val extends UserResponseData>
           ? _value.driverDetails
           : driverDetails // ignore: cast_nullable_to_non_nullable
               as DriverDetails?,
+      unReadNotificationsCount: null == unReadNotificationsCount
+          ? _value.unReadNotificationsCount
+          : unReadNotificationsCount // ignore: cast_nullable_to_non_nullable
+              as int,
       fcmToken: freezed == fcmToken
           ? _value.fcmToken
           : fcmToken // ignore: cast_nullable_to_non_nullable
@@ -799,12 +806,13 @@ abstract class _$$UserResponseDataImplCopyWith<$Res>
       {@JsonKey(name: '_id') String id,
       String avatar,
       String name,
-      String type,
+      UserType type,
       String email,
       String dateOfBirth,
       String gender,
       String? phone,
       DriverDetails? driverDetails,
+      int unReadNotificationsCount,
       String? fcmToken,
       @DateTimeConvertor() String createdAt});
 
@@ -832,6 +840,7 @@ class __$$UserResponseDataImplCopyWithImpl<$Res>
     Object? gender = null,
     Object? phone = freezed,
     Object? driverDetails = freezed,
+    Object? unReadNotificationsCount = null,
     Object? fcmToken = freezed,
     Object? createdAt = null,
   }) {
@@ -851,7 +860,7 @@ class __$$UserResponseDataImplCopyWithImpl<$Res>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as UserType,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -872,6 +881,10 @@ class __$$UserResponseDataImplCopyWithImpl<$Res>
           ? _value.driverDetails
           : driverDetails // ignore: cast_nullable_to_non_nullable
               as DriverDetails?,
+      unReadNotificationsCount: null == unReadNotificationsCount
+          ? _value.unReadNotificationsCount
+          : unReadNotificationsCount // ignore: cast_nullable_to_non_nullable
+              as int,
       fcmToken: freezed == fcmToken
           ? _value.fcmToken
           : fcmToken // ignore: cast_nullable_to_non_nullable
@@ -897,6 +910,7 @@ class _$UserResponseDataImpl implements _UserResponseData {
       required this.gender,
       required this.phone,
       required this.driverDetails,
+      required this.unReadNotificationsCount,
       required this.fcmToken,
       @DateTimeConvertor() required this.createdAt});
 
@@ -911,7 +925,7 @@ class _$UserResponseDataImpl implements _UserResponseData {
   @override
   final String name;
   @override
-  final String type;
+  final UserType type;
   @override
   final String email;
   @override
@@ -923,6 +937,8 @@ class _$UserResponseDataImpl implements _UserResponseData {
   @override
   final DriverDetails? driverDetails;
   @override
+  final int unReadNotificationsCount;
+  @override
   final String? fcmToken;
   @override
   @DateTimeConvertor()
@@ -930,7 +946,7 @@ class _$UserResponseDataImpl implements _UserResponseData {
 
   @override
   String toString() {
-    return 'UserResponseData(id: $id, avatar: $avatar, name: $name, type: $type, email: $email, dateOfBirth: $dateOfBirth, gender: $gender, phone: $phone, driverDetails: $driverDetails, fcmToken: $fcmToken, createdAt: $createdAt)';
+    return 'UserResponseData(id: $id, avatar: $avatar, name: $name, type: $type, email: $email, dateOfBirth: $dateOfBirth, gender: $gender, phone: $phone, driverDetails: $driverDetails, unReadNotificationsCount: $unReadNotificationsCount, fcmToken: $fcmToken, createdAt: $createdAt)';
   }
 
   @override
@@ -949,6 +965,9 @@ class _$UserResponseDataImpl implements _UserResponseData {
             (identical(other.phone, phone) || other.phone == phone) &&
             (identical(other.driverDetails, driverDetails) ||
                 other.driverDetails == driverDetails) &&
+            (identical(
+                    other.unReadNotificationsCount, unReadNotificationsCount) ||
+                other.unReadNotificationsCount == unReadNotificationsCount) &&
             (identical(other.fcmToken, fcmToken) ||
                 other.fcmToken == fcmToken) &&
             (identical(other.createdAt, createdAt) ||
@@ -957,8 +976,20 @@ class _$UserResponseDataImpl implements _UserResponseData {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, avatar, name, type, email,
-      dateOfBirth, gender, phone, driverDetails, fcmToken, createdAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      avatar,
+      name,
+      type,
+      email,
+      dateOfBirth,
+      gender,
+      phone,
+      driverDetails,
+      unReadNotificationsCount,
+      fcmToken,
+      createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -980,12 +1011,13 @@ abstract class _UserResponseData implements UserResponseData {
           {@JsonKey(name: '_id') required final String id,
           required final String avatar,
           required final String name,
-          required final String type,
+          required final UserType type,
           required final String email,
           required final String dateOfBirth,
           required final String gender,
           required final String? phone,
           required final DriverDetails? driverDetails,
+          required final int unReadNotificationsCount,
           required final String? fcmToken,
           @DateTimeConvertor() required final String createdAt}) =
       _$UserResponseDataImpl;
@@ -1001,7 +1033,7 @@ abstract class _UserResponseData implements UserResponseData {
   @override
   String get name;
   @override
-  String get type;
+  UserType get type;
   @override
   String get email;
   @override
@@ -1012,6 +1044,8 @@ abstract class _UserResponseData implements UserResponseData {
   String? get phone;
   @override
   DriverDetails? get driverDetails;
+  @override
+  int get unReadNotificationsCount;
   @override
   String? get fcmToken;
   @override

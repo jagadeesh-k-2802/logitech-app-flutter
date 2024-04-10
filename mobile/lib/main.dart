@@ -34,7 +34,7 @@ Future<void> firebaseBackgroundMessageHandler(RemoteMessage message) async {
 
 void notificationHandler(event) {
   if (event?.notification != null) {
-    navigatorKey.currentContext?.pushNamed(Routes.chooseApplication);
+    navigatorKey.currentContext?.pushNamed(Routes.splash);
   }
 }
 

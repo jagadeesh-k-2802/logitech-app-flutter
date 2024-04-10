@@ -3,6 +3,13 @@ import 'package:logitech/models/converters.dart';
 part 'auth.freezed.dart';
 part 'auth.g.dart';
 
+enum UserType {
+  @JsonValue('customer')
+  customer,
+  @JsonValue('driver')
+  driver
+}
+
 @freezed
 class TokenResponse with _$TokenResponse {
   const factory TokenResponse({
@@ -49,12 +56,13 @@ class UserResponseData with _$UserResponseData {
     @JsonKey(name: '_id') required String id,
     required String avatar,
     required String name,
-    required String type,
+    required UserType type,
     required String email,
     required String dateOfBirth,
     required String gender,
     required String? phone,
     required DriverDetails? driverDetails,
+    required int unReadNotificationsCount,
     required String? fcmToken,
     @DateTimeConvertor() required String createdAt,
   }) = _UserResponseData;
