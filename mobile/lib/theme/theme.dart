@@ -88,6 +88,11 @@ final transparentButtonStyle = ElevatedButton.styleFrom(
   ),
 );
 
+final primaryIconButtonStyle = IconButton.styleFrom(
+  backgroundColor: primaryColor,
+  foregroundColor: Colors.white,
+);
+
 final secondaryButtonStyle = ElevatedButton.styleFrom(
   backgroundColor: lightGrayColor,
   foregroundColor: Colors.black54,

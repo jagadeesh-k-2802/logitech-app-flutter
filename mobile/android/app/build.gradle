@@ -3,10 +3,12 @@ plugins {
     id "kotlin-android"
     id "kotlin-kapt"
     id "dev.flutter.flutter-gradle-plugin"
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
+
 if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader('UTF-8') { reader ->
         localProperties.load(reader)
@@ -14,13 +16,21 @@ if (localPropertiesFile.exists()) {
 }
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+
 if (flutterVersionCode == null) {
     flutterVersionCode = '1'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
+
 if (flutterVersionName == null) {
     flutterVersionName = '1.0'
+}
+
+secrets {
+    propertiesFileName = "secrets.properties"
+    defaultPropertiesFileName = "secrets.defaults.properties"
+    ignoreList.add("sdk.*") // Ignore all keys matching the regexp "sdk.*"
 }
 
 android {
