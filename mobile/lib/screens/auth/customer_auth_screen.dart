@@ -92,7 +92,7 @@ class _CustomerAuthScreenState extends ConsumerState<CustomerAuthScreen> {
       await AuthService.register(
         name: nameController.text,
         dateOfBirth: dobController.text,
-        type: 'customer',
+        type: UserType.customer.name,
         email: emailController.text,
         phone: phoneController.text,
         gender: genderController.text,
@@ -106,6 +106,9 @@ class _CustomerAuthScreenState extends ConsumerState<CustomerAuthScreen> {
         photoOfVehicleFile: null,
         driverSelfieFile: null,
       );
+
+      UserResponse userResponse = await AuthService.getMe();
+      ref.read(globalStateProvider.notifier).setUser(userResponse.data);
 
       if (!mounted) return;
       context.goNamed(Routes.customerHome);

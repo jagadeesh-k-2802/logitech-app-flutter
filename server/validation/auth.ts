@@ -73,17 +73,10 @@ export const updateDetails = z.object({
     name: z
       .string({ required_error: 'Name is required' })
       .max(30, 'Name must not be greater than 30 characters'),
-    username: z
-      .string({ required_error: 'Username is required' })
-      .max(30, 'Name must not be greater than 30 characters'),
     email: z
       .string({ required_error: 'Email is required' })
       .email('Not a valid email'),
     phone: z.string().optional().nullable(),
-    isPrivateAccount: z.boolean({
-      required_error: 'isPrivateAccount is required'
-    }),
-    bio: z.string({ required_error: 'Bio is required' }),
     gender: z.string({ required_error: 'Gender is required' })
   })
 });

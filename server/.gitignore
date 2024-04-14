@@ -27,7 +27,6 @@ yarn-error.log*
 firebase-admin.json
 
 # Uploads
-/public/posts
-/public/story/*
+/public/*
 /public/avatar/*
 !/public/avatar/default-profile.png

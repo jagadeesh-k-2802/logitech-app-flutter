@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logitech - Order Confirmed</title>
+    <%- include('./style') %>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Hi <%= name %></h1>
+      <h3>
+        Your recent order to ship goods from <%= start %> to <%= destination %> was
+        confirmed and will be soon accepted by a driver in the surrounding area.
+      </h3>
+
+      <p>The below ID is the order ID</p>
+      <a class="primary"><%= orderId %></a>
+    </div>
+
+    <footer>
+      <a href=""">hello@logitech.com</a>
+      <p>Copyright &copy; 2024 Logitech</p>
+    </footer>
+  </body>
+</html>

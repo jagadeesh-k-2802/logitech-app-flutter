@@ -17,6 +17,7 @@ dependencies:
   flutter_native_splash: ^2.3.10
   flutter_secure_storage: ^9.0.0
   freezed_annotation: ^2.4.1
+  flutter_rating_bar: ^4.0.1
   flutter_riverpod: ^2.4.10
   firebase_core: ^2.25.5
   firebase_messaging: ^14.7.17

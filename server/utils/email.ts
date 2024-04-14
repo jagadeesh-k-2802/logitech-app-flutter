@@ -70,6 +70,10 @@ class Email {
   async sendPasswordReset() {
     await this._send('password-reset', 'Logitech- Password Reset');
   }
+
+  async sendOrderConfirm() {
+    await this._send('order-confirm', 'Logitech- Order Confirmation');
+  }
 }
 
 export default Email;

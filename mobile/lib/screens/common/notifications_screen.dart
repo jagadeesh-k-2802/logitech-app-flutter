@@ -30,7 +30,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
       ),
       child: GestureDetector(
         onTap: () {
-          // TODO: On Open Notification
+          // TODO: On Tap Notification
         },
         child: Row(
           children: [

@@ -227,18 +227,9 @@ export const logout = catchAsync(async (req, res) => {
  */
 export const updateDetails = catchAsync(async (req, res) => {
   const { body } = await zParse(authValidation.updateDetails, req);
-  const { name, username, email, phone, bio, gender, isPrivateAccount } = body;
+  const { name, email, phone, gender } = body;
   const user = req.user;
-
-  const fieldsToUpdate = {
-    name,
-    username,
-    email,
-    phone,
-    bio,
-    gender,
-    isPrivateAccount
-  };
+  const fieldsToUpdate = { name, email, phone, gender };
 
   await User.findByIdAndUpdate(user.id, fieldsToUpdate, {
     new: true,

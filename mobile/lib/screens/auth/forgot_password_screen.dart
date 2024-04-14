@@ -79,16 +79,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Find your Account',
-          style: headlineLargeBold(context),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'Enter your email address linked to your account.',
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-        const SizedBox(height: 20),
         Form(
           key: formKey,
           child: TextFormField(
@@ -130,11 +120,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Enter Confirmation Code',
-          style: headlineLargeBold(context),
-        ),
-        const SizedBox(height: 8),
-        Text(
           'Enter the 6-digit confirmation code we sent to ${emailController.text}',
           style: Theme.of(context).textTheme.bodyLarge,
         ),
@@ -174,11 +159,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Enter your new Password',
-          style: headlineLargeBold(context),
-        ),
-        const SizedBox(height: 8),
         Text(
           'Choose a new password with at least 6 characters or numbers.',
           style: Theme.of(context).textTheme.bodyLarge,

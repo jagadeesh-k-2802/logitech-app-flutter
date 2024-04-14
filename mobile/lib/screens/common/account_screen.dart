@@ -68,7 +68,9 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
             ClickableListItem(
               prefixIcon: Icons.account_box,
               text: '${user?.name}',
-              onTap: () => context.pushNamed(Routes.customerProfile),
+              onTap: () => user?.type == UserType.customer
+                  ? context.pushNamed(Routes.customerProfile)
+                  : context.pushNamed(Routes.driverProfile),
               suffixIcon: Icons.chevron_right,
             ),
             const Divider(),
@@ -85,7 +87,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
               prefixIcon: Icons.logout,
               text: 'Logout',
               textColor: Colors.red,
-              onTap: () => onLogout(),
+              onTap: () => showLogoutDialog(),
             ),
           ],
         ),

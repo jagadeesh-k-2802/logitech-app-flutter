@@ -1,14 +1,19 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_map_math/flutter_geo_math.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:logitech/config/env.dart';
 import 'package:logitech/models/auth.dart';
+import 'package:logitech/router/routes.dart';
+import 'package:logitech/screens/customer/place_order_screen.dart';
 import 'package:logitech/state/global_state_provider.dart';
 import 'package:logitech/theme/theme.dart';
+import 'package:logitech/utils/formatters.dart';
 
 class CustomerHomeScreen extends ConsumerStatefulWidget {
   const CustomerHomeScreen({super.key});
@@ -19,15 +24,18 @@ class CustomerHomeScreen extends ConsumerStatefulWidget {
 
 class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
   late GoogleMapController mapController;
+  int distanceLimit = 5;
   CameraPosition cameraPos = const CameraPosition(target: LatLng(0.0, 0.0));
   late Position currentPosition;
   String currentAddress = '';
-  final startAddressController = TextEditingController();
-  final destinationAddressController = TextEditingController();
+  (double, double) startCoordinates = (0, 0);
+  (double, double) destinationCoordinates = (0, 0);
+  final startController = TextEditingController();
+  final destinationController = TextEditingController();
   final startAddressFocusNode = FocusNode();
   final destinationAddressFocusNode = FocusNode();
-  String? placeDistance;
-  String? totalCost;
+  double? totalDistance;
+  double? totalCost;
   Set<Marker> markers = {};
   late PolylinePoints polylinePoints;
   Map<PolylineId, Polyline> polylines = {};
@@ -73,21 +81,50 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
 
   Future<void> getAddress() async {
     try {
-      List<Placemark> places = await placemarkFromCoordinates(
+      List<Placemark> placemarks = await placemarkFromCoordinates(
         currentPosition.latitude,
         currentPosition.longitude,
       );
 
-      Placemark place = places[0];
+      if (placemarks.isNotEmpty) {
+        setState(() {
+          currentAddress = addressFormatter(placemarks[0]);
+          startController.text = currentAddress;
+        });
+      }
+    } catch (error) {
+      if (!mounted) return;
 
-      setState(() {
-        currentAddress = "${place.name},";
-        currentAddress += ", ${place.locality}";
-        currentAddress += "${place.postalCode}";
-        currentAddress += ", ${place.country}";
-        startAddressController.text = currentAddress;
-        startAddressController.text = currentAddress;
-      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(error.toString())),
+      );
+    }
+  }
+
+  Future<void> getCoordinates() async {
+    try {
+      List<Location> locations = await locationFromAddress(
+        startController.text,
+      );
+
+      if (locations.isNotEmpty) {
+        Location location = locations[0];
+
+        setState(() {
+          currentPosition = Position(
+            latitude: location.latitude,
+            longitude: location.longitude,
+            timestamp: DateTime.now(),
+            accuracy: 2,
+            altitude: 2,
+            altitudeAccuracy: 80,
+            heading: 0,
+            headingAccuracy: 80,
+            speed: 0,
+            speedAccuracy: 80,
+          );
+        });
+      }
     } catch (error) {
       if (!mounted) return;
 
@@ -103,18 +140,18 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
       polylineCoordinates.clear();
 
       List<Location> startPlacemark = await locationFromAddress(
-        startAddressController.text,
+        startController.text,
       );
 
       List<Location> destinationPlacemark = await locationFromAddress(
-        destinationAddressController.text,
+        destinationController.text,
       );
 
-      double startLatitude = startAddressController.text == currentAddress
+      double startLatitude = startController.text == currentAddress
           ? currentPosition.latitude
           : startPlacemark[0].latitude;
 
-      double startLongitude = startAddressController.text == currentAddress
+      double startLongitude = startController.text == currentAddress
           ? currentPosition.longitude
           : startPlacemark[0].longitude;
 
@@ -123,6 +160,8 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
       String startCoordinatesString = '($startLatitude, $startLongitude)';
       String destinationCoordinatesString = '($destinationLatitude, ';
       destinationCoordinatesString += '$destinationLongitude)';
+      startCoordinates = (startLatitude, startLongitude);
+      destinationCoordinates = (destinationLatitude, destinationLongitude);
 
       Marker startMarker = Marker(
         markerId: MarkerId(startCoordinatesString),
@@ -130,7 +169,7 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
         icon: BitmapDescriptor.defaultMarker,
         infoWindow: InfoWindow(
           title: 'Start $startCoordinatesString',
-          snippet: startAddressController.text,
+          snippet: startController.text,
         ),
       );
 
@@ -140,7 +179,7 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
         icon: BitmapDescriptor.defaultMarker,
         infoWindow: InfoWindow(
           title: 'Destination $destinationCoordinatesString',
-          snippet: destinationAddressController.text,
+          snippet: destinationController.text,
         ),
       );
 
@@ -193,9 +232,24 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
         "kilometers",
       );
 
+      if (distance < distanceLimit) {
+        setState(() {
+          markers.clear();
+          polylineCoordinates.clear();
+        });
+
+        if (!mounted) return false;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Should be at least $distanceLimit Km')),
+        );
+
+        return false;
+      }
+
       setState(() {
-        placeDistance = '${distance.toStringAsFixed(2)} KM';
-        totalCost = '₹ ${(distance * 20).toStringAsFixed(2)}';
+        totalDistance = distance;
+        totalCost = distance * 20;
       });
 
       return true;
@@ -251,17 +305,11 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
         position.longitude,
       );
 
-      String geoCodeLoation = '';
-
       if (placemarks.isNotEmpty) {
-        geoCodeLoation += '${placemarks[0].street} ';
-        geoCodeLoation += '${placemarks[0].subLocality} ';
-        geoCodeLoation += '${placemarks[0].locality} ';
-        geoCodeLoation += '${placemarks[0].postalCode} ';
-        geoCodeLoation += '${placemarks[0].country} ';
+        String geoCodeLoation = addressFormatter(placemarks[0]);
+        destinationController.text = geoCodeLoation;
       }
 
-      destinationAddressController.text = geoCodeLoation;
       await calculateDistance();
     } catch (error) {
       if (!mounted) return;
@@ -286,30 +334,56 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
             child: Column(
               children: [
                 TextFormField(
-                  controller: startAddressController,
+                  controller: startController,
+                  onFieldSubmitted: (value) async => await getCoordinates(),
                   decoration: const InputDecoration(
-                    icon: Icon(Icons.my_location_sharp),
+                    icon: Icon(Icons.start),
                     hintText: 'Start Address',
                   ),
                 ),
                 const SizedBox(height: 12),
                 TextFormField(
-                  controller: destinationAddressController,
+                  controller: destinationController,
                   onFieldSubmitted: (value) async => await calculateDistance(),
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.location_pin),
+                  decoration: InputDecoration(
                     hintText: 'Destination Address',
+                    icon: Transform.rotate(
+                      angle: 180 * math.pi / 180,
+                      child: const Icon(Icons.start_outlined),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 12),
                 ElevatedButton.icon(
                   icon: const Icon(Icons.local_shipping),
                   label: Text(
-                    placeDistance == null
+                    totalDistance == null
                         ? 'Place Order'
-                        : 'Place Order ($totalCost | $placeDistance)',
+                        : 'Place Order (${moneyFormatter(totalCost)} | ${kilometresFormatter(totalDistance)})',
                   ),
-                  onPressed: placeDistance == null ? null : () {},
+                  onPressed: totalDistance == null
+                      ? null
+                      : () async {
+                          await context.pushNamed(
+                            Routes.placeOrder,
+                            extra: PlaceOrderScreenArgs(
+                              startAddress: startController.text,
+                              destinationAddress: destinationController.text,
+                              startCoordinates: startCoordinates,
+                              destinationCoordinates: destinationCoordinates,
+                              totalCost: totalCost ?? 0,
+                              totalDistance: totalDistance ?? 0,
+                            ),
+                          );
+
+                          setState(() {
+                            markers.clear();
+                            polylineCoordinates.clear();
+                            destinationController.text = "";
+                            totalDistance = null;
+                            totalCost = null;
+                          });
+                        },
                 ),
                 const SizedBox(height: 12),
               ],

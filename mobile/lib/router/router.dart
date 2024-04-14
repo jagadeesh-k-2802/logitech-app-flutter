@@ -9,8 +9,12 @@ import 'package:logitech/screens/common/profile_screen.dart';
 import 'package:logitech/screens/customer/customer_home_screen.dart';
 import 'package:logitech/screens/customer/customer_orders_screen.dart';
 import 'package:logitech/screens/customer/customer_shell.dart';
-import 'package:logitech/screens/customer/new_order_screen.dart';
+import 'package:logitech/screens/customer/rating_screen.dart';
+import 'package:logitech/screens/customer/order_confirmed_screen.dart';
+import 'package:logitech/screens/customer/order_detail_screen.dart';
+import 'package:logitech/screens/customer/place_order_screen.dart';
 import 'package:logitech/screens/driver/driver_home_screen.dart';
+import 'package:logitech/screens/driver/driver_orders_screen.dart';
 import 'package:logitech/screens/driver/driver_shell.dart';
 import 'package:logitech/screens/splash_screen.dart';
 import 'package:logitech/screens/auth/customer_auth_screen.dart';
@@ -86,6 +90,15 @@ final List<RouteBase> _routes = [
             child: CustomerOrdersScreen(),
           ),
         ),
+        GoRoute(
+          name: Routes.customerOrderDetailPath(''),
+          path: '${Routes.customerOrderDetailPath(':id')}',
+          pageBuilder: (context, state) => NoTransitionPage(
+            child: OrderDetailScreen(
+              id: state.pathParameters['id'] as String,
+            ),
+          ),
+        ),
       ]),
       StatefulShellBranch(routes: [
         GoRoute(
@@ -115,10 +128,24 @@ final List<RouteBase> _routes = [
     ],
   ),
   GoRoute(
-    name: Routes.newOrder,
-    path: '/${Routes.newOrder}',
+    name: Routes.placeOrder,
+    path: '/${Routes.placeOrder}',
+    pageBuilder: (context, state) => NoTransitionPage(
+      child: PlaceOrderScreen(state.extra),
+    ),
+  ),
+  GoRoute(
+    name: Routes.orderConfirmed,
+    path: '/${Routes.orderConfirmed}',
     pageBuilder: (context, state) => const NoTransitionPage(
-      child: NewOrderScreen(),
+      child: OrderConfirmedScreen(),
+    ),
+  ),
+  GoRoute(
+    name: Routes.rating,
+    path: '/${Routes.rating}',
+    pageBuilder: (context, state) => const NoTransitionPage(
+      child: RatingScreen(),
     ),
   ),
   StatefulShellRoute.indexedStack(
@@ -133,6 +160,17 @@ final List<RouteBase> _routes = [
             path: '/${Routes.driverHome}',
             pageBuilder: (context, state) => const NoTransitionPage(
               child: DriverHomeScreen(),
+            ),
+          ),
+        ],
+      ),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            name: Routes.driverOrders,
+            path: '/${Routes.driverOrders}',
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: DriverOrdersScreen(),
             ),
           ),
         ],

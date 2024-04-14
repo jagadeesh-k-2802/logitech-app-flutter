@@ -135,7 +135,7 @@ class _SignupScreenState extends ConsumerState<DriverAuthScreen> {
         dateOfBirth: dobController.text,
         email: emailController.text,
         phone: null,
-        type: 'driver',
+        type: UserType.driver.name,
         gender: genderController.text,
         avatarPath: null,
         password: passwordController.text,
@@ -157,6 +157,9 @@ class _SignupScreenState extends ConsumerState<DriverAuthScreen> {
         photoOfVehicleFile: vehiclePhotoFilePath,
         driverSelfieFile: driverSelfieFilePath,
       );
+
+      UserResponse userResponse = await AuthService.getMe();
+      ref.read(globalStateProvider.notifier).setUser(userResponse.data);
 
       if (!mounted) return;
       context.goNamed(Routes.driverHome);

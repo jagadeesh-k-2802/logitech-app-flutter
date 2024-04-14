@@ -10,8 +10,12 @@ class Routes {
   static const changePassword = "change-password";
   static const customerHome = "customer-home";
   static const customerOrders = "customer-orders";
-  static const newOrder = "new-order";
+  static customerOrderDetailPath(String id) => "/customer-order-detail/$id";
+  static const placeOrder = "place-order";
+  static const orderConfirmed = "order-confirmation";
+  static const rating = "rating";
   static const driverHome = "driver-home";
+  static const driverOrders = "driver-orders";
   static const customerNotification = "customer-notifications";
   static const driverNotification = "driver-notifications";
   static const customerAccount = 'customer-account';

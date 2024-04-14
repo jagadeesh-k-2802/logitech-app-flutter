@@ -47,7 +47,13 @@ class _DriverShellState extends ConsumerState<DriverShell> {
       bottomNavigationBar: BottomNavigationBar(
         onTap: onNavigate,
         currentIndex: widget.navigationShell.currentIndex,
+        type: BottomNavigationBarType.fixed,
         items: const [
+          BottomNavigationBarItem(
+            label: 'Home',
+            activeIcon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
+          ),
           BottomNavigationBarItem(
             label: 'Orders',
             activeIcon: Icon(Icons.local_shipping),

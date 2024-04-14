@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 enum StatusEnum {
   pending = 'pending',
+  accepted = 'accepted',
   completed = 'completed'
 }
 
@@ -12,21 +13,23 @@ interface Location {
 }
 
 interface Order {
-  price: number;
-  distance: number;
   sourceLocation: Location;
   destinationLocation: Location;
+  status: StatusEnum;
+  price: number;
+  distance: number;
+  typeOfGoods: string;
+  vehicleType: string;
+  deliveryNote?: string;
+  approxWeight: number;
   createdBy: mongoose.ObjectId;
   acceptedBy: mongoose.ObjectId;
-  status: StatusEnum;
   createdAt: Date;
   updatedAt: Date;
 }
 
 const schema = new mongoose.Schema<Order>(
   {
-    price: { type: Number },
-    distance: { type: Number },
     sourceLocation: {
       type: { type: String, enum: ['Point'] },
       address: { type: String },
@@ -42,6 +45,12 @@ const schema = new mongoose.Schema<Order>(
       default: StatusEnum.pending,
       enum: Object.values(StatusEnum)
     },
+    vehicleType: { type: String },
+    deliveryNote: { type: String },
+    approxWeight: { type: Number },
+    price: { type: Number },
+    distance: { type: Number },
+    typeOfGoods: { type: String },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     acceptedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
   },

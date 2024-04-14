@@ -6,6 +6,7 @@ import errorHandler from '@middlewares/error';
 import authRoutes from '@routes/auth';
 import orderRoutes from '@routes/order';
 import notificationRoutes from '@routes/notification';
+import ratingRoutes from '@routes/rating';
 
 const app = express();
 
@@ -20,8 +21,9 @@ if (process.env.NODE_ENV === 'production') {
 
 // Routes
 app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/notification', notificationRoutes);
 app.use('/api/v1/order', orderRoutes);
+app.use('/api/v1/notification', notificationRoutes);
+app.use('/api/v1/rating', ratingRoutes);
 
 // Error Handler
 app.use(errorHandler);
