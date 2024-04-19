@@ -58,7 +58,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    UserResponseData? user = ref.read(globalStateProvider).user;
+    UserResponseData? user = ref.watch(globalStateProvider).user;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Account')),

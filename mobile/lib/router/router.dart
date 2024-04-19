@@ -16,6 +16,8 @@ import 'package:logitech/screens/customer/place_order_screen.dart';
 import 'package:logitech/screens/driver/driver_home_screen.dart';
 import 'package:logitech/screens/driver/driver_orders_screen.dart';
 import 'package:logitech/screens/driver/driver_shell.dart';
+import 'package:logitech/screens/driver/order_accept_screen.dart';
+import 'package:logitech/screens/driver/order_manage_screen.dart';
 import 'package:logitech/screens/splash_screen.dart';
 import 'package:logitech/screens/auth/customer_auth_screen.dart';
 import 'package:logitech/screens/auth/driver_auth_screen.dart';
@@ -95,7 +97,7 @@ final List<RouteBase> _routes = [
           path: '${Routes.customerOrderDetailPath(':id')}',
           pageBuilder: (context, state) => NoTransitionPage(
             child: OrderDetailScreen(
-              id: state.pathParameters['id'] as String,
+              orderId: state.pathParameters['id'] as String,
             ),
           ),
         ),
@@ -142,10 +144,12 @@ final List<RouteBase> _routes = [
     ),
   ),
   GoRoute(
-    name: Routes.rating,
-    path: '/${Routes.rating}',
-    pageBuilder: (context, state) => const NoTransitionPage(
-      child: RatingScreen(),
+    name: Routes.ratingPath(''),
+    path: '${Routes.ratingPath(':id')}',
+    pageBuilder: (context, state) => NoTransitionPage(
+      child: RatingScreen(
+        userId: state.pathParameters['id'] as String,
+      ),
     ),
   ),
   StatefulShellRoute.indexedStack(
@@ -201,6 +205,24 @@ final List<RouteBase> _routes = [
         ),
       ]),
     ],
+  ),
+  GoRoute(
+    name: Routes.orderAcceptDetailPath(''),
+    path: '${Routes.orderAcceptDetailPath(':id')}',
+    pageBuilder: (context, state) => NoTransitionPage(
+      child: OrderAcceptScreen(
+        orderId: state.pathParameters['id'] as String,
+      ),
+    ),
+  ),
+  GoRoute(
+    name: Routes.orderManageDetailPath(''),
+    path: '${Routes.orderManageDetailPath(':id')}',
+    pageBuilder: (context, state) => NoTransitionPage(
+      child: OrderManageScreen(
+        orderId: state.pathParameters['id'] as String,
+      ),
+    ),
   ),
 ];
 

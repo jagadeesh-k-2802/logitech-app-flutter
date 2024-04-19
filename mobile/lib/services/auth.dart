@@ -47,6 +47,7 @@ class AuthService {
     required String? avatarPath,
     required String password,
     required String fcmToken,
+    Map<String, dynamic>? location,
     required Map<String, String> driverDetails,
     required String? aadharCardFile,
     required String? drivingLicenseFile,
@@ -63,10 +64,11 @@ class AuthService {
         'email': email,
         'type': type,
         'gender': gender,
-        'phone': phone,
+        'phone': phone ?? driverDetails['driverNumber'],
         'dateOfBirth': dateOfBirth,
         'password': password,
         'fcmToken': fcmToken,
+        'location': location,
         'driverDetails': driverDetails,
         'avatar': avatarPath != null
             ? await MultipartFile.fromFile(avatarPath)

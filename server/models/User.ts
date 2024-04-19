@@ -9,12 +9,18 @@ enum AccountTypeEnum {
   driver = 'driver'
 }
 
+interface Location {
+  type: string;
+  address: string;
+  coordinates: mongoose.Types.Array<number>;
+}
+
 interface DriverDetails {
   ownerNumber: string;
   driverNumber: string;
   ownerName: string;
   driverName: string;
-  city: string;
+  location: Location;
   vehicleBodyType: string;
   vehicleCapacity: string;
   vehicleNumber: string;
@@ -58,7 +64,11 @@ const driverDetailsSchema = new mongoose.Schema<DriverDetails>({
   driverNumber: { type: String },
   ownerName: { type: String },
   driverName: { type: String },
-  city: { type: String },
+  location: {
+    type: { type: String, enum: ['Point'] },
+    address: { type: String },
+    coordinates: { type: [Number], index: '2dsphere' }
+  },
   vehicleBodyType: { type: String },
   vehicleCapacity: { type: String },
   vehicleNumber: { type: String },

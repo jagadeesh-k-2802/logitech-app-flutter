@@ -35,10 +35,34 @@ class Location with _$Location {
 }
 
 @freezed
+class Hub with _$Hub {
+  const factory Hub({
+    required String address,
+    required List<double> coordinates,
+  }) = _Hub;
+
+  factory Hub.fromJson(Map<String, Object?> json) => _$HubFromJson(json);
+}
+
+@freezed
+class CreatedBy with _$CreatedBy {
+  const factory CreatedBy({
+    required String id,
+    required String name,
+    required String phone,
+  }) = _CreatedBy;
+
+  factory CreatedBy.fromJson(Map<String, Object?> json) =>
+      _$CreatedByFromJson(json);
+}
+
+@freezed
 class AcceptedBy with _$AcceptedBy {
   const factory AcceptedBy({
     required String id,
     required String name,
+    required String avatar,
+    required String phone,
   }) = _AcceptedBy;
 
   factory AcceptedBy.fromJson(Map<String, Object?> json) =>
@@ -84,8 +108,11 @@ class GetOrderResponseData with _$GetOrderResponseData {
     required double approxWeight,
     required Location sourceLocation,
     required Location destinationLocation,
+    required List<Hub> hubs,
     required String vehicleType,
-    required String createdBy,
+    required String typeOfGoods,
+    required String deliveryNote,
+    required CreatedBy createdBy,
     required AcceptedBy? acceptedBy,
     required StatusType status,
     @DateTimeConvertor() required DateTime createdAt,
@@ -94,4 +121,27 @@ class GetOrderResponseData with _$GetOrderResponseData {
 
   factory GetOrderResponseData.fromJson(Map<String, Object?> json) =>
       _$GetOrderResponseDataFromJson(json);
+}
+
+@freezed
+class GetOrderStatsResponse with _$GetOrderStatsResponse {
+  const factory GetOrderStatsResponse({
+    required bool success,
+    required GetOrderStatsResponseData data,
+  }) = _GetOrderStatsResponse;
+
+  factory GetOrderStatsResponse.fromJson(Map<String, Object?> json) =>
+      _$GetOrderStatsResponseFromJson(json);
+}
+
+@freezed
+class GetOrderStatsResponseData with _$GetOrderStatsResponseData {
+  const factory GetOrderStatsResponseData({
+    required double averageRating,
+    required int completedOrders,
+    required double totalEarned,
+  }) = _GetOrderStatsResponseData;
+
+  factory GetOrderStatsResponseData.fromJson(Map<String, Object?> json) =>
+      _$GetOrderStatsResponseDataFromJson(json);
 }

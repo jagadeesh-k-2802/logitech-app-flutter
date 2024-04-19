@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:logitech/router/routes.dart';
 import 'package:logitech/services/order.dart';
 import 'package:logitech/state/order/orders_provider.dart';
@@ -13,6 +14,7 @@ class PlaceOrderScreenArgs {
   final (double, double) destinationCoordinates;
   final double totalDistance;
   final double totalCost;
+  final Set<(String, LatLng)> hubs;
 
   PlaceOrderScreenArgs({
     required this.startAddress,
@@ -21,6 +23,7 @@ class PlaceOrderScreenArgs {
     required this.destinationCoordinates,
     required this.totalDistance,
     required this.totalCost,
+    required this.hubs,
   });
 }
 
@@ -73,6 +76,7 @@ class _PlaceOrderScreenState extends ConsumerState<PlaceOrderScreen> {
         startLongitude: args?.startCoordinates.$2 ?? 0,
         destinationLatitude: args?.destinationCoordinates.$1 ?? 0,
         destinationLongitude: args?.destinationCoordinates.$2 ?? 0,
+        hubs: args?.hubs,
         typeOfGoods: goodsTypeController.text,
         deliveryNote: noteController.text,
         totalCost: costController.text,
@@ -236,7 +240,9 @@ class _PlaceOrderScreenState extends ConsumerState<PlaceOrderScreen> {
               readOnly: true,
               controller: distanceController,
               decoration: const InputDecoration(
-                  hintText: 'Total Distance', suffixText: 'Km'),
+                hintText: 'Total Distance',
+                suffixText: 'Km',
+              ),
             ),
             const SizedBox(height: 12),
           ],

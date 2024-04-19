@@ -30,6 +30,14 @@ export const register = z.object({
   address: z.string().optional().nullable(),
   company: z.string().optional().nullable(),
   type: z.string().optional().nullable(),
+  location: z
+    .object({
+      type: z.string(),
+      address: z.string(),
+      coordinates: z.array(z.number())
+    })
+    .nullable()
+    .optional(),
   driverDetails: z
     .object({
       ownerNumber: z.string().optional().nullable(),

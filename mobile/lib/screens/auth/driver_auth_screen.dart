@@ -8,6 +8,7 @@ import 'package:logitech/router/routes.dart';
 import 'package:logitech/services/auth.dart';
 import 'package:logitech/state/global_state_provider.dart';
 import 'package:logitech/theme/theme.dart';
+import 'package:logitech/utils/functions.dart';
 
 class DriverAuthScreen extends ConsumerStatefulWidget {
   const DriverAuthScreen({super.key});
@@ -20,6 +21,7 @@ class _SignupScreenState extends ConsumerState<DriverAuthScreen> {
   bool isLogin = true;
   bool obscureText = true;
   bool showDocumentScreen = false;
+  List<double> coordinates = List.empty();
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -140,12 +142,16 @@ class _SignupScreenState extends ConsumerState<DriverAuthScreen> {
         avatarPath: null,
         password: passwordController.text,
         fcmToken: fcmToken,
+        location: {
+          'type': 'Point',
+          'address': cityController.text,
+          'coordinates': coordinates
+        },
         driverDetails: {
           'ownerNumber': ownerNumberController.text,
           'driverNumber': driverNumberController.text,
           'ownerName': ownerNameController.text,
           'driverName': driverNameController.text,
-          'city': cityController.text,
           'vehicleBodyType': vehicleBodyTypeController.text,
           'vehicleCapacity': vehicleCapacityController.text,
           'vehicleNumber': vehicleNumberController.text,
@@ -172,10 +178,27 @@ class _SignupScreenState extends ConsumerState<DriverAuthScreen> {
     }
   }
 
+  Future<void> fetchLocation() async {
+    try {
+      cityController.text = 'Fetching Location...';
+      var location = await getCurrentLocation(context);
+      coordinates = [location?.$1.latitude ?? 0, location?.$1.longitude ?? 0];
+      cityController.text = location?.$2 ?? '';
+    } catch (error) {
+      cityController.text = '';
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(error.toString())),
+      );
+    }
+  }
+
   Widget documentScreen() {
     return Scaffold(
       appBar: AppBar(title: const Text('Upload Documents')),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonAnimator: null,
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(defaultPagePadding),
         child: ElevatedButton(
@@ -246,9 +269,6 @@ class _SignupScreenState extends ConsumerState<DriverAuthScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(
-          onPressed: () => setState(() => showDocumentScreen = false),
-        ),
         title: Text(
           isLogin ? 'Driver Login' : 'Driver Sign Up',
         ),
@@ -277,16 +297,18 @@ class _SignupScreenState extends ConsumerState<DriverAuthScreen> {
             if (!isLogin)
               TextField(
                 controller: ownerNumberController,
-                decoration:
-                    const InputDecoration(labelText: 'Owner Phone Number'),
+                decoration: const InputDecoration(
+                  labelText: 'Owner Phone Number',
+                ),
                 keyboardType: TextInputType.phone,
               ),
             if (!isLogin) const SizedBox(height: 16.0),
             if (!isLogin)
               TextField(
                 controller: driverNumberController,
-                decoration:
-                    const InputDecoration(labelText: 'Driver Phone Number'),
+                decoration: const InputDecoration(
+                  labelText: 'Driver Phone Number',
+                ),
                 keyboardType: TextInputType.phone,
               ),
             if (!isLogin) const SizedBox(height: 16.0),
@@ -315,8 +337,9 @@ class _SignupScreenState extends ConsumerState<DriverAuthScreen> {
                 child: AbsorbPointer(
                   child: TextField(
                     controller: dobController,
-                    decoration:
-                        const InputDecoration(labelText: 'Date of Birth'),
+                    decoration: const InputDecoration(
+                      labelText: 'Date of Birth',
+                    ),
                   ),
                 ),
               ),
@@ -324,15 +347,39 @@ class _SignupScreenState extends ConsumerState<DriverAuthScreen> {
             if (!isLogin)
               TextField(
                 controller: cityController,
-                decoration: const InputDecoration(labelText: 'City'),
+                decoration: InputDecoration(
+                  labelText: 'City',
+                  suffixIcon: IconButton(
+                    onPressed: fetchLocation,
+                    icon: const Icon(Icons.location_on),
+                  ),
+                ),
                 keyboardType: TextInputType.streetAddress,
               ),
             if (!isLogin) const SizedBox(height: 16.0),
             if (!isLogin)
-              TextField(
-                controller: vehicleBodyTypeController,
-                decoration:
-                    const InputDecoration(labelText: 'Vehicle Body Type'),
+              DropdownButtonFormField(
+                value: vehicleBodyTypeController.text.isNotEmpty
+                    ? vehicleBodyTypeController.text
+                    : null,
+                decoration: const InputDecoration(
+                  labelText: 'Vehicle Body Type',
+                ),
+                items: [
+                  'Goods Container (Opened)',
+                  'Goods Container (Closed)',
+                  'Refrigerated Container',
+                ].map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    vehicleBodyTypeController.text = value.toString();
+                  });
+                },
               ),
             if (!isLogin) const SizedBox(height: 16.0),
             if (!isLogin)
@@ -383,11 +430,7 @@ class _SignupScreenState extends ConsumerState<DriverAuthScreen> {
             const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                if (!isLogin) {
-                  isLogin
-                      ? onLogin()
-                      : setState(() => showDocumentScreen = true);
-                }
+                isLogin ? onLogin() : setState(() => showDocumentScreen = true);
               },
               child: Text(isLogin ? 'Login' : 'Sign Up'),
             ),

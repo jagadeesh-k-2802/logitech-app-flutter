@@ -9,6 +9,12 @@ export const createOrder = z.object({
     startLongitude: z.number(),
     destinationLatitude: z.number(),
     destinationLongitude: z.number(),
+    hubs: z.array(
+      z.object({
+        address: z.string(),
+        coordinates: z.array(z.number())
+      })
+    ),
     deliveryNote: z.string().optional().nullable(),
     totalCost: z.string({ required_error: 'Total Cost is required' }),
     totalDistance: z.string({ required_error: 'Total Distance is required' }),

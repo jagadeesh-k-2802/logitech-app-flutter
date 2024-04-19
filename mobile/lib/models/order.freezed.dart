@@ -340,6 +340,332 @@ abstract class _Location implements Location {
       throw _privateConstructorUsedError;
 }
 
+Hub _$HubFromJson(Map<String, dynamic> json) {
+  return _Hub.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Hub {
+  String get address => throw _privateConstructorUsedError;
+  List<double> get coordinates => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $HubCopyWith<Hub> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $HubCopyWith<$Res> {
+  factory $HubCopyWith(Hub value, $Res Function(Hub) then) =
+      _$HubCopyWithImpl<$Res, Hub>;
+  @useResult
+  $Res call({String address, List<double> coordinates});
+}
+
+/// @nodoc
+class _$HubCopyWithImpl<$Res, $Val extends Hub> implements $HubCopyWith<$Res> {
+  _$HubCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? address = null,
+    Object? coordinates = null,
+  }) {
+    return _then(_value.copyWith(
+      address: null == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
+      coordinates: null == coordinates
+          ? _value.coordinates
+          : coordinates // ignore: cast_nullable_to_non_nullable
+              as List<double>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$HubImplCopyWith<$Res> implements $HubCopyWith<$Res> {
+  factory _$$HubImplCopyWith(_$HubImpl value, $Res Function(_$HubImpl) then) =
+      __$$HubImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String address, List<double> coordinates});
+}
+
+/// @nodoc
+class __$$HubImplCopyWithImpl<$Res> extends _$HubCopyWithImpl<$Res, _$HubImpl>
+    implements _$$HubImplCopyWith<$Res> {
+  __$$HubImplCopyWithImpl(_$HubImpl _value, $Res Function(_$HubImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? address = null,
+    Object? coordinates = null,
+  }) {
+    return _then(_$HubImpl(
+      address: null == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
+      coordinates: null == coordinates
+          ? _value._coordinates
+          : coordinates // ignore: cast_nullable_to_non_nullable
+              as List<double>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$HubImpl implements _Hub {
+  const _$HubImpl(
+      {required this.address, required final List<double> coordinates})
+      : _coordinates = coordinates;
+
+  factory _$HubImpl.fromJson(Map<String, dynamic> json) =>
+      _$$HubImplFromJson(json);
+
+  @override
+  final String address;
+  final List<double> _coordinates;
+  @override
+  List<double> get coordinates {
+    if (_coordinates is EqualUnmodifiableListView) return _coordinates;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_coordinates);
+  }
+
+  @override
+  String toString() {
+    return 'Hub(address: $address, coordinates: $coordinates)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$HubImpl &&
+            (identical(other.address, address) || other.address == address) &&
+            const DeepCollectionEquality()
+                .equals(other._coordinates, _coordinates));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, address, const DeepCollectionEquality().hash(_coordinates));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$HubImplCopyWith<_$HubImpl> get copyWith =>
+      __$$HubImplCopyWithImpl<_$HubImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$HubImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Hub implements Hub {
+  const factory _Hub(
+      {required final String address,
+      required final List<double> coordinates}) = _$HubImpl;
+
+  factory _Hub.fromJson(Map<String, dynamic> json) = _$HubImpl.fromJson;
+
+  @override
+  String get address;
+  @override
+  List<double> get coordinates;
+  @override
+  @JsonKey(ignore: true)
+  _$$HubImplCopyWith<_$HubImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+CreatedBy _$CreatedByFromJson(Map<String, dynamic> json) {
+  return _CreatedBy.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CreatedBy {
+  String get id => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  String get phone => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CreatedByCopyWith<CreatedBy> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreatedByCopyWith<$Res> {
+  factory $CreatedByCopyWith(CreatedBy value, $Res Function(CreatedBy) then) =
+      _$CreatedByCopyWithImpl<$Res, CreatedBy>;
+  @useResult
+  $Res call({String id, String name, String phone});
+}
+
+/// @nodoc
+class _$CreatedByCopyWithImpl<$Res, $Val extends CreatedBy>
+    implements $CreatedByCopyWith<$Res> {
+  _$CreatedByCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? phone = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      phone: null == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CreatedByImplCopyWith<$Res>
+    implements $CreatedByCopyWith<$Res> {
+  factory _$$CreatedByImplCopyWith(
+          _$CreatedByImpl value, $Res Function(_$CreatedByImpl) then) =
+      __$$CreatedByImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String id, String name, String phone});
+}
+
+/// @nodoc
+class __$$CreatedByImplCopyWithImpl<$Res>
+    extends _$CreatedByCopyWithImpl<$Res, _$CreatedByImpl>
+    implements _$$CreatedByImplCopyWith<$Res> {
+  __$$CreatedByImplCopyWithImpl(
+      _$CreatedByImpl _value, $Res Function(_$CreatedByImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? phone = null,
+  }) {
+    return _then(_$CreatedByImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      phone: null == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreatedByImpl implements _CreatedBy {
+  const _$CreatedByImpl(
+      {required this.id, required this.name, required this.phone});
+
+  factory _$CreatedByImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CreatedByImplFromJson(json);
+
+  @override
+  final String id;
+  @override
+  final String name;
+  @override
+  final String phone;
+
+  @override
+  String toString() {
+    return 'CreatedBy(id: $id, name: $name, phone: $phone)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreatedByImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.phone, phone) || other.phone == phone));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, name, phone);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreatedByImplCopyWith<_$CreatedByImpl> get copyWith =>
+      __$$CreatedByImplCopyWithImpl<_$CreatedByImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreatedByImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CreatedBy implements CreatedBy {
+  const factory _CreatedBy(
+      {required final String id,
+      required final String name,
+      required final String phone}) = _$CreatedByImpl;
+
+  factory _CreatedBy.fromJson(Map<String, dynamic> json) =
+      _$CreatedByImpl.fromJson;
+
+  @override
+  String get id;
+  @override
+  String get name;
+  @override
+  String get phone;
+  @override
+  @JsonKey(ignore: true)
+  _$$CreatedByImplCopyWith<_$CreatedByImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 AcceptedBy _$AcceptedByFromJson(Map<String, dynamic> json) {
   return _AcceptedBy.fromJson(json);
 }
@@ -348,6 +674,8 @@ AcceptedBy _$AcceptedByFromJson(Map<String, dynamic> json) {
 mixin _$AcceptedBy {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  String get avatar => throw _privateConstructorUsedError;
+  String get phone => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -361,7 +689,7 @@ abstract class $AcceptedByCopyWith<$Res> {
           AcceptedBy value, $Res Function(AcceptedBy) then) =
       _$AcceptedByCopyWithImpl<$Res, AcceptedBy>;
   @useResult
-  $Res call({String id, String name});
+  $Res call({String id, String name, String avatar, String phone});
 }
 
 /// @nodoc
@@ -379,6 +707,8 @@ class _$AcceptedByCopyWithImpl<$Res, $Val extends AcceptedBy>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? avatar = null,
+    Object? phone = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -388,6 +718,14 @@ class _$AcceptedByCopyWithImpl<$Res, $Val extends AcceptedBy>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      avatar: null == avatar
+          ? _value.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as String,
+      phone: null == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -401,7 +739,7 @@ abstract class _$$AcceptedByImplCopyWith<$Res>
       __$$AcceptedByImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name});
+  $Res call({String id, String name, String avatar, String phone});
 }
 
 /// @nodoc
@@ -417,6 +755,8 @@ class __$$AcceptedByImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? avatar = null,
+    Object? phone = null,
   }) {
     return _then(_$AcceptedByImpl(
       id: null == id
@@ -427,6 +767,14 @@ class __$$AcceptedByImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      avatar: null == avatar
+          ? _value.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as String,
+      phone: null == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -434,7 +782,11 @@ class __$$AcceptedByImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$AcceptedByImpl implements _AcceptedBy {
-  const _$AcceptedByImpl({required this.id, required this.name});
+  const _$AcceptedByImpl(
+      {required this.id,
+      required this.name,
+      required this.avatar,
+      required this.phone});
 
   factory _$AcceptedByImpl.fromJson(Map<String, dynamic> json) =>
       _$$AcceptedByImplFromJson(json);
@@ -443,10 +795,14 @@ class _$AcceptedByImpl implements _AcceptedBy {
   final String id;
   @override
   final String name;
+  @override
+  final String avatar;
+  @override
+  final String phone;
 
   @override
   String toString() {
-    return 'AcceptedBy(id: $id, name: $name)';
+    return 'AcceptedBy(id: $id, name: $name, avatar: $avatar, phone: $phone)';
   }
 
   @override
@@ -455,12 +811,14 @@ class _$AcceptedByImpl implements _AcceptedBy {
         (other.runtimeType == runtimeType &&
             other is _$AcceptedByImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.avatar, avatar) || other.avatar == avatar) &&
+            (identical(other.phone, phone) || other.phone == phone));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name);
+  int get hashCode => Object.hash(runtimeType, id, name, avatar, phone);
 
   @JsonKey(ignore: true)
   @override
@@ -479,7 +837,9 @@ class _$AcceptedByImpl implements _AcceptedBy {
 abstract class _AcceptedBy implements AcceptedBy {
   const factory _AcceptedBy(
       {required final String id,
-      required final String name}) = _$AcceptedByImpl;
+      required final String name,
+      required final String avatar,
+      required final String phone}) = _$AcceptedByImpl;
 
   factory _AcceptedBy.fromJson(Map<String, dynamic> json) =
       _$AcceptedByImpl.fromJson;
@@ -488,6 +848,10 @@ abstract class _AcceptedBy implements AcceptedBy {
   String get id;
   @override
   String get name;
+  @override
+  String get avatar;
+  @override
+  String get phone;
   @override
   @JsonKey(ignore: true)
   _$$AcceptedByImplCopyWith<_$AcceptedByImpl> get copyWith =>
@@ -1063,8 +1427,11 @@ mixin _$GetOrderResponseData {
   double get approxWeight => throw _privateConstructorUsedError;
   Location get sourceLocation => throw _privateConstructorUsedError;
   Location get destinationLocation => throw _privateConstructorUsedError;
+  List<Hub> get hubs => throw _privateConstructorUsedError;
   String get vehicleType => throw _privateConstructorUsedError;
-  String get createdBy => throw _privateConstructorUsedError;
+  String get typeOfGoods => throw _privateConstructorUsedError;
+  String get deliveryNote => throw _privateConstructorUsedError;
+  CreatedBy get createdBy => throw _privateConstructorUsedError;
   AcceptedBy? get acceptedBy => throw _privateConstructorUsedError;
   StatusType get status => throw _privateConstructorUsedError;
   @DateTimeConvertor()
@@ -1091,8 +1458,11 @@ abstract class $GetOrderResponseDataCopyWith<$Res> {
       double approxWeight,
       Location sourceLocation,
       Location destinationLocation,
+      List<Hub> hubs,
       String vehicleType,
-      String createdBy,
+      String typeOfGoods,
+      String deliveryNote,
+      CreatedBy createdBy,
       AcceptedBy? acceptedBy,
       StatusType status,
       @DateTimeConvertor() DateTime createdAt,
@@ -1100,6 +1470,7 @@ abstract class $GetOrderResponseDataCopyWith<$Res> {
 
   $LocationCopyWith<$Res> get sourceLocation;
   $LocationCopyWith<$Res> get destinationLocation;
+  $CreatedByCopyWith<$Res> get createdBy;
   $AcceptedByCopyWith<$Res>? get acceptedBy;
 }
 
@@ -1123,7 +1494,10 @@ class _$GetOrderResponseDataCopyWithImpl<$Res,
     Object? approxWeight = null,
     Object? sourceLocation = null,
     Object? destinationLocation = null,
+    Object? hubs = null,
     Object? vehicleType = null,
+    Object? typeOfGoods = null,
+    Object? deliveryNote = null,
     Object? createdBy = null,
     Object? acceptedBy = freezed,
     Object? status = null,
@@ -1155,14 +1529,26 @@ class _$GetOrderResponseDataCopyWithImpl<$Res,
           ? _value.destinationLocation
           : destinationLocation // ignore: cast_nullable_to_non_nullable
               as Location,
+      hubs: null == hubs
+          ? _value.hubs
+          : hubs // ignore: cast_nullable_to_non_nullable
+              as List<Hub>,
       vehicleType: null == vehicleType
           ? _value.vehicleType
           : vehicleType // ignore: cast_nullable_to_non_nullable
               as String,
+      typeOfGoods: null == typeOfGoods
+          ? _value.typeOfGoods
+          : typeOfGoods // ignore: cast_nullable_to_non_nullable
+              as String,
+      deliveryNote: null == deliveryNote
+          ? _value.deliveryNote
+          : deliveryNote // ignore: cast_nullable_to_non_nullable
+              as String,
       createdBy: null == createdBy
           ? _value.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
-              as String,
+              as CreatedBy,
       acceptedBy: freezed == acceptedBy
           ? _value.acceptedBy
           : acceptedBy // ignore: cast_nullable_to_non_nullable
@@ -1200,6 +1586,14 @@ class _$GetOrderResponseDataCopyWithImpl<$Res,
 
   @override
   @pragma('vm:prefer-inline')
+  $CreatedByCopyWith<$Res> get createdBy {
+    return $CreatedByCopyWith<$Res>(_value.createdBy, (value) {
+      return _then(_value.copyWith(createdBy: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $AcceptedByCopyWith<$Res>? get acceptedBy {
     if (_value.acceptedBy == null) {
       return null;
@@ -1226,8 +1620,11 @@ abstract class _$$GetOrderResponseDataImplCopyWith<$Res>
       double approxWeight,
       Location sourceLocation,
       Location destinationLocation,
+      List<Hub> hubs,
       String vehicleType,
-      String createdBy,
+      String typeOfGoods,
+      String deliveryNote,
+      CreatedBy createdBy,
       AcceptedBy? acceptedBy,
       StatusType status,
       @DateTimeConvertor() DateTime createdAt,
@@ -1237,6 +1634,8 @@ abstract class _$$GetOrderResponseDataImplCopyWith<$Res>
   $LocationCopyWith<$Res> get sourceLocation;
   @override
   $LocationCopyWith<$Res> get destinationLocation;
+  @override
+  $CreatedByCopyWith<$Res> get createdBy;
   @override
   $AcceptedByCopyWith<$Res>? get acceptedBy;
 }
@@ -1258,7 +1657,10 @@ class __$$GetOrderResponseDataImplCopyWithImpl<$Res>
     Object? approxWeight = null,
     Object? sourceLocation = null,
     Object? destinationLocation = null,
+    Object? hubs = null,
     Object? vehicleType = null,
+    Object? typeOfGoods = null,
+    Object? deliveryNote = null,
     Object? createdBy = null,
     Object? acceptedBy = freezed,
     Object? status = null,
@@ -1290,14 +1692,26 @@ class __$$GetOrderResponseDataImplCopyWithImpl<$Res>
           ? _value.destinationLocation
           : destinationLocation // ignore: cast_nullable_to_non_nullable
               as Location,
+      hubs: null == hubs
+          ? _value._hubs
+          : hubs // ignore: cast_nullable_to_non_nullable
+              as List<Hub>,
       vehicleType: null == vehicleType
           ? _value.vehicleType
           : vehicleType // ignore: cast_nullable_to_non_nullable
               as String,
+      typeOfGoods: null == typeOfGoods
+          ? _value.typeOfGoods
+          : typeOfGoods // ignore: cast_nullable_to_non_nullable
+              as String,
+      deliveryNote: null == deliveryNote
+          ? _value.deliveryNote
+          : deliveryNote // ignore: cast_nullable_to_non_nullable
+              as String,
       createdBy: null == createdBy
           ? _value.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
-              as String,
+              as CreatedBy,
       acceptedBy: freezed == acceptedBy
           ? _value.acceptedBy
           : acceptedBy // ignore: cast_nullable_to_non_nullable
@@ -1328,12 +1742,16 @@ class _$GetOrderResponseDataImpl implements _GetOrderResponseData {
       required this.approxWeight,
       required this.sourceLocation,
       required this.destinationLocation,
+      required final List<Hub> hubs,
       required this.vehicleType,
+      required this.typeOfGoods,
+      required this.deliveryNote,
       required this.createdBy,
       required this.acceptedBy,
       required this.status,
       @DateTimeConvertor() required this.createdAt,
-      @DateTimeConvertor() required this.updatedAt});
+      @DateTimeConvertor() required this.updatedAt})
+      : _hubs = hubs;
 
   factory _$GetOrderResponseDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$GetOrderResponseDataImplFromJson(json);
@@ -1350,10 +1768,22 @@ class _$GetOrderResponseDataImpl implements _GetOrderResponseData {
   final Location sourceLocation;
   @override
   final Location destinationLocation;
+  final List<Hub> _hubs;
+  @override
+  List<Hub> get hubs {
+    if (_hubs is EqualUnmodifiableListView) return _hubs;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_hubs);
+  }
+
   @override
   final String vehicleType;
   @override
-  final String createdBy;
+  final String typeOfGoods;
+  @override
+  final String deliveryNote;
+  @override
+  final CreatedBy createdBy;
   @override
   final AcceptedBy? acceptedBy;
   @override
@@ -1367,7 +1797,7 @@ class _$GetOrderResponseDataImpl implements _GetOrderResponseData {
 
   @override
   String toString() {
-    return 'GetOrderResponseData(id: $id, price: $price, distance: $distance, approxWeight: $approxWeight, sourceLocation: $sourceLocation, destinationLocation: $destinationLocation, vehicleType: $vehicleType, createdBy: $createdBy, acceptedBy: $acceptedBy, status: $status, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'GetOrderResponseData(id: $id, price: $price, distance: $distance, approxWeight: $approxWeight, sourceLocation: $sourceLocation, destinationLocation: $destinationLocation, hubs: $hubs, vehicleType: $vehicleType, typeOfGoods: $typeOfGoods, deliveryNote: $deliveryNote, createdBy: $createdBy, acceptedBy: $acceptedBy, status: $status, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -1385,8 +1815,13 @@ class _$GetOrderResponseDataImpl implements _GetOrderResponseData {
                 other.sourceLocation == sourceLocation) &&
             (identical(other.destinationLocation, destinationLocation) ||
                 other.destinationLocation == destinationLocation) &&
+            const DeepCollectionEquality().equals(other._hubs, _hubs) &&
             (identical(other.vehicleType, vehicleType) ||
                 other.vehicleType == vehicleType) &&
+            (identical(other.typeOfGoods, typeOfGoods) ||
+                other.typeOfGoods == typeOfGoods) &&
+            (identical(other.deliveryNote, deliveryNote) ||
+                other.deliveryNote == deliveryNote) &&
             (identical(other.createdBy, createdBy) ||
                 other.createdBy == createdBy) &&
             (identical(other.acceptedBy, acceptedBy) ||
@@ -1408,7 +1843,10 @@ class _$GetOrderResponseDataImpl implements _GetOrderResponseData {
       approxWeight,
       sourceLocation,
       destinationLocation,
+      const DeepCollectionEquality().hash(_hubs),
       vehicleType,
+      typeOfGoods,
+      deliveryNote,
       createdBy,
       acceptedBy,
       status,
@@ -1439,8 +1877,11 @@ abstract class _GetOrderResponseData implements GetOrderResponseData {
           required final double approxWeight,
           required final Location sourceLocation,
           required final Location destinationLocation,
+          required final List<Hub> hubs,
           required final String vehicleType,
-          required final String createdBy,
+          required final String typeOfGoods,
+          required final String deliveryNote,
+          required final CreatedBy createdBy,
           required final AcceptedBy? acceptedBy,
           required final StatusType status,
           @DateTimeConvertor() required final DateTime createdAt,
@@ -1463,9 +1904,15 @@ abstract class _GetOrderResponseData implements GetOrderResponseData {
   @override
   Location get destinationLocation;
   @override
+  List<Hub> get hubs;
+  @override
   String get vehicleType;
   @override
-  String get createdBy;
+  String get typeOfGoods;
+  @override
+  String get deliveryNote;
+  @override
+  CreatedBy get createdBy;
   @override
   AcceptedBy? get acceptedBy;
   @override
@@ -1479,5 +1926,363 @@ abstract class _GetOrderResponseData implements GetOrderResponseData {
   @override
   @JsonKey(ignore: true)
   _$$GetOrderResponseDataImplCopyWith<_$GetOrderResponseDataImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+GetOrderStatsResponse _$GetOrderStatsResponseFromJson(
+    Map<String, dynamic> json) {
+  return _GetOrderStatsResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$GetOrderStatsResponse {
+  bool get success => throw _privateConstructorUsedError;
+  GetOrderStatsResponseData get data => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GetOrderStatsResponseCopyWith<GetOrderStatsResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GetOrderStatsResponseCopyWith<$Res> {
+  factory $GetOrderStatsResponseCopyWith(GetOrderStatsResponse value,
+          $Res Function(GetOrderStatsResponse) then) =
+      _$GetOrderStatsResponseCopyWithImpl<$Res, GetOrderStatsResponse>;
+  @useResult
+  $Res call({bool success, GetOrderStatsResponseData data});
+
+  $GetOrderStatsResponseDataCopyWith<$Res> get data;
+}
+
+/// @nodoc
+class _$GetOrderStatsResponseCopyWithImpl<$Res,
+        $Val extends GetOrderStatsResponse>
+    implements $GetOrderStatsResponseCopyWith<$Res> {
+  _$GetOrderStatsResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? success = null,
+    Object? data = null,
+  }) {
+    return _then(_value.copyWith(
+      success: null == success
+          ? _value.success
+          : success // ignore: cast_nullable_to_non_nullable
+              as bool,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as GetOrderStatsResponseData,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $GetOrderStatsResponseDataCopyWith<$Res> get data {
+    return $GetOrderStatsResponseDataCopyWith<$Res>(_value.data, (value) {
+      return _then(_value.copyWith(data: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$GetOrderStatsResponseImplCopyWith<$Res>
+    implements $GetOrderStatsResponseCopyWith<$Res> {
+  factory _$$GetOrderStatsResponseImplCopyWith(
+          _$GetOrderStatsResponseImpl value,
+          $Res Function(_$GetOrderStatsResponseImpl) then) =
+      __$$GetOrderStatsResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({bool success, GetOrderStatsResponseData data});
+
+  @override
+  $GetOrderStatsResponseDataCopyWith<$Res> get data;
+}
+
+/// @nodoc
+class __$$GetOrderStatsResponseImplCopyWithImpl<$Res>
+    extends _$GetOrderStatsResponseCopyWithImpl<$Res,
+        _$GetOrderStatsResponseImpl>
+    implements _$$GetOrderStatsResponseImplCopyWith<$Res> {
+  __$$GetOrderStatsResponseImplCopyWithImpl(_$GetOrderStatsResponseImpl _value,
+      $Res Function(_$GetOrderStatsResponseImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? success = null,
+    Object? data = null,
+  }) {
+    return _then(_$GetOrderStatsResponseImpl(
+      success: null == success
+          ? _value.success
+          : success // ignore: cast_nullable_to_non_nullable
+              as bool,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as GetOrderStatsResponseData,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$GetOrderStatsResponseImpl implements _GetOrderStatsResponse {
+  const _$GetOrderStatsResponseImpl(
+      {required this.success, required this.data});
+
+  factory _$GetOrderStatsResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$GetOrderStatsResponseImplFromJson(json);
+
+  @override
+  final bool success;
+  @override
+  final GetOrderStatsResponseData data;
+
+  @override
+  String toString() {
+    return 'GetOrderStatsResponse(success: $success, data: $data)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetOrderStatsResponseImpl &&
+            (identical(other.success, success) || other.success == success) &&
+            (identical(other.data, data) || other.data == data));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, success, data);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetOrderStatsResponseImplCopyWith<_$GetOrderStatsResponseImpl>
+      get copyWith => __$$GetOrderStatsResponseImplCopyWithImpl<
+          _$GetOrderStatsResponseImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$GetOrderStatsResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _GetOrderStatsResponse implements GetOrderStatsResponse {
+  const factory _GetOrderStatsResponse(
+          {required final bool success,
+          required final GetOrderStatsResponseData data}) =
+      _$GetOrderStatsResponseImpl;
+
+  factory _GetOrderStatsResponse.fromJson(Map<String, dynamic> json) =
+      _$GetOrderStatsResponseImpl.fromJson;
+
+  @override
+  bool get success;
+  @override
+  GetOrderStatsResponseData get data;
+  @override
+  @JsonKey(ignore: true)
+  _$$GetOrderStatsResponseImplCopyWith<_$GetOrderStatsResponseImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+GetOrderStatsResponseData _$GetOrderStatsResponseDataFromJson(
+    Map<String, dynamic> json) {
+  return _GetOrderStatsResponseData.fromJson(json);
+}
+
+/// @nodoc
+mixin _$GetOrderStatsResponseData {
+  double get averageRating => throw _privateConstructorUsedError;
+  int get completedOrders => throw _privateConstructorUsedError;
+  double get totalEarned => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GetOrderStatsResponseDataCopyWith<GetOrderStatsResponseData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GetOrderStatsResponseDataCopyWith<$Res> {
+  factory $GetOrderStatsResponseDataCopyWith(GetOrderStatsResponseData value,
+          $Res Function(GetOrderStatsResponseData) then) =
+      _$GetOrderStatsResponseDataCopyWithImpl<$Res, GetOrderStatsResponseData>;
+  @useResult
+  $Res call({double averageRating, int completedOrders, double totalEarned});
+}
+
+/// @nodoc
+class _$GetOrderStatsResponseDataCopyWithImpl<$Res,
+        $Val extends GetOrderStatsResponseData>
+    implements $GetOrderStatsResponseDataCopyWith<$Res> {
+  _$GetOrderStatsResponseDataCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? averageRating = null,
+    Object? completedOrders = null,
+    Object? totalEarned = null,
+  }) {
+    return _then(_value.copyWith(
+      averageRating: null == averageRating
+          ? _value.averageRating
+          : averageRating // ignore: cast_nullable_to_non_nullable
+              as double,
+      completedOrders: null == completedOrders
+          ? _value.completedOrders
+          : completedOrders // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalEarned: null == totalEarned
+          ? _value.totalEarned
+          : totalEarned // ignore: cast_nullable_to_non_nullable
+              as double,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$GetOrderStatsResponseDataImplCopyWith<$Res>
+    implements $GetOrderStatsResponseDataCopyWith<$Res> {
+  factory _$$GetOrderStatsResponseDataImplCopyWith(
+          _$GetOrderStatsResponseDataImpl value,
+          $Res Function(_$GetOrderStatsResponseDataImpl) then) =
+      __$$GetOrderStatsResponseDataImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({double averageRating, int completedOrders, double totalEarned});
+}
+
+/// @nodoc
+class __$$GetOrderStatsResponseDataImplCopyWithImpl<$Res>
+    extends _$GetOrderStatsResponseDataCopyWithImpl<$Res,
+        _$GetOrderStatsResponseDataImpl>
+    implements _$$GetOrderStatsResponseDataImplCopyWith<$Res> {
+  __$$GetOrderStatsResponseDataImplCopyWithImpl(
+      _$GetOrderStatsResponseDataImpl _value,
+      $Res Function(_$GetOrderStatsResponseDataImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? averageRating = null,
+    Object? completedOrders = null,
+    Object? totalEarned = null,
+  }) {
+    return _then(_$GetOrderStatsResponseDataImpl(
+      averageRating: null == averageRating
+          ? _value.averageRating
+          : averageRating // ignore: cast_nullable_to_non_nullable
+              as double,
+      completedOrders: null == completedOrders
+          ? _value.completedOrders
+          : completedOrders // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalEarned: null == totalEarned
+          ? _value.totalEarned
+          : totalEarned // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$GetOrderStatsResponseDataImpl implements _GetOrderStatsResponseData {
+  const _$GetOrderStatsResponseDataImpl(
+      {required this.averageRating,
+      required this.completedOrders,
+      required this.totalEarned});
+
+  factory _$GetOrderStatsResponseDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$GetOrderStatsResponseDataImplFromJson(json);
+
+  @override
+  final double averageRating;
+  @override
+  final int completedOrders;
+  @override
+  final double totalEarned;
+
+  @override
+  String toString() {
+    return 'GetOrderStatsResponseData(averageRating: $averageRating, completedOrders: $completedOrders, totalEarned: $totalEarned)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetOrderStatsResponseDataImpl &&
+            (identical(other.averageRating, averageRating) ||
+                other.averageRating == averageRating) &&
+            (identical(other.completedOrders, completedOrders) ||
+                other.completedOrders == completedOrders) &&
+            (identical(other.totalEarned, totalEarned) ||
+                other.totalEarned == totalEarned));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, averageRating, completedOrders, totalEarned);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetOrderStatsResponseDataImplCopyWith<_$GetOrderStatsResponseDataImpl>
+      get copyWith => __$$GetOrderStatsResponseDataImplCopyWithImpl<
+          _$GetOrderStatsResponseDataImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$GetOrderStatsResponseDataImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _GetOrderStatsResponseData implements GetOrderStatsResponseData {
+  const factory _GetOrderStatsResponseData(
+      {required final double averageRating,
+      required final int completedOrders,
+      required final double totalEarned}) = _$GetOrderStatsResponseDataImpl;
+
+  factory _GetOrderStatsResponseData.fromJson(Map<String, dynamic> json) =
+      _$GetOrderStatsResponseDataImpl.fromJson;
+
+  @override
+  double get averageRating;
+  @override
+  int get completedOrders;
+  @override
+  double get totalEarned;
+  @override
+  @JsonKey(ignore: true)
+  _$$GetOrderStatsResponseDataImplCopyWith<_$GetOrderStatsResponseDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

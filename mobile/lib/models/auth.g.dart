@@ -30,13 +30,30 @@ Map<String, dynamic> _$$UserResponseImplToJson(_$UserResponseImpl instance) =>
       'data': instance.data,
     };
 
+_$DriverLocationImpl _$$DriverLocationImplFromJson(Map<String, dynamic> json) =>
+    _$DriverLocationImpl(
+      address: json['address'] as String,
+      coordinates: (json['coordinates'] as List<dynamic>)
+          .map((e) => (e as num).toDouble())
+          .toList(),
+    );
+
+Map<String, dynamic> _$$DriverLocationImplToJson(
+        _$DriverLocationImpl instance) =>
+    <String, dynamic>{
+      'address': instance.address,
+      'coordinates': instance.coordinates,
+    };
+
 _$DriverDetailsImpl _$$DriverDetailsImplFromJson(Map<String, dynamic> json) =>
     _$DriverDetailsImpl(
       ownerNumber: json['ownerNumber'] as String?,
       driverNumber: json['driverNumber'] as String?,
       ownerName: json['ownerName'] as String?,
       driverName: json['driverName'] as String?,
-      city: json['city'] as String?,
+      location: json['location'] == null
+          ? null
+          : DriverLocation.fromJson(json['location'] as Map<String, dynamic>),
       vehicleBodyType: json['vehicleBodyType'] as String?,
       vehicleCapacity: json['vehicleCapacity'] as String?,
       vehicleNumber: json['vehicleNumber'] as String?,
@@ -49,7 +66,7 @@ Map<String, dynamic> _$$DriverDetailsImplToJson(_$DriverDetailsImpl instance) =>
       'driverNumber': instance.driverNumber,
       'ownerName': instance.ownerName,
       'driverName': instance.driverName,
-      'city': instance.city,
+      'location': instance.location,
       'vehicleBodyType': instance.vehicleBodyType,
       'vehicleCapacity': instance.vehicleCapacity,
       'vehicleNumber': instance.vehicleNumber,

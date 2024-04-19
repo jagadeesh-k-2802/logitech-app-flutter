@@ -1,3 +1,4 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:logitech/config/constants.dart';
 import 'package:logitech/models/common.dart';
 import 'package:logitech/models/order.dart';
@@ -28,6 +29,42 @@ class OrderService {
     }
   }
 
+  static Future<GetOrdersResponse> getOrdersNearby({
+    required int radius,
+  }) async {
+    try {
+      final dio = await getDioClient();
+      const url = '$apiUrl/api/v1/order/nearby/';
+      final response = await dio.get(url, queryParameters: {'radius': radius});
+
+      if (response.statusCode != 200) {
+        var errorResponse = ErrorResponse.fromJson(response.data);
+        throw errorResponse.error;
+      }
+
+      return GetOrdersResponse.fromJson(response.data);
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  static Future<GetOrderStatsResponse> getOrderStats() async {
+    try {
+      final dio = await getDioClient();
+      const url = '$apiUrl/api/v1/order/stats/';
+      final response = await dio.get(url);
+
+      if (response.statusCode != 200) {
+        var errorResponse = ErrorResponse.fromJson(response.data);
+        throw errorResponse.error;
+      }
+
+      return GetOrderStatsResponse.fromJson(response.data);
+    } catch (error) {
+      rethrow;
+    }
+  }
+
   static Future<MessageResponse> createOrder({
     required String vehicleType,
     required String startAddress,
@@ -35,12 +72,13 @@ class OrderService {
     required double startLatitude,
     required double startLongitude,
     required double destinationLatitude,
+    Set<(String, LatLng)>? hubs,
+    required String typeOfGoods,
     required double destinationLongitude,
     required String deliveryNote,
     required String totalCost,
     required String totalDistance,
     required String approxWeight,
-    required String typeOfGoods,
   }) async {
     try {
       final dio = await getDioClient();
@@ -53,6 +91,14 @@ class OrderService {
         'startLatitude': startLatitude,
         'startLongitude': startLongitude,
         'destinationLatitude': destinationLatitude,
+        'hubs': hubs
+            ?.map(
+              (element) => {
+                'address': element.$1,
+                'coordinates': [element.$2.longitude, element.$2.latitude]
+              },
+            )
+            .toList(),
         'destinationLongitude': destinationLongitude,
         'deliveryNote': deliveryNote,
         'totalCost': totalCost,
@@ -88,6 +134,23 @@ class OrderService {
       }
 
       return GetOrderResponse.fromJson(response.data);
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  static Future<MessageResponse> acceptOrder({required String id}) async {
+    try {
+      final dio = await getDioClient();
+      final url = '$apiUrl/api/v1/order/accept/$id';
+      final response = await dio.put(url);
+
+      if (response.statusCode != 200) {
+        var errorResponse = ErrorResponse.fromJson(response.data);
+        throw errorResponse.error;
+      }
+
+      return MessageResponse.fromJson(response.data);
     } catch (error) {
       rethrow;
     }

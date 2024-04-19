@@ -12,22 +12,37 @@ interface Location {
   coordinates: mongoose.Types.Array<number>;
 }
 
+interface Hub {
+  type: string;
+  address: string;
+  coordinates: mongoose.Types.Array<number>;
+}
+
+interface LocationUpdate {
+  index: number;
+  message: string;
+}
+
 interface Order {
   sourceLocation: Location;
   destinationLocation: Location;
+  hubs: mongoose.Types.Array<Hub>;
   status: StatusEnum;
   price: number;
+  isPaymentDone: boolean;
   distance: number;
   typeOfGoods: string;
   vehicleType: string;
   deliveryNote?: string;
   approxWeight: number;
+  locationUpdates: mongoose.Types.Array<LocationUpdate>;
   createdBy: mongoose.ObjectId;
   acceptedBy: mongoose.ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }
 
+// TODO: Store Order Location Updates With Index
 const schema = new mongoose.Schema<Order>(
   {
     sourceLocation: {
@@ -40,6 +55,13 @@ const schema = new mongoose.Schema<Order>(
       address: { type: String },
       coordinates: { type: [Number], index: '2dsphere' }
     },
+    hubs: [
+      {
+        type: { type: String, enum: ['Point'] },
+        address: { type: String },
+        coordinates: { type: [Number], index: '2dsphere' }
+      }
+    ],
     status: {
       type: String,
       default: StatusEnum.pending,
@@ -48,7 +70,9 @@ const schema = new mongoose.Schema<Order>(
     vehicleType: { type: String },
     deliveryNote: { type: String },
     approxWeight: { type: Number },
+    locationUpdates: [{ message: String, default: [] }],
     price: { type: Number },
+    isPaymentDone: { type: Boolean },
     distance: { type: Number },
     typeOfGoods: { type: String },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },

@@ -11,13 +11,14 @@ import * as ratingValidation from '@validation/rating';
 export const createRating = catchAsync(async (req, res) => {
   const { body } = await zParse(ratingValidation.createRating, req);
   const user = req.user;
-  const { name, comment, rating } = body;
+  const { name, comment, rating, userId } = body;
 
   await Rating.create({
     name,
     comment,
     rating,
-    user
+    user: userId,
+    createdBy: user
   });
 
   res.status(200).json({

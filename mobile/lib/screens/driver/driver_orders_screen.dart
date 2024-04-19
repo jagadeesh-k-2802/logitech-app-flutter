@@ -1,28 +1,77 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logitech/models/order.dart';
+import 'package:logitech/router/routes.dart';
 import 'package:logitech/state/order/orders_provider.dart';
+import 'package:logitech/theme/theme.dart';
+import 'package:logitech/utils/formatters.dart';
 import 'package:riverpod_infinite_scroll/riverpod_infinite_scroll.dart';
 
 class DriverOrdersScreen extends ConsumerStatefulWidget {
   const DriverOrdersScreen({super.key});
 
   @override
-  ConsumerState<DriverOrdersScreen> createState() => _DriverOrdersScreenState();
+  ConsumerState<DriverOrdersScreen> createState() =>
+      _CustomerOrdersScreenState();
 }
 
-class _DriverOrdersScreenState extends ConsumerState<DriverOrdersScreen> {
+class _CustomerOrdersScreenState extends ConsumerState<DriverOrdersScreen> {
   Widget buildOrderItem(GetOrdersResponseData data) {
-    // TODO: Build Driver Order Item
-    return const Text('Order');
+    TextTheme textTheme = Theme.of(context).textTheme;
+
+    return InkWell(
+      onTap: () => context.push(Routes.orderManageDetailPath(data.id)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: defaultPagePadding,
+          vertical: 8.0,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Order ID: ${data.id}'),
+                Text(data.destinationLocation.address, maxLines: 1),
+                Text(
+                  '${moneyFormatter(data.price)} - ${kilometresFormatter(data.distance)}',
+                ),
+              ],
+            ),
+            data.status == StatusType.pending
+                ? Text(
+                    'Pending',
+                    style: textTheme.bodyLarge?.copyWith(
+                      color: Colors.amber,
+                    ),
+                  )
+                : data.status == StatusType.accepted
+                    ? Text(
+                        'Live',
+                        style: textTheme.bodyLarge?.copyWith(
+                          color: Colors.green,
+                        ),
+                      )
+                    : Text(
+                        'Completed',
+                        style: textTheme.bodyLarge?.copyWith(
+                          color: Colors.green,
+                        ),
+                      ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Your Orders'),
+        title: const Text('Your Accepted Orders'),
         automaticallyImplyLeading: false,
       ),
       body: RiverPagedBuilder.autoDispose(

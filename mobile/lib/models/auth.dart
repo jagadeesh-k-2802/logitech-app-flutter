@@ -33,13 +33,24 @@ class UserResponse with _$UserResponse {
 }
 
 @freezed
+class DriverLocation with _$DriverLocation {
+  const factory DriverLocation({
+    required String address,
+    required List<double> coordinates,
+  }) = _DriverLocation;
+
+  factory DriverLocation.fromJson(Map<String, Object?> json) =>
+      _$DriverLocationFromJson(json);
+}
+
+@freezed
 class DriverDetails with _$DriverDetails {
   const factory DriverDetails({
     required String? ownerNumber,
     required String? driverNumber,
     required String? ownerName,
     required String? driverName,
-    required String? city,
+    required DriverLocation? location,
     required String? vehicleBodyType,
     required String? vehicleCapacity,
     required String? vehicleNumber,

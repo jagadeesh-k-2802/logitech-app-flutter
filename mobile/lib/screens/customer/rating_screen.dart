@@ -6,7 +6,8 @@ import 'package:logitech/services/rating.dart';
 import 'package:logitech/theme/theme.dart';
 
 class RatingScreen extends ConsumerStatefulWidget {
-  const RatingScreen({super.key});
+  final String userId;
+  const RatingScreen({super.key, required this.userId});
 
   @override
   ConsumerState<RatingScreen> createState() => _RatingScreenState();
@@ -25,6 +26,7 @@ class _RatingScreenState extends ConsumerState<RatingScreen> {
         name: nameController.text,
         comment: commentController.text,
         rating: rating,
+        userId: widget.userId,
       );
 
       if (!mounted) return;

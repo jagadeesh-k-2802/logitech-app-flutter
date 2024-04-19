@@ -14,6 +14,7 @@ import 'package:logitech/screens/customer/place_order_screen.dart';
 import 'package:logitech/state/global_state_provider.dart';
 import 'package:logitech/theme/theme.dart';
 import 'package:logitech/utils/formatters.dart';
+import 'package:logitech/utils/functions.dart';
 
 class CustomerHomeScreen extends ConsumerStatefulWidget {
   const CustomerHomeScreen({super.key});
@@ -37,9 +38,21 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
   double? totalDistance;
   double? totalCost;
   Set<Marker> markers = {};
+  Set<(String, LatLng)> activeHubs = {};
   late PolylinePoints polylinePoints;
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> polylineCoordinates = [];
+
+  List<(String, LatLng)> hubs = [
+    ('Thiruvallur', const LatLng(13.1231, 79.9120)),
+    ('Arakkonam', const LatLng(13.0841, 79.6704)),
+    ('Bangalore', const LatLng(12.9716, 77.5946)),
+    ('Chennai', const LatLng(13.0827, 80.2707)),
+    ('Electronic City, Bangalore', const LatLng(12.9718, 77.5939)),
+    ('Coimbatore', const LatLng(11.0168, 76.9558)),
+    ('Visakhapatnam', const LatLng(17.6868, 83.2185)),
+    ('Sriperumbudur, Chennai', const LatLng(13.0493, 80.2123)),
+  ];
 
   @override
   void initState() {
@@ -137,6 +150,7 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
   Future<bool> calculateDistance() async {
     try {
       markers.clear();
+      activeHubs.clear();
       polylineCoordinates.clear();
 
       List<Location> startPlacemark = await locationFromAddress(
@@ -232,10 +246,25 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
         "kilometers",
       );
 
+      for (var hub in activeHubs) {
+        markers.add(
+          Marker(
+            markerId: MarkerId(hub.$1),
+            position: hub.$2,
+            icon: BitmapDescriptor.defaultMarkerWithHue(50),
+            infoWindow: InfoWindow(
+              title: 'Hub ${hub.$1}',
+              snippet: hub.$1,
+            ),
+          ),
+        );
+      }
+
       if (distance < distanceLimit) {
         setState(() {
           markers.clear();
           polylineCoordinates.clear();
+          hubs.clear();
         });
 
         if (!mounted) return false;
@@ -287,6 +316,13 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
     }
 
     PolylineId id = const PolylineId('poly');
+    Set<(String, LatLng)> selectedHubs = {};
+
+    for (var hub in hubs) {
+      if (isPointInsidePolygon(hub.$2, polylineCoordinates)) {
+        selectedHubs.add(hub);
+      }
+    }
 
     Polyline polyline = Polyline(
       polylineId: id,
@@ -296,6 +332,7 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
     );
 
     polylines[id] = polyline;
+    setState(() => activeHubs = selectedHubs);
   }
 
   Future<void> onMapTap(LatLng position) async {
@@ -336,6 +373,7 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
                 TextFormField(
                   controller: startController,
                   onFieldSubmitted: (value) async => await getCoordinates(),
+                  textCapitalization: TextCapitalization.sentences,
                   decoration: const InputDecoration(
                     icon: Icon(Icons.start),
                     hintText: 'Start Address',
@@ -345,6 +383,7 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
                 TextFormField(
                   controller: destinationController,
                   onFieldSubmitted: (value) async => await calculateDistance(),
+                  textCapitalization: TextCapitalization.sentences,
                   decoration: InputDecoration(
                     hintText: 'Destination Address',
                     icon: Transform.rotate(
@@ -373,6 +412,7 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
                               destinationCoordinates: destinationCoordinates,
                               totalCost: totalCost ?? 0,
                               totalDistance: totalDistance ?? 0,
+                              hubs: activeHubs,
                             ),
                           );
 

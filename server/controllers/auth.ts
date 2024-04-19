@@ -53,7 +53,7 @@ export const login = catchAsync(async (req, res, next) => {
 export const register = catchAsync(async (req, res) => {
   const form = formidable();
   const [fields, files] = await form.parse(req);
-  const customFields = { driverDetails: {} };
+  const customFields = { driverDetails: {}, location: {} };
 
   // Transform form data to object
   for (const [key, value] of Object.entries(fields)) {
@@ -63,11 +63,24 @@ export const register = catchAsync(async (req, res) => {
 
     if (startBracketIndex !== -1 && endBracketIndex !== -1) {
       extractedKey = key.substring(startBracketIndex + 1, endBracketIndex);
-      customFields.driverDetails[extractedKey] = value?.at(0) ?? null;
+
+      if (key.indexOf('driverDetails') !== -1) {
+        customFields.driverDetails[extractedKey] = value?.at(0) ?? null;
+      } else {
+        if ((value?.length ?? 0) > 1) {
+          customFields.location[extractedKey] = value
+            ?.map(x => parseFloat(x))
+            .reverse();
+        } else {
+          customFields.location[extractedKey] = value?.at(0) ?? null;
+        }
+      }
     } else {
       customFields[extractedKey] = value?.at(0) ?? null;
     }
   }
+
+  customFields.driverDetails['location'] = customFields.location;
 
   const {
     name,

@@ -335,6 +335,170 @@ abstract class _UserResponse implements UserResponse {
       throw _privateConstructorUsedError;
 }
 
+DriverLocation _$DriverLocationFromJson(Map<String, dynamic> json) {
+  return _DriverLocation.fromJson(json);
+}
+
+/// @nodoc
+mixin _$DriverLocation {
+  String get address => throw _privateConstructorUsedError;
+  List<double> get coordinates => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $DriverLocationCopyWith<DriverLocation> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $DriverLocationCopyWith<$Res> {
+  factory $DriverLocationCopyWith(
+          DriverLocation value, $Res Function(DriverLocation) then) =
+      _$DriverLocationCopyWithImpl<$Res, DriverLocation>;
+  @useResult
+  $Res call({String address, List<double> coordinates});
+}
+
+/// @nodoc
+class _$DriverLocationCopyWithImpl<$Res, $Val extends DriverLocation>
+    implements $DriverLocationCopyWith<$Res> {
+  _$DriverLocationCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? address = null,
+    Object? coordinates = null,
+  }) {
+    return _then(_value.copyWith(
+      address: null == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
+      coordinates: null == coordinates
+          ? _value.coordinates
+          : coordinates // ignore: cast_nullable_to_non_nullable
+              as List<double>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$DriverLocationImplCopyWith<$Res>
+    implements $DriverLocationCopyWith<$Res> {
+  factory _$$DriverLocationImplCopyWith(_$DriverLocationImpl value,
+          $Res Function(_$DriverLocationImpl) then) =
+      __$$DriverLocationImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String address, List<double> coordinates});
+}
+
+/// @nodoc
+class __$$DriverLocationImplCopyWithImpl<$Res>
+    extends _$DriverLocationCopyWithImpl<$Res, _$DriverLocationImpl>
+    implements _$$DriverLocationImplCopyWith<$Res> {
+  __$$DriverLocationImplCopyWithImpl(
+      _$DriverLocationImpl _value, $Res Function(_$DriverLocationImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? address = null,
+    Object? coordinates = null,
+  }) {
+    return _then(_$DriverLocationImpl(
+      address: null == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
+      coordinates: null == coordinates
+          ? _value._coordinates
+          : coordinates // ignore: cast_nullable_to_non_nullable
+              as List<double>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$DriverLocationImpl implements _DriverLocation {
+  const _$DriverLocationImpl(
+      {required this.address, required final List<double> coordinates})
+      : _coordinates = coordinates;
+
+  factory _$DriverLocationImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DriverLocationImplFromJson(json);
+
+  @override
+  final String address;
+  final List<double> _coordinates;
+  @override
+  List<double> get coordinates {
+    if (_coordinates is EqualUnmodifiableListView) return _coordinates;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_coordinates);
+  }
+
+  @override
+  String toString() {
+    return 'DriverLocation(address: $address, coordinates: $coordinates)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DriverLocationImpl &&
+            (identical(other.address, address) || other.address == address) &&
+            const DeepCollectionEquality()
+                .equals(other._coordinates, _coordinates));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, address, const DeepCollectionEquality().hash(_coordinates));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DriverLocationImplCopyWith<_$DriverLocationImpl> get copyWith =>
+      __$$DriverLocationImplCopyWithImpl<_$DriverLocationImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DriverLocationImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _DriverLocation implements DriverLocation {
+  const factory _DriverLocation(
+      {required final String address,
+      required final List<double> coordinates}) = _$DriverLocationImpl;
+
+  factory _DriverLocation.fromJson(Map<String, dynamic> json) =
+      _$DriverLocationImpl.fromJson;
+
+  @override
+  String get address;
+  @override
+  List<double> get coordinates;
+  @override
+  @JsonKey(ignore: true)
+  _$$DriverLocationImplCopyWith<_$DriverLocationImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 DriverDetails _$DriverDetailsFromJson(Map<String, dynamic> json) {
   return _DriverDetails.fromJson(json);
 }
@@ -345,7 +509,7 @@ mixin _$DriverDetails {
   String? get driverNumber => throw _privateConstructorUsedError;
   String? get ownerName => throw _privateConstructorUsedError;
   String? get driverName => throw _privateConstructorUsedError;
-  String? get city => throw _privateConstructorUsedError;
+  DriverLocation? get location => throw _privateConstructorUsedError;
   String? get vehicleBodyType => throw _privateConstructorUsedError;
   String? get vehicleCapacity => throw _privateConstructorUsedError;
   String? get vehicleNumber => throw _privateConstructorUsedError;
@@ -368,11 +532,13 @@ abstract class $DriverDetailsCopyWith<$Res> {
       String? driverNumber,
       String? ownerName,
       String? driverName,
-      String? city,
+      DriverLocation? location,
       String? vehicleBodyType,
       String? vehicleCapacity,
       String? vehicleNumber,
       String? drivingLicenseNumber});
+
+  $DriverLocationCopyWith<$Res>? get location;
 }
 
 /// @nodoc
@@ -392,7 +558,7 @@ class _$DriverDetailsCopyWithImpl<$Res, $Val extends DriverDetails>
     Object? driverNumber = freezed,
     Object? ownerName = freezed,
     Object? driverName = freezed,
-    Object? city = freezed,
+    Object? location = freezed,
     Object? vehicleBodyType = freezed,
     Object? vehicleCapacity = freezed,
     Object? vehicleNumber = freezed,
@@ -415,10 +581,10 @@ class _$DriverDetailsCopyWithImpl<$Res, $Val extends DriverDetails>
           ? _value.driverName
           : driverName // ignore: cast_nullable_to_non_nullable
               as String?,
-      city: freezed == city
-          ? _value.city
-          : city // ignore: cast_nullable_to_non_nullable
-              as String?,
+      location: freezed == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as DriverLocation?,
       vehicleBodyType: freezed == vehicleBodyType
           ? _value.vehicleBodyType
           : vehicleBodyType // ignore: cast_nullable_to_non_nullable
@@ -437,6 +603,18 @@ class _$DriverDetailsCopyWithImpl<$Res, $Val extends DriverDetails>
               as String?,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DriverLocationCopyWith<$Res>? get location {
+    if (_value.location == null) {
+      return null;
+    }
+
+    return $DriverLocationCopyWith<$Res>(_value.location!, (value) {
+      return _then(_value.copyWith(location: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -452,11 +630,14 @@ abstract class _$$DriverDetailsImplCopyWith<$Res>
       String? driverNumber,
       String? ownerName,
       String? driverName,
-      String? city,
+      DriverLocation? location,
       String? vehicleBodyType,
       String? vehicleCapacity,
       String? vehicleNumber,
       String? drivingLicenseNumber});
+
+  @override
+  $DriverLocationCopyWith<$Res>? get location;
 }
 
 /// @nodoc
@@ -474,7 +655,7 @@ class __$$DriverDetailsImplCopyWithImpl<$Res>
     Object? driverNumber = freezed,
     Object? ownerName = freezed,
     Object? driverName = freezed,
-    Object? city = freezed,
+    Object? location = freezed,
     Object? vehicleBodyType = freezed,
     Object? vehicleCapacity = freezed,
     Object? vehicleNumber = freezed,
@@ -497,10 +678,10 @@ class __$$DriverDetailsImplCopyWithImpl<$Res>
           ? _value.driverName
           : driverName // ignore: cast_nullable_to_non_nullable
               as String?,
-      city: freezed == city
-          ? _value.city
-          : city // ignore: cast_nullable_to_non_nullable
-              as String?,
+      location: freezed == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as DriverLocation?,
       vehicleBodyType: freezed == vehicleBodyType
           ? _value.vehicleBodyType
           : vehicleBodyType // ignore: cast_nullable_to_non_nullable
@@ -529,7 +710,7 @@ class _$DriverDetailsImpl implements _DriverDetails {
       required this.driverNumber,
       required this.ownerName,
       required this.driverName,
-      required this.city,
+      required this.location,
       required this.vehicleBodyType,
       required this.vehicleCapacity,
       required this.vehicleNumber,
@@ -547,7 +728,7 @@ class _$DriverDetailsImpl implements _DriverDetails {
   @override
   final String? driverName;
   @override
-  final String? city;
+  final DriverLocation? location;
   @override
   final String? vehicleBodyType;
   @override
@@ -559,7 +740,7 @@ class _$DriverDetailsImpl implements _DriverDetails {
 
   @override
   String toString() {
-    return 'DriverDetails(ownerNumber: $ownerNumber, driverNumber: $driverNumber, ownerName: $ownerName, driverName: $driverName, city: $city, vehicleBodyType: $vehicleBodyType, vehicleCapacity: $vehicleCapacity, vehicleNumber: $vehicleNumber, drivingLicenseNumber: $drivingLicenseNumber)';
+    return 'DriverDetails(ownerNumber: $ownerNumber, driverNumber: $driverNumber, ownerName: $ownerName, driverName: $driverName, location: $location, vehicleBodyType: $vehicleBodyType, vehicleCapacity: $vehicleCapacity, vehicleNumber: $vehicleNumber, drivingLicenseNumber: $drivingLicenseNumber)';
   }
 
   @override
@@ -575,7 +756,8 @@ class _$DriverDetailsImpl implements _DriverDetails {
                 other.ownerName == ownerName) &&
             (identical(other.driverName, driverName) ||
                 other.driverName == driverName) &&
-            (identical(other.city, city) || other.city == city) &&
+            (identical(other.location, location) ||
+                other.location == location) &&
             (identical(other.vehicleBodyType, vehicleBodyType) ||
                 other.vehicleBodyType == vehicleBodyType) &&
             (identical(other.vehicleCapacity, vehicleCapacity) ||
@@ -594,7 +776,7 @@ class _$DriverDetailsImpl implements _DriverDetails {
       driverNumber,
       ownerName,
       driverName,
-      city,
+      location,
       vehicleBodyType,
       vehicleCapacity,
       vehicleNumber,
@@ -620,7 +802,7 @@ abstract class _DriverDetails implements DriverDetails {
       required final String? driverNumber,
       required final String? ownerName,
       required final String? driverName,
-      required final String? city,
+      required final DriverLocation? location,
       required final String? vehicleBodyType,
       required final String? vehicleCapacity,
       required final String? vehicleNumber,
@@ -638,7 +820,7 @@ abstract class _DriverDetails implements DriverDetails {
   @override
   String? get driverName;
   @override
-  String? get city;
+  DriverLocation? get location;
   @override
   String? get vehicleBodyType;
   @override

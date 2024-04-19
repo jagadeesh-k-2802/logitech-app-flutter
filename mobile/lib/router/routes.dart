@@ -13,8 +13,10 @@ class Routes {
   static customerOrderDetailPath(String id) => "/customer-order-detail/$id";
   static const placeOrder = "place-order";
   static const orderConfirmed = "order-confirmation";
-  static const rating = "rating";
+  static ratingPath(String id) => "/rating/$id";
   static const driverHome = "driver-home";
+  static orderAcceptDetailPath(String id) => "/order-accept/$id";
+  static orderManageDetailPath(String id) => "/order-manage/$id";
   static const driverOrders = "driver-orders";
   static const customerNotification = "customer-notifications";
   static const driverNotification = "driver-notifications";
