@@ -8,6 +8,7 @@ class RatingService {
     required String comment,
     required double rating,
     required String userId,
+    required String orderId,
   }) async {
     try {
       final dio = await getDioClient();
@@ -18,6 +19,7 @@ class RatingService {
         'comment': comment,
         'rating': rating,
         'userId': userId,
+        'orderId': orderId,
       };
 
       final response = await dio.post(url, data: data);

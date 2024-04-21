@@ -6,6 +6,7 @@ enum NotificationTypeEnum {
 
 interface NotificationData {
   user?: mongoose.Schema.Types.ObjectId;
+  order?: mongoose.Schema.Types.ObjectId;
 }
 
 interface Notification {
@@ -19,7 +20,8 @@ interface Notification {
 }
 
 const dataSchema = new mongoose.Schema<NotificationData>({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false }
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false },
+  order: { type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: false }
 });
 
 const schema = new mongoose.Schema<Notification>(

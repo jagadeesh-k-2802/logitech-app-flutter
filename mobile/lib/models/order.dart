@@ -70,6 +70,17 @@ class AcceptedBy with _$AcceptedBy {
 }
 
 @freezed
+class LocationUpdate with _$LocationUpdate {
+  const factory LocationUpdate({
+    required int index,
+    required String message,
+  }) = _LocationUpdate;
+
+  factory LocationUpdate.fromJson(Map<String, Object?> json) =>
+      _$LocationUpdateFromJson(json);
+}
+
+@freezed
 class GetOrdersResponseData with _$GetOrdersResponseData {
   const factory GetOrdersResponseData({
     required String id,
@@ -104,6 +115,8 @@ class GetOrderResponseData with _$GetOrderResponseData {
   const factory GetOrderResponseData({
     required String id,
     required double price,
+    required bool isPaymentDone,
+    required bool isRatingDone,
     required double distance,
     required double approxWeight,
     required Location sourceLocation,
@@ -112,6 +125,7 @@ class GetOrderResponseData with _$GetOrderResponseData {
     required String vehicleType,
     required String typeOfGoods,
     required String deliveryNote,
+    required List<LocationUpdate> locationUpdates,
     required CreatedBy createdBy,
     required AcceptedBy? acceptedBy,
     required StatusType status,

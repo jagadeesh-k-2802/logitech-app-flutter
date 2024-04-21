@@ -193,7 +193,6 @@ NotificationDataUser _$NotificationDataUserFromJson(Map<String, dynamic> json) {
 mixin _$NotificationDataUser {
   String get id => throw _privateConstructorUsedError;
   String get avatar => throw _privateConstructorUsedError;
-  String get username => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -208,7 +207,7 @@ abstract class $NotificationDataUserCopyWith<$Res> {
           $Res Function(NotificationDataUser) then) =
       _$NotificationDataUserCopyWithImpl<$Res, NotificationDataUser>;
   @useResult
-  $Res call({String id, String avatar, String username, String name});
+  $Res call({String id, String avatar, String name});
 }
 
 /// @nodoc
@@ -227,7 +226,6 @@ class _$NotificationDataUserCopyWithImpl<$Res,
   $Res call({
     Object? id = null,
     Object? avatar = null,
-    Object? username = null,
     Object? name = null,
   }) {
     return _then(_value.copyWith(
@@ -238,10 +236,6 @@ class _$NotificationDataUserCopyWithImpl<$Res,
       avatar: null == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
-              as String,
-      username: null == username
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
           ? _value.name
@@ -259,7 +253,7 @@ abstract class _$$NotificationDataUserImplCopyWith<$Res>
       __$$NotificationDataUserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String avatar, String username, String name});
+  $Res call({String id, String avatar, String name});
 }
 
 /// @nodoc
@@ -275,7 +269,6 @@ class __$$NotificationDataUserImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? avatar = null,
-    Object? username = null,
     Object? name = null,
   }) {
     return _then(_$NotificationDataUserImpl(
@@ -286,10 +279,6 @@ class __$$NotificationDataUserImplCopyWithImpl<$Res>
       avatar: null == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
-              as String,
-      username: null == username
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
           ? _value.name
@@ -303,10 +292,7 @@ class __$$NotificationDataUserImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$NotificationDataUserImpl implements _NotificationDataUser {
   const _$NotificationDataUserImpl(
-      {required this.id,
-      required this.avatar,
-      required this.username,
-      required this.name});
+      {required this.id, required this.avatar, required this.name});
 
   factory _$NotificationDataUserImpl.fromJson(Map<String, dynamic> json) =>
       _$$NotificationDataUserImplFromJson(json);
@@ -316,13 +302,11 @@ class _$NotificationDataUserImpl implements _NotificationDataUser {
   @override
   final String avatar;
   @override
-  final String username;
-  @override
   final String name;
 
   @override
   String toString() {
-    return 'NotificationDataUser(id: $id, avatar: $avatar, username: $username, name: $name)';
+    return 'NotificationDataUser(id: $id, avatar: $avatar, name: $name)';
   }
 
   @override
@@ -332,14 +316,12 @@ class _$NotificationDataUserImpl implements _NotificationDataUser {
             other is _$NotificationDataUserImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
-            (identical(other.username, username) ||
-                other.username == username) &&
             (identical(other.name, name) || other.name == name));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, avatar, username, name);
+  int get hashCode => Object.hash(runtimeType, id, avatar, name);
 
   @JsonKey(ignore: true)
   @override
@@ -361,7 +343,6 @@ abstract class _NotificationDataUser implements NotificationDataUser {
   const factory _NotificationDataUser(
       {required final String id,
       required final String avatar,
-      required final String username,
       required final String name}) = _$NotificationDataUserImpl;
 
   factory _NotificationDataUser.fromJson(Map<String, dynamic> json) =
@@ -372,12 +353,152 @@ abstract class _NotificationDataUser implements NotificationDataUser {
   @override
   String get avatar;
   @override
-  String get username;
-  @override
   String get name;
   @override
   @JsonKey(ignore: true)
   _$$NotificationDataUserImplCopyWith<_$NotificationDataUserImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+NotificationDataOrder _$NotificationDataOrderFromJson(
+    Map<String, dynamic> json) {
+  return _NotificationDataOrder.fromJson(json);
+}
+
+/// @nodoc
+mixin _$NotificationDataOrder {
+  String get id => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $NotificationDataOrderCopyWith<NotificationDataOrder> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $NotificationDataOrderCopyWith<$Res> {
+  factory $NotificationDataOrderCopyWith(NotificationDataOrder value,
+          $Res Function(NotificationDataOrder) then) =
+      _$NotificationDataOrderCopyWithImpl<$Res, NotificationDataOrder>;
+  @useResult
+  $Res call({String id});
+}
+
+/// @nodoc
+class _$NotificationDataOrderCopyWithImpl<$Res,
+        $Val extends NotificationDataOrder>
+    implements $NotificationDataOrderCopyWith<$Res> {
+  _$NotificationDataOrderCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$NotificationDataOrderImplCopyWith<$Res>
+    implements $NotificationDataOrderCopyWith<$Res> {
+  factory _$$NotificationDataOrderImplCopyWith(
+          _$NotificationDataOrderImpl value,
+          $Res Function(_$NotificationDataOrderImpl) then) =
+      __$$NotificationDataOrderImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String id});
+}
+
+/// @nodoc
+class __$$NotificationDataOrderImplCopyWithImpl<$Res>
+    extends _$NotificationDataOrderCopyWithImpl<$Res,
+        _$NotificationDataOrderImpl>
+    implements _$$NotificationDataOrderImplCopyWith<$Res> {
+  __$$NotificationDataOrderImplCopyWithImpl(_$NotificationDataOrderImpl _value,
+      $Res Function(_$NotificationDataOrderImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(_$NotificationDataOrderImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$NotificationDataOrderImpl implements _NotificationDataOrder {
+  const _$NotificationDataOrderImpl({required this.id});
+
+  factory _$NotificationDataOrderImpl.fromJson(Map<String, dynamic> json) =>
+      _$$NotificationDataOrderImplFromJson(json);
+
+  @override
+  final String id;
+
+  @override
+  String toString() {
+    return 'NotificationDataOrder(id: $id)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$NotificationDataOrderImpl &&
+            (identical(other.id, id) || other.id == id));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$NotificationDataOrderImplCopyWith<_$NotificationDataOrderImpl>
+      get copyWith => __$$NotificationDataOrderImplCopyWithImpl<
+          _$NotificationDataOrderImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$NotificationDataOrderImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _NotificationDataOrder implements NotificationDataOrder {
+  const factory _NotificationDataOrder({required final String id}) =
+      _$NotificationDataOrderImpl;
+
+  factory _NotificationDataOrder.fromJson(Map<String, dynamic> json) =
+      _$NotificationDataOrderImpl.fromJson;
+
+  @override
+  String get id;
+  @override
+  @JsonKey(ignore: true)
+  _$$NotificationDataOrderImplCopyWith<_$NotificationDataOrderImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -388,7 +509,7 @@ NotificationData _$NotificationDataFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$NotificationData {
   NotificationDataUser? get user => throw _privateConstructorUsedError;
-  String? get post => throw _privateConstructorUsedError;
+  NotificationDataOrder? get order => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -402,9 +523,10 @@ abstract class $NotificationDataCopyWith<$Res> {
           NotificationData value, $Res Function(NotificationData) then) =
       _$NotificationDataCopyWithImpl<$Res, NotificationData>;
   @useResult
-  $Res call({NotificationDataUser? user, String? post});
+  $Res call({NotificationDataUser? user, NotificationDataOrder? order});
 
   $NotificationDataUserCopyWith<$Res>? get user;
+  $NotificationDataOrderCopyWith<$Res>? get order;
 }
 
 /// @nodoc
@@ -421,17 +543,17 @@ class _$NotificationDataCopyWithImpl<$Res, $Val extends NotificationData>
   @override
   $Res call({
     Object? user = freezed,
-    Object? post = freezed,
+    Object? order = freezed,
   }) {
     return _then(_value.copyWith(
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as NotificationDataUser?,
-      post: freezed == post
-          ? _value.post
-          : post // ignore: cast_nullable_to_non_nullable
-              as String?,
+      order: freezed == order
+          ? _value.order
+          : order // ignore: cast_nullable_to_non_nullable
+              as NotificationDataOrder?,
     ) as $Val);
   }
 
@@ -446,6 +568,18 @@ class _$NotificationDataCopyWithImpl<$Res, $Val extends NotificationData>
       return _then(_value.copyWith(user: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $NotificationDataOrderCopyWith<$Res>? get order {
+    if (_value.order == null) {
+      return null;
+    }
+
+    return $NotificationDataOrderCopyWith<$Res>(_value.order!, (value) {
+      return _then(_value.copyWith(order: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -456,10 +590,12 @@ abstract class _$$NotificationDataImplCopyWith<$Res>
       __$$NotificationDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({NotificationDataUser? user, String? post});
+  $Res call({NotificationDataUser? user, NotificationDataOrder? order});
 
   @override
   $NotificationDataUserCopyWith<$Res>? get user;
+  @override
+  $NotificationDataOrderCopyWith<$Res>? get order;
 }
 
 /// @nodoc
@@ -474,17 +610,17 @@ class __$$NotificationDataImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? user = freezed,
-    Object? post = freezed,
+    Object? order = freezed,
   }) {
     return _then(_$NotificationDataImpl(
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as NotificationDataUser?,
-      post: freezed == post
-          ? _value.post
-          : post // ignore: cast_nullable_to_non_nullable
-              as String?,
+      order: freezed == order
+          ? _value.order
+          : order // ignore: cast_nullable_to_non_nullable
+              as NotificationDataOrder?,
     ));
   }
 }
@@ -492,7 +628,7 @@ class __$$NotificationDataImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$NotificationDataImpl implements _NotificationData {
-  const _$NotificationDataImpl({required this.user, required this.post});
+  const _$NotificationDataImpl({required this.user, required this.order});
 
   factory _$NotificationDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$NotificationDataImplFromJson(json);
@@ -500,11 +636,11 @@ class _$NotificationDataImpl implements _NotificationData {
   @override
   final NotificationDataUser? user;
   @override
-  final String? post;
+  final NotificationDataOrder? order;
 
   @override
   String toString() {
-    return 'NotificationData(user: $user, post: $post)';
+    return 'NotificationData(user: $user, order: $order)';
   }
 
   @override
@@ -513,12 +649,12 @@ class _$NotificationDataImpl implements _NotificationData {
         (other.runtimeType == runtimeType &&
             other is _$NotificationDataImpl &&
             (identical(other.user, user) || other.user == user) &&
-            (identical(other.post, post) || other.post == post));
+            (identical(other.order, order) || other.order == order));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, user, post);
+  int get hashCode => Object.hash(runtimeType, user, order);
 
   @JsonKey(ignore: true)
   @override
@@ -538,7 +674,7 @@ class _$NotificationDataImpl implements _NotificationData {
 abstract class _NotificationData implements NotificationData {
   const factory _NotificationData(
       {required final NotificationDataUser? user,
-      required final String? post}) = _$NotificationDataImpl;
+      required final NotificationDataOrder? order}) = _$NotificationDataImpl;
 
   factory _NotificationData.fromJson(Map<String, dynamic> json) =
       _$NotificationDataImpl.fromJson;
@@ -546,7 +682,7 @@ abstract class _NotificationData implements NotificationData {
   @override
   NotificationDataUser? get user;
   @override
-  String? get post;
+  NotificationDataOrder? get order;
   @override
   @JsonKey(ignore: true)
   _$$NotificationDataImplCopyWith<_$NotificationDataImpl> get copyWith =>
@@ -560,6 +696,7 @@ GetNotificationsResponseData _$GetNotificationsResponseDataFromJson(
 
 /// @nodoc
 mixin _$GetNotificationsResponseData {
+  @JsonKey(name: '_id')
   String get id => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
   NotificationData? get data => throw _privateConstructorUsedError;
@@ -584,7 +721,7 @@ abstract class $GetNotificationsResponseDataCopyWith<$Res> {
           GetNotificationsResponseData>;
   @useResult
   $Res call(
-      {String id,
+      {@JsonKey(name: '_id') String id,
       String content,
       NotificationData? data,
       NotificationType type,
@@ -666,7 +803,7 @@ abstract class _$$GetNotificationsResponseDataImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
+      {@JsonKey(name: '_id') String id,
       String content,
       NotificationData? data,
       NotificationType type,
@@ -731,7 +868,7 @@ class __$$GetNotificationsResponseDataImplCopyWithImpl<$Res>
 class _$GetNotificationsResponseDataImpl
     implements _GetNotificationsResponseData {
   const _$GetNotificationsResponseDataImpl(
-      {required this.id,
+      {@JsonKey(name: '_id') required this.id,
       required this.content,
       required this.data,
       required this.type,
@@ -743,6 +880,7 @@ class _$GetNotificationsResponseDataImpl
       _$$GetNotificationsResponseDataImplFromJson(json);
 
   @override
+  @JsonKey(name: '_id')
   final String id;
   @override
   final String content;
@@ -801,7 +939,7 @@ class _$GetNotificationsResponseDataImpl
 abstract class _GetNotificationsResponseData
     implements GetNotificationsResponseData {
   const factory _GetNotificationsResponseData(
-          {required final String id,
+          {@JsonKey(name: '_id') required final String id,
           required final String content,
           required final NotificationData? data,
           required final NotificationType type,
@@ -813,6 +951,7 @@ abstract class _GetNotificationsResponseData
       _$GetNotificationsResponseDataImpl.fromJson;
 
   @override
+  @JsonKey(name: '_id')
   String get id;
   @override
   String get content;

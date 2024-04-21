@@ -78,6 +78,19 @@ Map<String, dynamic> _$$AcceptedByImplToJson(_$AcceptedByImpl instance) =>
       'phone': instance.phone,
     };
 
+_$LocationUpdateImpl _$$LocationUpdateImplFromJson(Map<String, dynamic> json) =>
+    _$LocationUpdateImpl(
+      index: json['index'] as int,
+      message: json['message'] as String,
+    );
+
+Map<String, dynamic> _$$LocationUpdateImplToJson(
+        _$LocationUpdateImpl instance) =>
+    <String, dynamic>{
+      'index': instance.index,
+      'message': instance.message,
+    };
+
 _$GetOrdersResponseDataImpl _$$GetOrdersResponseDataImplFromJson(
         Map<String, dynamic> json) =>
     _$GetOrdersResponseDataImpl(
@@ -139,6 +152,8 @@ _$GetOrderResponseDataImpl _$$GetOrderResponseDataImplFromJson(
     _$GetOrderResponseDataImpl(
       id: json['id'] as String,
       price: (json['price'] as num).toDouble(),
+      isPaymentDone: json['isPaymentDone'] as bool,
+      isRatingDone: json['isRatingDone'] as bool,
       distance: (json['distance'] as num).toDouble(),
       approxWeight: (json['approxWeight'] as num).toDouble(),
       sourceLocation:
@@ -151,6 +166,9 @@ _$GetOrderResponseDataImpl _$$GetOrderResponseDataImplFromJson(
       vehicleType: json['vehicleType'] as String,
       typeOfGoods: json['typeOfGoods'] as String,
       deliveryNote: json['deliveryNote'] as String,
+      locationUpdates: (json['locationUpdates'] as List<dynamic>)
+          .map((e) => LocationUpdate.fromJson(e as Map<String, dynamic>))
+          .toList(),
       createdBy: CreatedBy.fromJson(json['createdBy'] as Map<String, dynamic>),
       acceptedBy: json['acceptedBy'] == null
           ? null
@@ -167,6 +185,8 @@ Map<String, dynamic> _$$GetOrderResponseDataImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'price': instance.price,
+      'isPaymentDone': instance.isPaymentDone,
+      'isRatingDone': instance.isRatingDone,
       'distance': instance.distance,
       'approxWeight': instance.approxWeight,
       'sourceLocation': instance.sourceLocation,
@@ -175,6 +195,7 @@ Map<String, dynamic> _$$GetOrderResponseDataImplToJson(
       'vehicleType': instance.vehicleType,
       'typeOfGoods': instance.typeOfGoods,
       'deliveryNote': instance.deliveryNote,
+      'locationUpdates': instance.locationUpdates,
       'createdBy': instance.createdBy,
       'acceptedBy': instance.acceptedBy,
       'status': _$StatusTypeEnumMap[instance.status]!,

@@ -7,7 +7,13 @@ import 'package:logitech/theme/theme.dart';
 
 class RatingScreen extends ConsumerStatefulWidget {
   final String userId;
-  const RatingScreen({super.key, required this.userId});
+  final String orderId;
+
+  const RatingScreen({
+    super.key,
+    required this.userId,
+    required this.orderId,
+  });
 
   @override
   ConsumerState<RatingScreen> createState() => _RatingScreenState();
@@ -27,6 +33,7 @@ class _RatingScreenState extends ConsumerState<RatingScreen> {
         comment: commentController.text,
         rating: rating,
         userId: widget.userId,
+        orderId: widget.orderId,
       );
 
       if (!mounted) return;
@@ -51,7 +58,7 @@ class _RatingScreenState extends ConsumerState<RatingScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Give Rating'),
+        title: const Text('Give Rating for Driver'),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(

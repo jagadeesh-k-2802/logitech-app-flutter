@@ -7,6 +7,7 @@ router.get('/', protect, orderController.getOrders);
 router.get('/nearby', protect, orderController.getOrdersNearby);
 router.get('/stats', protect, orderController.getOrderStats);
 router.put('/accept/:id', protect, orderController.acceptOrder);
+router.put('/location/:id', protect, orderController.updateOrderLocation);
 router.get('/:id', protect, orderController.getOrder);
 router.post('/', protect, orderController.createOrder);
 

@@ -1,12 +1,15 @@
 import mongoose from 'mongoose';
 import { Order, StatusEnum } from '@models/Order';
 import { Rating } from '@models/Rating';
-import { AccountTypeEnum } from '@models/User';
+import { Notification, NotificationTypeEnum } from '@models/Notification';
+import { AccountTypeEnum, User, UserType } from '@models/User';
 import catchAsync from '@utils/catchAsync';
 import Email from '@utils/email';
 import ErrorResponse from '@utils/errorResponse';
+import sendPushNotification from '@utils/sendPushNotfication';
 import { zParse } from '@validation/index';
 import * as orderValidation from '@validation/order';
+import { getCurrentDateTimeAsString, withinGeoRadius } from '@utils/functions';
 
 /**
  * @route GET /api/orders
@@ -81,7 +84,12 @@ export const getOrderStats = catchAsync(async (req, res) => {
   });
 
   const totalEarned = await Order.aggregate([
-    { $match: { user: new mongoose.Types.ObjectId(user.id) } },
+    {
+      $match: {
+        acceptedBy: new mongoose.Types.ObjectId(user.id),
+        status: StatusEnum.completed
+      }
+    },
     { $group: { _id: null, totalPrice: { $sum: '$price' } } }
   ]);
 
@@ -102,7 +110,11 @@ export const getOrderStats = catchAsync(async (req, res) => {
 export const acceptOrder = catchAsync(async (req, res) => {
   const id = req.params.id;
   const user = req.user;
-  const order = await Order.findById(id);
+
+  const order = await Order.findById(id).populate<{ createdBy: UserType }>(
+    'createdBy',
+    'id name avatar'
+  );
 
   if (!order) {
     throw new ErrorResponse('Order not found', 404);
@@ -126,11 +138,85 @@ export const acceptOrder = catchAsync(async (req, res) => {
     acceptedBy: user
   });
 
-  // TODO: Send Push Notification to Created By User
+  await Notification.create({
+    content: `${user.name} Has accepted to take on your order`,
+    user: order.createdBy,
+    data: { user },
+    type: NotificationTypeEnum.info
+  });
+
+  await sendPushNotification({
+    title: 'Your order has been accepted',
+    body: `${user.name} Has accepted to take on your order`,
+    tokens: [order.createdBy.fcmToken]
+  });
 
   res.status(200).json({
     success: true,
     message: 'Order Accepted Successfully'
+  });
+});
+
+/**
+ * @route GET /api/location/:id
+ * @desc Let a driver update their location
+ * @secure true
+ */
+export const updateOrderLocation = catchAsync(async (req, res) => {
+  const id = req.params.id;
+  const user = req.user;
+
+  const order = await Order.findById(id).populate<{ createdBy: UserType }>(
+    'createdBy',
+    'id name fcmToken'
+  );
+
+  const { body } = await zParse(orderValidation.updateOrderLocation, req);
+  const { index, message, coordinates, userCoordinates } = body;
+
+  if (!order) {
+    throw new ErrorResponse('Order not found', 404);
+  }
+
+  if (user.id !== order.acceptedBy.toString()) {
+    throw new ErrorResponse('Unauthorized Access', 401);
+  }
+
+  if (!withinGeoRadius(userCoordinates, coordinates, 750)) {
+    throw new ErrorResponse('Please, be near the location', 401);
+  }
+
+  // Check if destination reached
+  // The coordinates order is swapped in MongoDB
+  if (
+    coordinates[0] === order.destinationLocation.coordinates[1] &&
+    coordinates[1] === order.destinationLocation.coordinates[0]
+  ) {
+    order.status = StatusEnum.completed;
+  }
+
+  order.locationUpdates.push({
+    index,
+    message: `${getCurrentDateTimeAsString()} - ${message}`
+  });
+
+  await order.save();
+
+  await Notification.create({
+    content: `Location Update for Order ${order.id} | ${message}`,
+    user: order.createdBy,
+    type: NotificationTypeEnum.info
+  });
+
+  await sendPushNotification({
+    title: `Location Update for Order ${order.id}`,
+    body: message,
+    tokens: [order.createdBy.fcmToken]
+  });
+
+  res.status(200).json({
+    success: true,
+    message: 'Order Location Updated Successfully'
   });
 });
 
@@ -204,7 +290,39 @@ export const createOrder = catchAsync(async (req, res) => {
     createdBy: user
   });
 
-  // TODO: Send Push Notification to Nearby Drivers of 50 KM
+  // Send Push Notification to Nearby Drivers in 50 KM
+  const searchRadiusInKilometres = 50 / 6378.1;
+  const limit = 500;
+
+  const driversInRadius = await User.find({
+    'driverDetails.location.coordinates': {
+      $geoWithin: {
+        $centerSphere: [
+          [startLongitude, startLatitude],
+          searchRadiusInKilometres
+        ]
+      }
+    }
+  })
+    .select('id name fcmToken')
+    .limit(limit);
+
+  await Promise.all(
+    driversInRadius.map(user =>
+      Notification.create({
+        body: `New Order requested to ${destinationAddress} of ${totalDistance} Km for ${totalCost} price`,
+        user: user.id,
+        data: { order: order.id },
+        type: NotificationTypeEnum.info
+      })
+    )
+  );
+
+  await sendPushNotification({
+    title: 'New Order Nearby',
+    body: `New Order requested to ${destinationAddress} of ${totalDistance} Km for ${totalCost} price`,
+    tokens: driversInRadius.map(user => user.fcmToken)
+  });
 
   res.status(200).json({
     success: true,

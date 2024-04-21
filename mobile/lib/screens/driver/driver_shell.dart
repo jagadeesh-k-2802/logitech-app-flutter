@@ -2,6 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logitech/models/auth.dart';
 import 'package:logitech/state/global_state_provider.dart';
 import 'package:logitech/state/notification/notifications_provider.dart';
 
@@ -43,28 +44,35 @@ class _DriverShellState extends ConsumerState<DriverShell> {
 
   @override
   Widget build(BuildContext context) {
+    UserResponseData? user = ref.watch(globalStateProvider).user;
+
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         onTap: onNavigate,
         currentIndex: widget.navigationShell.currentIndex,
         type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
+        items: [
+          const BottomNavigationBarItem(
             label: 'Home',
             activeIcon: Icon(Icons.home),
             icon: Icon(Icons.home_outlined),
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             label: 'Orders',
             activeIcon: Icon(Icons.local_shipping),
             icon: Icon(Icons.local_shipping_outlined),
           ),
           BottomNavigationBarItem(
             label: 'Notifications',
-            activeIcon: Icon(Icons.notifications),
-            icon: Icon(Icons.notifications_outlined),
+            activeIcon: const Icon(Icons.notifications),
+            icon: (user?.unReadNotificationsCount ?? 0) > 0
+                ? Badge.count(
+                    count: user?.unReadNotificationsCount ?? 0,
+                    child: const Icon(Icons.notifications_outlined),
+                  )
+                : const Icon(Icons.notifications_outlined),
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             label: 'Account',
             activeIcon: Icon(Icons.account_circle),
             icon: Icon(Icons.account_circle_outlined),

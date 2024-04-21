@@ -858,6 +858,161 @@ abstract class _AcceptedBy implements AcceptedBy {
       throw _privateConstructorUsedError;
 }
 
+LocationUpdate _$LocationUpdateFromJson(Map<String, dynamic> json) {
+  return _LocationUpdate.fromJson(json);
+}
+
+/// @nodoc
+mixin _$LocationUpdate {
+  int get index => throw _privateConstructorUsedError;
+  String get message => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $LocationUpdateCopyWith<LocationUpdate> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $LocationUpdateCopyWith<$Res> {
+  factory $LocationUpdateCopyWith(
+          LocationUpdate value, $Res Function(LocationUpdate) then) =
+      _$LocationUpdateCopyWithImpl<$Res, LocationUpdate>;
+  @useResult
+  $Res call({int index, String message});
+}
+
+/// @nodoc
+class _$LocationUpdateCopyWithImpl<$Res, $Val extends LocationUpdate>
+    implements $LocationUpdateCopyWith<$Res> {
+  _$LocationUpdateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = null,
+    Object? message = null,
+  }) {
+    return _then(_value.copyWith(
+      index: null == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int,
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$LocationUpdateImplCopyWith<$Res>
+    implements $LocationUpdateCopyWith<$Res> {
+  factory _$$LocationUpdateImplCopyWith(_$LocationUpdateImpl value,
+          $Res Function(_$LocationUpdateImpl) then) =
+      __$$LocationUpdateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int index, String message});
+}
+
+/// @nodoc
+class __$$LocationUpdateImplCopyWithImpl<$Res>
+    extends _$LocationUpdateCopyWithImpl<$Res, _$LocationUpdateImpl>
+    implements _$$LocationUpdateImplCopyWith<$Res> {
+  __$$LocationUpdateImplCopyWithImpl(
+      _$LocationUpdateImpl _value, $Res Function(_$LocationUpdateImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = null,
+    Object? message = null,
+  }) {
+    return _then(_$LocationUpdateImpl(
+      index: null == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int,
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$LocationUpdateImpl implements _LocationUpdate {
+  const _$LocationUpdateImpl({required this.index, required this.message});
+
+  factory _$LocationUpdateImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LocationUpdateImplFromJson(json);
+
+  @override
+  final int index;
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'LocationUpdate(index: $index, message: $message)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LocationUpdateImpl &&
+            (identical(other.index, index) || other.index == index) &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, index, message);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LocationUpdateImplCopyWith<_$LocationUpdateImpl> get copyWith =>
+      __$$LocationUpdateImplCopyWithImpl<_$LocationUpdateImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$LocationUpdateImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _LocationUpdate implements LocationUpdate {
+  const factory _LocationUpdate(
+      {required final int index,
+      required final String message}) = _$LocationUpdateImpl;
+
+  factory _LocationUpdate.fromJson(Map<String, dynamic> json) =
+      _$LocationUpdateImpl.fromJson;
+
+  @override
+  int get index;
+  @override
+  String get message;
+  @override
+  @JsonKey(ignore: true)
+  _$$LocationUpdateImplCopyWith<_$LocationUpdateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 GetOrdersResponseData _$GetOrdersResponseDataFromJson(
     Map<String, dynamic> json) {
   return _GetOrdersResponseData.fromJson(json);
@@ -1423,6 +1578,8 @@ GetOrderResponseData _$GetOrderResponseDataFromJson(Map<String, dynamic> json) {
 mixin _$GetOrderResponseData {
   String get id => throw _privateConstructorUsedError;
   double get price => throw _privateConstructorUsedError;
+  bool get isPaymentDone => throw _privateConstructorUsedError;
+  bool get isRatingDone => throw _privateConstructorUsedError;
   double get distance => throw _privateConstructorUsedError;
   double get approxWeight => throw _privateConstructorUsedError;
   Location get sourceLocation => throw _privateConstructorUsedError;
@@ -1431,6 +1588,8 @@ mixin _$GetOrderResponseData {
   String get vehicleType => throw _privateConstructorUsedError;
   String get typeOfGoods => throw _privateConstructorUsedError;
   String get deliveryNote => throw _privateConstructorUsedError;
+  List<LocationUpdate> get locationUpdates =>
+      throw _privateConstructorUsedError;
   CreatedBy get createdBy => throw _privateConstructorUsedError;
   AcceptedBy? get acceptedBy => throw _privateConstructorUsedError;
   StatusType get status => throw _privateConstructorUsedError;
@@ -1454,6 +1613,8 @@ abstract class $GetOrderResponseDataCopyWith<$Res> {
   $Res call(
       {String id,
       double price,
+      bool isPaymentDone,
+      bool isRatingDone,
       double distance,
       double approxWeight,
       Location sourceLocation,
@@ -1462,6 +1623,7 @@ abstract class $GetOrderResponseDataCopyWith<$Res> {
       String vehicleType,
       String typeOfGoods,
       String deliveryNote,
+      List<LocationUpdate> locationUpdates,
       CreatedBy createdBy,
       AcceptedBy? acceptedBy,
       StatusType status,
@@ -1490,6 +1652,8 @@ class _$GetOrderResponseDataCopyWithImpl<$Res,
   $Res call({
     Object? id = null,
     Object? price = null,
+    Object? isPaymentDone = null,
+    Object? isRatingDone = null,
     Object? distance = null,
     Object? approxWeight = null,
     Object? sourceLocation = null,
@@ -1498,6 +1662,7 @@ class _$GetOrderResponseDataCopyWithImpl<$Res,
     Object? vehicleType = null,
     Object? typeOfGoods = null,
     Object? deliveryNote = null,
+    Object? locationUpdates = null,
     Object? createdBy = null,
     Object? acceptedBy = freezed,
     Object? status = null,
@@ -1513,6 +1678,14 @@ class _$GetOrderResponseDataCopyWithImpl<$Res,
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as double,
+      isPaymentDone: null == isPaymentDone
+          ? _value.isPaymentDone
+          : isPaymentDone // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isRatingDone: null == isRatingDone
+          ? _value.isRatingDone
+          : isRatingDone // ignore: cast_nullable_to_non_nullable
+              as bool,
       distance: null == distance
           ? _value.distance
           : distance // ignore: cast_nullable_to_non_nullable
@@ -1545,6 +1718,10 @@ class _$GetOrderResponseDataCopyWithImpl<$Res,
           ? _value.deliveryNote
           : deliveryNote // ignore: cast_nullable_to_non_nullable
               as String,
+      locationUpdates: null == locationUpdates
+          ? _value.locationUpdates
+          : locationUpdates // ignore: cast_nullable_to_non_nullable
+              as List<LocationUpdate>,
       createdBy: null == createdBy
           ? _value.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
@@ -1616,6 +1793,8 @@ abstract class _$$GetOrderResponseDataImplCopyWith<$Res>
   $Res call(
       {String id,
       double price,
+      bool isPaymentDone,
+      bool isRatingDone,
       double distance,
       double approxWeight,
       Location sourceLocation,
@@ -1624,6 +1803,7 @@ abstract class _$$GetOrderResponseDataImplCopyWith<$Res>
       String vehicleType,
       String typeOfGoods,
       String deliveryNote,
+      List<LocationUpdate> locationUpdates,
       CreatedBy createdBy,
       AcceptedBy? acceptedBy,
       StatusType status,
@@ -1653,6 +1833,8 @@ class __$$GetOrderResponseDataImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? price = null,
+    Object? isPaymentDone = null,
+    Object? isRatingDone = null,
     Object? distance = null,
     Object? approxWeight = null,
     Object? sourceLocation = null,
@@ -1661,6 +1843,7 @@ class __$$GetOrderResponseDataImplCopyWithImpl<$Res>
     Object? vehicleType = null,
     Object? typeOfGoods = null,
     Object? deliveryNote = null,
+    Object? locationUpdates = null,
     Object? createdBy = null,
     Object? acceptedBy = freezed,
     Object? status = null,
@@ -1676,6 +1859,14 @@ class __$$GetOrderResponseDataImplCopyWithImpl<$Res>
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as double,
+      isPaymentDone: null == isPaymentDone
+          ? _value.isPaymentDone
+          : isPaymentDone // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isRatingDone: null == isRatingDone
+          ? _value.isRatingDone
+          : isRatingDone // ignore: cast_nullable_to_non_nullable
+              as bool,
       distance: null == distance
           ? _value.distance
           : distance // ignore: cast_nullable_to_non_nullable
@@ -1708,6 +1899,10 @@ class __$$GetOrderResponseDataImplCopyWithImpl<$Res>
           ? _value.deliveryNote
           : deliveryNote // ignore: cast_nullable_to_non_nullable
               as String,
+      locationUpdates: null == locationUpdates
+          ? _value._locationUpdates
+          : locationUpdates // ignore: cast_nullable_to_non_nullable
+              as List<LocationUpdate>,
       createdBy: null == createdBy
           ? _value.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
@@ -1738,6 +1933,8 @@ class _$GetOrderResponseDataImpl implements _GetOrderResponseData {
   const _$GetOrderResponseDataImpl(
       {required this.id,
       required this.price,
+      required this.isPaymentDone,
+      required this.isRatingDone,
       required this.distance,
       required this.approxWeight,
       required this.sourceLocation,
@@ -1746,12 +1943,14 @@ class _$GetOrderResponseDataImpl implements _GetOrderResponseData {
       required this.vehicleType,
       required this.typeOfGoods,
       required this.deliveryNote,
+      required final List<LocationUpdate> locationUpdates,
       required this.createdBy,
       required this.acceptedBy,
       required this.status,
       @DateTimeConvertor() required this.createdAt,
       @DateTimeConvertor() required this.updatedAt})
-      : _hubs = hubs;
+      : _hubs = hubs,
+        _locationUpdates = locationUpdates;
 
   factory _$GetOrderResponseDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$GetOrderResponseDataImplFromJson(json);
@@ -1760,6 +1959,10 @@ class _$GetOrderResponseDataImpl implements _GetOrderResponseData {
   final String id;
   @override
   final double price;
+  @override
+  final bool isPaymentDone;
+  @override
+  final bool isRatingDone;
   @override
   final double distance;
   @override
@@ -1782,6 +1985,14 @@ class _$GetOrderResponseDataImpl implements _GetOrderResponseData {
   final String typeOfGoods;
   @override
   final String deliveryNote;
+  final List<LocationUpdate> _locationUpdates;
+  @override
+  List<LocationUpdate> get locationUpdates {
+    if (_locationUpdates is EqualUnmodifiableListView) return _locationUpdates;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_locationUpdates);
+  }
+
   @override
   final CreatedBy createdBy;
   @override
@@ -1797,7 +2008,7 @@ class _$GetOrderResponseDataImpl implements _GetOrderResponseData {
 
   @override
   String toString() {
-    return 'GetOrderResponseData(id: $id, price: $price, distance: $distance, approxWeight: $approxWeight, sourceLocation: $sourceLocation, destinationLocation: $destinationLocation, hubs: $hubs, vehicleType: $vehicleType, typeOfGoods: $typeOfGoods, deliveryNote: $deliveryNote, createdBy: $createdBy, acceptedBy: $acceptedBy, status: $status, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'GetOrderResponseData(id: $id, price: $price, isPaymentDone: $isPaymentDone, isRatingDone: $isRatingDone, distance: $distance, approxWeight: $approxWeight, sourceLocation: $sourceLocation, destinationLocation: $destinationLocation, hubs: $hubs, vehicleType: $vehicleType, typeOfGoods: $typeOfGoods, deliveryNote: $deliveryNote, locationUpdates: $locationUpdates, createdBy: $createdBy, acceptedBy: $acceptedBy, status: $status, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -1807,6 +2018,10 @@ class _$GetOrderResponseDataImpl implements _GetOrderResponseData {
             other is _$GetOrderResponseDataImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.price, price) || other.price == price) &&
+            (identical(other.isPaymentDone, isPaymentDone) ||
+                other.isPaymentDone == isPaymentDone) &&
+            (identical(other.isRatingDone, isRatingDone) ||
+                other.isRatingDone == isRatingDone) &&
             (identical(other.distance, distance) ||
                 other.distance == distance) &&
             (identical(other.approxWeight, approxWeight) ||
@@ -1822,6 +2037,8 @@ class _$GetOrderResponseDataImpl implements _GetOrderResponseData {
                 other.typeOfGoods == typeOfGoods) &&
             (identical(other.deliveryNote, deliveryNote) ||
                 other.deliveryNote == deliveryNote) &&
+            const DeepCollectionEquality()
+                .equals(other._locationUpdates, _locationUpdates) &&
             (identical(other.createdBy, createdBy) ||
                 other.createdBy == createdBy) &&
             (identical(other.acceptedBy, acceptedBy) ||
@@ -1839,6 +2056,8 @@ class _$GetOrderResponseDataImpl implements _GetOrderResponseData {
       runtimeType,
       id,
       price,
+      isPaymentDone,
+      isRatingDone,
       distance,
       approxWeight,
       sourceLocation,
@@ -1847,6 +2066,7 @@ class _$GetOrderResponseDataImpl implements _GetOrderResponseData {
       vehicleType,
       typeOfGoods,
       deliveryNote,
+      const DeepCollectionEquality().hash(_locationUpdates),
       createdBy,
       acceptedBy,
       status,
@@ -1873,6 +2093,8 @@ abstract class _GetOrderResponseData implements GetOrderResponseData {
   const factory _GetOrderResponseData(
           {required final String id,
           required final double price,
+          required final bool isPaymentDone,
+          required final bool isRatingDone,
           required final double distance,
           required final double approxWeight,
           required final Location sourceLocation,
@@ -1881,6 +2103,7 @@ abstract class _GetOrderResponseData implements GetOrderResponseData {
           required final String vehicleType,
           required final String typeOfGoods,
           required final String deliveryNote,
+          required final List<LocationUpdate> locationUpdates,
           required final CreatedBy createdBy,
           required final AcceptedBy? acceptedBy,
           required final StatusType status,
@@ -1895,6 +2118,10 @@ abstract class _GetOrderResponseData implements GetOrderResponseData {
   String get id;
   @override
   double get price;
+  @override
+  bool get isPaymentDone;
+  @override
+  bool get isRatingDone;
   @override
   double get distance;
   @override
@@ -1911,6 +2138,8 @@ abstract class _GetOrderResponseData implements GetOrderResponseData {
   String get typeOfGoods;
   @override
   String get deliveryNote;
+  @override
+  List<LocationUpdate> get locationUpdates;
   @override
   CreatedBy get createdBy;
   @override

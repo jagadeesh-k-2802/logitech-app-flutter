@@ -4,8 +4,6 @@ part 'notification.freezed.dart';
 part 'notification.g.dart';
 
 enum NotificationType {
-  @JsonValue('follow-request')
-  followRequest,
   @JsonValue('info')
   info
 }
@@ -26,7 +24,6 @@ class NotificationDataUser with _$NotificationDataUser {
   const factory NotificationDataUser({
     required String id,
     required String avatar,
-    required String username,
     required String name,
   }) = _NotificationDataUser;
 
@@ -35,10 +32,20 @@ class NotificationDataUser with _$NotificationDataUser {
 }
 
 @freezed
+class NotificationDataOrder with _$NotificationDataOrder {
+  const factory NotificationDataOrder({
+    required String id,
+  }) = _NotificationDataOrder;
+
+  factory NotificationDataOrder.fromJson(Map<String, Object?> json) =>
+      _$NotificationDataOrderFromJson(json);
+}
+
+@freezed
 class NotificationData with _$NotificationData {
   const factory NotificationData({
     required NotificationDataUser? user,
-    required String? post,
+    required NotificationDataOrder? order,
   }) = _NotificationData;
 
   factory NotificationData.fromJson(Map<String, Object?> json) =>
@@ -48,7 +55,7 @@ class NotificationData with _$NotificationData {
 @freezed
 class GetNotificationsResponseData with _$GetNotificationsResponseData {
   const factory GetNotificationsResponseData({
-    required String id,
+    @JsonKey(name: '_id') required String id,
     required String content,
     required NotificationData? data,
     required NotificationType type,

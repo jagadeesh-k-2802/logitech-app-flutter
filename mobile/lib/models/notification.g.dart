@@ -28,7 +28,6 @@ _$NotificationDataUserImpl _$$NotificationDataUserImplFromJson(
     _$NotificationDataUserImpl(
       id: json['id'] as String,
       avatar: json['avatar'] as String,
-      username: json['username'] as String,
       name: json['name'] as String,
     );
 
@@ -37,8 +36,19 @@ Map<String, dynamic> _$$NotificationDataUserImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'avatar': instance.avatar,
-      'username': instance.username,
       'name': instance.name,
+    };
+
+_$NotificationDataOrderImpl _$$NotificationDataOrderImplFromJson(
+        Map<String, dynamic> json) =>
+    _$NotificationDataOrderImpl(
+      id: json['id'] as String,
+    );
+
+Map<String, dynamic> _$$NotificationDataOrderImplToJson(
+        _$NotificationDataOrderImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
     };
 
 _$NotificationDataImpl _$$NotificationDataImplFromJson(
@@ -47,20 +57,23 @@ _$NotificationDataImpl _$$NotificationDataImplFromJson(
       user: json['user'] == null
           ? null
           : NotificationDataUser.fromJson(json['user'] as Map<String, dynamic>),
-      post: json['post'] as String?,
+      order: json['order'] == null
+          ? null
+          : NotificationDataOrder.fromJson(
+              json['order'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$NotificationDataImplToJson(
         _$NotificationDataImpl instance) =>
     <String, dynamic>{
       'user': instance.user,
-      'post': instance.post,
+      'order': instance.order,
     };
 
 _$GetNotificationsResponseDataImpl _$$GetNotificationsResponseDataImplFromJson(
         Map<String, dynamic> json) =>
     _$GetNotificationsResponseDataImpl(
-      id: json['id'] as String,
+      id: json['_id'] as String,
       content: json['content'] as String,
       data: json['data'] == null
           ? null
@@ -75,7 +88,7 @@ _$GetNotificationsResponseDataImpl _$$GetNotificationsResponseDataImplFromJson(
 Map<String, dynamic> _$$GetNotificationsResponseDataImplToJson(
         _$GetNotificationsResponseDataImpl instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      '_id': instance.id,
       'content': instance.content,
       'data': instance.data,
       'type': _$NotificationTypeEnumMap[instance.type]!,
@@ -84,6 +97,5 @@ Map<String, dynamic> _$$GetNotificationsResponseDataImplToJson(
     };
 
 const _$NotificationTypeEnumMap = {
-  NotificationType.followRequest: 'follow-request',
   NotificationType.info: 'info',
 };

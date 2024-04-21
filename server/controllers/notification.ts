@@ -23,6 +23,7 @@ export const getNotifications = catchAsync(async (req, res) => {
     .limit(limit)
     .select('id content data type createdAt updatedAt')
     .populate('data.user', 'id avatar name email')
+    .populate('data.order', 'id')
     .sort({ createdAt: -1 });
 
   res.status(200).json({ success: true, data: notifications });

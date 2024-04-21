@@ -7,3 +7,6 @@ const apiUrl = kReleaseMode ? _prodUrl : _debugUrl;
 
 /// [tokenKey] for secure local storage of JWT Token
 const tokenKey = "TOKEN_KEY";
+
+/// [customerSupportNumber] Support number shown in the application
+const customerSupportNumber = "+912345678790";

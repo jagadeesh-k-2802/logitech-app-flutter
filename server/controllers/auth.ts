@@ -205,7 +205,11 @@ export const verifyConfirmationCode = catchAsync(async (req, res, next) => {
  */
 export const getCurrentUser = catchAsync(async (req, res) => {
   await isAuthenticated(req); // Injects req.user
-  const user = req.user.toObject();
+  const user = req.user;
+
+  if (user === null || user === undefined) {
+    throw new ErrorResponse('Not Authorized To Access This Route', 401);
+  }
 
   const unReadNotificationsCount = await Notification.countDocuments({
     user: user,
@@ -214,7 +218,7 @@ export const getCurrentUser = catchAsync(async (req, res) => {
 
   res.status(200).json({
     success: true,
-    data: { ...user, unReadNotificationsCount }
+    data: { ...user.toObject(), unReadNotificationsCount }
   });
 });
 

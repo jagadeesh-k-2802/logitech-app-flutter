@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 interface Rating {
   name: string;
   comment: string;
+  rating: number;
   user: mongoose.ObjectId;
   createdBy: mongoose.ObjectId;
   createdAt: Date;
@@ -13,6 +14,7 @@ const schema = new mongoose.Schema<Rating>(
   {
     name: { type: String, required: true, maxlength: 100 },
     comment: { type: String, required: true, maxlength: 1000 },
+    rating: { type: Number, required: true, max: 5 },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
   },

@@ -30,6 +30,7 @@ interface Order {
   status: StatusEnum;
   price: number;
   isPaymentDone: boolean;
+  isRatingDone: boolean;
   distance: number;
   typeOfGoods: string;
   vehicleType: string;
@@ -42,7 +43,6 @@ interface Order {
   updatedAt: Date;
 }
 
-// TODO: Store Order Location Updates With Index
 const schema = new mongoose.Schema<Order>(
   {
     sourceLocation: {
@@ -70,9 +70,10 @@ const schema = new mongoose.Schema<Order>(
     vehicleType: { type: String },
     deliveryNote: { type: String },
     approxWeight: { type: Number },
-    locationUpdates: [{ message: String, default: [] }],
+    locationUpdates: [{ index: Number, message: String }],
     price: { type: Number },
-    isPaymentDone: { type: Boolean },
+    isPaymentDone: { type: Boolean, default: false },
+    isRatingDone: { type: Boolean, default: false },
     distance: { type: Number },
     typeOfGoods: { type: String },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },

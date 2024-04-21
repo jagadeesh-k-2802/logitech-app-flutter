@@ -9,6 +9,7 @@ import 'package:logitech/screens/common/profile_screen.dart';
 import 'package:logitech/screens/customer/customer_home_screen.dart';
 import 'package:logitech/screens/customer/customer_orders_screen.dart';
 import 'package:logitech/screens/customer/customer_shell.dart';
+import 'package:logitech/screens/customer/driver_profile_screen.dart';
 import 'package:logitech/screens/customer/rating_screen.dart';
 import 'package:logitech/screens/customer/order_confirmed_screen.dart';
 import 'package:logitech/screens/customer/order_detail_screen.dart';
@@ -144,11 +145,21 @@ final List<RouteBase> _routes = [
     ),
   ),
   GoRoute(
-    name: Routes.ratingPath(''),
-    path: '${Routes.ratingPath(':id')}',
+    name: Routes.ratingPath('', ''),
+    path: '${Routes.ratingPath(':userId', ':orderId')}',
     pageBuilder: (context, state) => NoTransitionPage(
       child: RatingScreen(
-        userId: state.pathParameters['id'] as String,
+        userId: state.pathParameters['userId'] as String,
+        orderId: state.pathParameters['orderId'] as String,
+      ),
+    ),
+  ),
+  GoRoute(
+    name: Routes.driverProfilePath(''),
+    path: '${Routes.driverProfilePath(':id')}',
+    pageBuilder: (context, state) => NoTransitionPage(
+      child: DriverProfileScreen(
+        profileId: state.pathParameters['id'] as String,
       ),
     ),
   ),

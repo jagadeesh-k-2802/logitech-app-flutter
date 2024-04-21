@@ -1,11 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:logitech/config/constants.dart';
 import 'package:logitech/models/order.dart';
+import 'package:logitech/router/routes.dart';
 import 'package:logitech/state/order/order_provider.dart';
 import 'package:logitech/theme/theme.dart';
 import 'package:logitech/utils/formatters.dart';
+import 'package:timelines/timelines.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OrderDetailScreen extends ConsumerStatefulWidget {
@@ -17,6 +20,16 @@ class OrderDetailScreen extends ConsumerStatefulWidget {
 }
 
 class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
+  Widget buildTimeLineItem(int index, GetOrderResponseData data) {
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: Text(
+        data.locationUpdates[index].message,
+        softWrap: true,
+      ),
+    );
+  }
+
   Widget buildBody(GetOrderResponseData data) {
     if (data.status == StatusType.pending) {
       return Column(
@@ -37,10 +50,59 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
           const Text('You will be Notified when someone accepts your order.'),
         ],
       );
-    } else if (data.status == StatusType.accepted) {
+    } else {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Visibility(
+            visible: data.status == StatusType.completed,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // TODO: Use UPI ID To Make Payment
+                const SizedBox(height: 20),
+                Text(
+                  'Your Order Has Been Delievered',
+                  style: titleLargeBold(context),
+                ),
+                Text(
+                  'Your order has been successfully delivered on ${data.locationUpdates.last.message.split(' ')[0]}',
+                ),
+                Visibility(
+                  visible: !data.isPaymentDone,
+                  child: const Text(
+                    'Please make the payment at the earliest possible',
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Visibility(
+                  visible: !data.isPaymentDone,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Text('Make Payment'),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Visibility(
+                  visible: !data.isRatingDone,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      await context.push(
+                        Routes.ratingPath(data.acceptedBy?.id ?? '', data.id),
+                      );
+
+                      ref.invalidate(orderProvider(widget.orderId));
+                    },
+                    style: secondaryButtonStyle,
+                    child: const Text('Send Rating'),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                const Divider(),
+                const SizedBox(height: 20),
+              ],
+            ),
+          ),
           Text('Address', style: titleLargeBold(context)),
           Text(data.sourceLocation.address, maxLines: 1),
           Text(data.destinationLocation.address, maxLines: 1),
@@ -52,13 +114,19 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
           Text('Order Created On: ${dateFormatter(data.createdAt)}'),
           const SizedBox(height: 20),
           Text('Driver Details', style: titleLargeBold(context)),
+          const SizedBox(height: 4),
           Row(
             children: [
-              ClipOval(
-                child: CircleAvatar(
-                  radius: 38,
-                  child: CachedNetworkImage(
-                    imageUrl: '$apiUrl/avatar/${data.acceptedBy?.avatar}',
+              InkWell(
+                onTap: () => context.push(
+                  Routes.driverProfilePath(data.acceptedBy?.id ?? ''),
+                ),
+                child: ClipOval(
+                  child: CircleAvatar(
+                    radius: 38,
+                    child: CachedNetworkImage(
+                      imageUrl: '$apiUrl/avatar/${data.acceptedBy?.avatar}',
+                    ),
                   ),
                 ),
               ),
@@ -81,11 +149,22 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
           ),
           const SizedBox(height: 20),
           Text('Location Updates', style: titleLargeBold(context)),
+          Timeline.tileBuilder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            builder: TimelineTileBuilder.fromStyle(
+              itemCount: data.locationUpdates.length,
+              indicatorStyle: IndicatorStyle.dot,
+              contentsAlign: ContentsAlign.basic,
+              oppositeContentsBuilder: (context, index) => buildTimeLineItem(
+                index,
+                data,
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
         ],
       );
-    } else {
-      // TODO: Completed State in OrderDetail
-      return const Text('');
     }
   }
 
@@ -97,12 +176,18 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
       appBar: AppBar(),
       body: provider.when(
         data: (data) {
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: defaultPagePadding,
+          return RefreshIndicator(
+            onRefresh: () async => ref.invalidate(
+              orderProvider(widget.orderId),
+            ),
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: defaultPagePadding,
+                ),
+                child: buildBody(data),
               ),
-              child: buildBody(data),
             ),
           );
         },

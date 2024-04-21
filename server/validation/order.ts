@@ -22,3 +22,12 @@ export const createOrder = z.object({
     typeOfGoods: z.string({ required_error: 'Type of Goods is required' })
   })
 });
+
+export const updateOrderLocation = z.object({
+  body: z.object({
+    index: z.number({ required_error: 'Index is required' }),
+    message: z.string({ required_error: 'Message is required' }),
+    coordinates: z.tuple([z.number(), z.number()]),
+    userCoordinates: z.tuple([z.number(), z.number()])
+  })
+});

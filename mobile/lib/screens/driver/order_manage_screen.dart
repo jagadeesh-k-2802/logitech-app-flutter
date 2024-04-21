@@ -1,5 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:logitech/config/constants.dart';
+import 'package:logitech/services/order.dart';
+import 'package:logitech/utils/functions.dart';
 import 'package:timelines/timelines.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:logitech/models/order.dart';
@@ -16,43 +21,133 @@ class OrderManageScreen extends ConsumerStatefulWidget {
 }
 
 class _OrderDetailScreenState extends ConsumerState<OrderManageScreen> {
-  Widget buildTimeLineControl(int index, GetOrderResponseData data) {
-    // TODO: Hide for Completed Locations
+  Future<void> openCoordinatesInMap(double lat, double lon) async {
+    String url = 'https://maps.google.com/maps?q=$lat,$lon';
+    await launchUrl(Uri.parse(url));
+  }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      child: ElevatedButton(
-        onPressed: () {},
-        child: const Text('Update'),
-      ),
-    );
+  Future<void> onLocationUpdate(int index, GetOrderResponseData data) async {
+    try {
+      (Position, String)? location = await getCurrentLocation(context);
+
+      if (location == null) {
+        throw Exception('Cannot fetch GPS Location');
+      }
+
+      List<double> userCoordinates = [
+        location.$1.latitude,
+        location.$1.longitude,
+      ];
+
+      if (index == 0) {
+        await OrderService.updateOrderLocation(
+          id: widget.orderId,
+          index: index,
+          message: 'Started at ${data.sourceLocation.address}',
+          coordinates: data.sourceLocation.coordinates.reversed.toList(),
+          userCoordinates: userCoordinates,
+        );
+      } else if (index - 1 == data.hubs.length) {
+        await OrderService.updateOrderLocation(
+          id: widget.orderId,
+          index: index,
+          message: 'Reached Destination ${data.destinationLocation.address}',
+          coordinates: data.destinationLocation.coordinates.reversed.toList(),
+          userCoordinates: userCoordinates,
+        );
+      } else {
+        await OrderService.updateOrderLocation(
+          id: widget.orderId,
+          index: index,
+          message: 'Arrived Hub at ${data.hubs[index - 1].address}',
+          coordinates: data.hubs[index - 1].coordinates.reversed.toList(),
+          userCoordinates: userCoordinates,
+        );
+      }
+
+      ref.invalidate(orderProvider(widget.orderId));
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Location Updated!')),
+      );
+    } catch (error) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(error.toString())),
+      );
+    }
+  }
+
+  Widget buildTimeLineControl(int index, GetOrderResponseData data) {
+    List<LocationUpdate> updates = data.locationUpdates;
+    int size = updates.length;
+
+    if (index < size) {
+      return const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24.0),
+        child: ElevatedButton(
+          onPressed: null,
+          child: Text('Completed'),
+        ),
+      );
+    } else if (index == size) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: ElevatedButton(
+          onPressed: () => onLocationUpdate(index, data),
+          child: const Text('Update'),
+        ),
+      );
+    }
+
+    return Container();
   }
 
   Widget buildTimeLineItem(int index, GetOrderResponseData data) {
     if (index == 0) {
-      return Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Text(
-          'Start - ${data.sourceLocation.address}',
-          softWrap: true,
+      return InkWell(
+        onTap: () async => await openCoordinatesInMap(
+          data.sourceLocation.coordinates[1],
+          data.sourceLocation.coordinates[0],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Text(
+            'Start - ${data.sourceLocation.address}',
+            softWrap: true,
+          ),
         ),
       );
     }
 
     if (index - 1 == data.hubs.length) {
-      return Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Text('Destination - ${data.destinationLocation.address}'),
+      return InkWell(
+        onTap: () async => await openCoordinatesInMap(
+          data.destinationLocation.coordinates[1],
+          data.destinationLocation.coordinates[0],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Text('Destination - ${data.destinationLocation.address}'),
+        ),
       );
     }
 
     return Row(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Text(
-            'Hub - ${data.hubs[index - 1].address}',
-            textAlign: TextAlign.left,
+        InkWell(
+          onTap: () async => await openCoordinatesInMap(
+            data.hubs[index - 1].coordinates[1],
+            data.hubs[index - 1].coordinates[0],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Text(
+              'Hub - ${data.hubs[index - 1].address}',
+              textAlign: TextAlign.left,
+            ),
           ),
         ),
       ],
@@ -104,8 +199,80 @@ class _OrderDetailScreenState extends ConsumerState<OrderManageScreen> {
         ],
       );
     } else {
-      // TODO: Completed View
-      return const Text('Completed');
+      TextTheme textTheme = Theme.of(context).textTheme;
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Container(
+              width: 120,
+              height: 120,
+              decoration: const BoxDecoration(
+                color: primaryColor,
+                shape: BoxShape.circle,
+              ),
+              child: const Center(
+                child: Icon(
+                  Icons.check,
+                  size: 75,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 15),
+          Text('Order Delivered', style: titleLargeBold(context)),
+          const Text(
+            'The Order has been successfully delivered\n Thank You.',
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 12),
+          Visibility(
+            visible: !data.isPaymentDone,
+            child: Column(
+              children: [
+                const Text('Waiting for the customer to send the payment'),
+                RichText(
+                  text: TextSpan(
+                    style: textTheme.bodyMedium,
+                    children: <TextSpan>[
+                      const TextSpan(text: 'If taking longer call Support: '),
+                      TextSpan(
+                        text: customerSupportNumber,
+                        style: textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () async {
+                            await launchUrl(
+                              Uri.parse('tel:$customerSupportNumber'),
+                            );
+                          },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Visibility(
+            visible: data.isPaymentDone,
+            child: const Column(
+              children: [
+                Card(
+                  surfaceTintColor: primaryColor,
+                  child: Padding(
+                    padding: EdgeInsets.all(defaultPagePadding),
+                    child: Text('The customer has paid successfully.'),
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
+      );
     }
   }
 
@@ -114,24 +281,7 @@ class _OrderDetailScreenState extends ConsumerState<OrderManageScreen> {
     final provider = ref.watch(orderProvider(widget.orderId));
 
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.location_on),
-            tooltip: 'Open Google Maps',
-            onPressed: () async {
-              final data = provider.asData?.value;
-
-              if (data != null) {
-                final lat = data.destinationLocation.coordinates[1];
-                final lon = data.destinationLocation.coordinates[0];
-                String url = 'https://maps.google.com/maps?q=$lat,$lon';
-                await launchUrl(Uri.parse(url));
-              }
-            },
-          )
-        ],
-      ),
+      appBar: AppBar(),
       body: provider.when(
         data: (data) {
           return SingleChildScrollView(

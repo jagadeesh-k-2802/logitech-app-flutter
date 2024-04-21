@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logitech/config/constants.dart';
 import 'package:logitech/models/notification.dart';
+import 'package:logitech/router/routes.dart';
 import 'package:logitech/state/global_state_provider.dart';
 import 'package:logitech/state/notification/notifications_provider.dart';
 import 'package:logitech/theme/theme.dart';
@@ -23,21 +25,28 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
   Widget buildInfoType(GetNotificationsResponseData data) {
     TextTheme textTheme = Theme.of(context).textTheme;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: defaultPagePadding,
-        vertical: 4.0,
-      ),
-      child: GestureDetector(
-        onTap: () {
-          // TODO: On Tap Notification
-        },
+    return InkWell(
+      onTap: () {
+        if (data.data?.user != null) {
+          // For users seeing a driver profile
+          context.push(Routes.driverProfilePath(data.data?.user?.id ?? ''));
+        } else if (data.data?.order != null) {
+          // For drivers accepting a order
+          context
+              .push(Routes.orderAcceptDetailPath(data.data?.order?.id ?? ''));
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: defaultPagePadding,
+          vertical: 4.0,
+        ),
         child: Row(
           children: [
             Visibility(
               visible: data.data?.user != null,
               child: CircleAvatar(
-                radius: 26.0,
+                radius: 24.0,
                 child: ClipOval(
                   child: CachedNetworkImage(
                     imageUrl: '$apiUrl/avatar/${data.data?.user?.avatar}',

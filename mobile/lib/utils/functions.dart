@@ -90,7 +90,7 @@ Future<(Position, String)?> getCurrentLocation(BuildContext context) async {
   return (position, geoCodeLoation);
 }
 
-/// isPointInsidePolygon
+/// isPointInsidePolygon (Ray Casting Algorithm)
 /// * Check if a (lat, lng) is inside a polygon
 ///
 bool isPointInsidePolygon(LatLng point, List<LatLng> polygon) {

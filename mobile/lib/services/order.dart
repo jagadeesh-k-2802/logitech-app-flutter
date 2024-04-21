@@ -155,4 +155,35 @@ class OrderService {
       rethrow;
     }
   }
+
+  static Future<MessageResponse> updateOrderLocation({
+    required String id,
+    required int index,
+    required String message,
+    required List<double> coordinates,
+    required List<double> userCoordinates,
+  }) async {
+    try {
+      final dio = await getDioClient();
+      final url = '$apiUrl/api/v1/order/location/$id';
+
+      final data = {
+        'index': index,
+        'message': message,
+        'coordinates': coordinates,
+        'userCoordinates': userCoordinates,
+      };
+
+      final response = await dio.put(url, data: data);
+
+      if (response.statusCode != 200) {
+        var errorResponse = ErrorResponse.fromJson(response.data);
+        throw errorResponse.error;
+      }
+
+      return MessageResponse.fromJson(response.data);
+    } catch (error) {
+      rethrow;
+    }
+  }
 }
