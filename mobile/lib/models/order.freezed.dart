@@ -666,6 +666,143 @@ abstract class _CreatedBy implements CreatedBy {
       throw _privateConstructorUsedError;
 }
 
+DriverDetails _$DriverDetailsFromJson(Map<String, dynamic> json) {
+  return _DriverDetails.fromJson(json);
+}
+
+/// @nodoc
+mixin _$DriverDetails {
+  String? get upiId => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $DriverDetailsCopyWith<DriverDetails> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $DriverDetailsCopyWith<$Res> {
+  factory $DriverDetailsCopyWith(
+          DriverDetails value, $Res Function(DriverDetails) then) =
+      _$DriverDetailsCopyWithImpl<$Res, DriverDetails>;
+  @useResult
+  $Res call({String? upiId});
+}
+
+/// @nodoc
+class _$DriverDetailsCopyWithImpl<$Res, $Val extends DriverDetails>
+    implements $DriverDetailsCopyWith<$Res> {
+  _$DriverDetailsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? upiId = freezed,
+  }) {
+    return _then(_value.copyWith(
+      upiId: freezed == upiId
+          ? _value.upiId
+          : upiId // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$DriverDetailsImplCopyWith<$Res>
+    implements $DriverDetailsCopyWith<$Res> {
+  factory _$$DriverDetailsImplCopyWith(
+          _$DriverDetailsImpl value, $Res Function(_$DriverDetailsImpl) then) =
+      __$$DriverDetailsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String? upiId});
+}
+
+/// @nodoc
+class __$$DriverDetailsImplCopyWithImpl<$Res>
+    extends _$DriverDetailsCopyWithImpl<$Res, _$DriverDetailsImpl>
+    implements _$$DriverDetailsImplCopyWith<$Res> {
+  __$$DriverDetailsImplCopyWithImpl(
+      _$DriverDetailsImpl _value, $Res Function(_$DriverDetailsImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? upiId = freezed,
+  }) {
+    return _then(_$DriverDetailsImpl(
+      upiId: freezed == upiId
+          ? _value.upiId
+          : upiId // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$DriverDetailsImpl implements _DriverDetails {
+  const _$DriverDetailsImpl({required this.upiId});
+
+  factory _$DriverDetailsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DriverDetailsImplFromJson(json);
+
+  @override
+  final String? upiId;
+
+  @override
+  String toString() {
+    return 'DriverDetails(upiId: $upiId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DriverDetailsImpl &&
+            (identical(other.upiId, upiId) || other.upiId == upiId));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, upiId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DriverDetailsImplCopyWith<_$DriverDetailsImpl> get copyWith =>
+      __$$DriverDetailsImplCopyWithImpl<_$DriverDetailsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DriverDetailsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _DriverDetails implements DriverDetails {
+  const factory _DriverDetails({required final String? upiId}) =
+      _$DriverDetailsImpl;
+
+  factory _DriverDetails.fromJson(Map<String, dynamic> json) =
+      _$DriverDetailsImpl.fromJson;
+
+  @override
+  String? get upiId;
+  @override
+  @JsonKey(ignore: true)
+  _$$DriverDetailsImplCopyWith<_$DriverDetailsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 AcceptedBy _$AcceptedByFromJson(Map<String, dynamic> json) {
   return _AcceptedBy.fromJson(json);
 }
@@ -674,6 +811,7 @@ AcceptedBy _$AcceptedByFromJson(Map<String, dynamic> json) {
 mixin _$AcceptedBy {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  DriverDetails? get driverDetails => throw _privateConstructorUsedError;
   String get avatar => throw _privateConstructorUsedError;
   String get phone => throw _privateConstructorUsedError;
 
@@ -689,7 +827,14 @@ abstract class $AcceptedByCopyWith<$Res> {
           AcceptedBy value, $Res Function(AcceptedBy) then) =
       _$AcceptedByCopyWithImpl<$Res, AcceptedBy>;
   @useResult
-  $Res call({String id, String name, String avatar, String phone});
+  $Res call(
+      {String id,
+      String name,
+      DriverDetails? driverDetails,
+      String avatar,
+      String phone});
+
+  $DriverDetailsCopyWith<$Res>? get driverDetails;
 }
 
 /// @nodoc
@@ -707,6 +852,7 @@ class _$AcceptedByCopyWithImpl<$Res, $Val extends AcceptedBy>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? driverDetails = freezed,
     Object? avatar = null,
     Object? phone = null,
   }) {
@@ -719,6 +865,10 @@ class _$AcceptedByCopyWithImpl<$Res, $Val extends AcceptedBy>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      driverDetails: freezed == driverDetails
+          ? _value.driverDetails
+          : driverDetails // ignore: cast_nullable_to_non_nullable
+              as DriverDetails?,
       avatar: null == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
@@ -728,6 +878,18 @@ class _$AcceptedByCopyWithImpl<$Res, $Val extends AcceptedBy>
           : phone // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DriverDetailsCopyWith<$Res>? get driverDetails {
+    if (_value.driverDetails == null) {
+      return null;
+    }
+
+    return $DriverDetailsCopyWith<$Res>(_value.driverDetails!, (value) {
+      return _then(_value.copyWith(driverDetails: value) as $Val);
+    });
   }
 }
 
@@ -739,7 +901,15 @@ abstract class _$$AcceptedByImplCopyWith<$Res>
       __$$AcceptedByImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, String avatar, String phone});
+  $Res call(
+      {String id,
+      String name,
+      DriverDetails? driverDetails,
+      String avatar,
+      String phone});
+
+  @override
+  $DriverDetailsCopyWith<$Res>? get driverDetails;
 }
 
 /// @nodoc
@@ -755,6 +925,7 @@ class __$$AcceptedByImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? driverDetails = freezed,
     Object? avatar = null,
     Object? phone = null,
   }) {
@@ -767,6 +938,10 @@ class __$$AcceptedByImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      driverDetails: freezed == driverDetails
+          ? _value.driverDetails
+          : driverDetails // ignore: cast_nullable_to_non_nullable
+              as DriverDetails?,
       avatar: null == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
@@ -785,6 +960,7 @@ class _$AcceptedByImpl implements _AcceptedBy {
   const _$AcceptedByImpl(
       {required this.id,
       required this.name,
+      required this.driverDetails,
       required this.avatar,
       required this.phone});
 
@@ -796,13 +972,15 @@ class _$AcceptedByImpl implements _AcceptedBy {
   @override
   final String name;
   @override
+  final DriverDetails? driverDetails;
+  @override
   final String avatar;
   @override
   final String phone;
 
   @override
   String toString() {
-    return 'AcceptedBy(id: $id, name: $name, avatar: $avatar, phone: $phone)';
+    return 'AcceptedBy(id: $id, name: $name, driverDetails: $driverDetails, avatar: $avatar, phone: $phone)';
   }
 
   @override
@@ -812,13 +990,16 @@ class _$AcceptedByImpl implements _AcceptedBy {
             other is _$AcceptedByImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.driverDetails, driverDetails) ||
+                other.driverDetails == driverDetails) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.phone, phone) || other.phone == phone));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, avatar, phone);
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, driverDetails, avatar, phone);
 
   @JsonKey(ignore: true)
   @override
@@ -838,6 +1019,7 @@ abstract class _AcceptedBy implements AcceptedBy {
   const factory _AcceptedBy(
       {required final String id,
       required final String name,
+      required final DriverDetails? driverDetails,
       required final String avatar,
       required final String phone}) = _$AcceptedByImpl;
 
@@ -848,6 +1030,8 @@ abstract class _AcceptedBy implements AcceptedBy {
   String get id;
   @override
   String get name;
+  @override
+  DriverDetails? get driverDetails;
   @override
   String get avatar;
   @override
@@ -1026,7 +1210,6 @@ mixin _$GetOrdersResponseData {
   Location get sourceLocation => throw _privateConstructorUsedError;
   Location get destinationLocation => throw _privateConstructorUsedError;
   String get createdBy => throw _privateConstructorUsedError;
-  AcceptedBy? get acceptedBy => throw _privateConstructorUsedError;
   StatusType get status => throw _privateConstructorUsedError;
   @DateTimeConvertor()
   DateTime get createdAt => throw _privateConstructorUsedError;
@@ -1052,14 +1235,12 @@ abstract class $GetOrdersResponseDataCopyWith<$Res> {
       Location sourceLocation,
       Location destinationLocation,
       String createdBy,
-      AcceptedBy? acceptedBy,
       StatusType status,
       @DateTimeConvertor() DateTime createdAt,
       @DateTimeConvertor() DateTime updatedAt});
 
   $LocationCopyWith<$Res> get sourceLocation;
   $LocationCopyWith<$Res> get destinationLocation;
-  $AcceptedByCopyWith<$Res>? get acceptedBy;
 }
 
 /// @nodoc
@@ -1082,7 +1263,6 @@ class _$GetOrdersResponseDataCopyWithImpl<$Res,
     Object? sourceLocation = null,
     Object? destinationLocation = null,
     Object? createdBy = null,
-    Object? acceptedBy = freezed,
     Object? status = null,
     Object? createdAt = null,
     Object? updatedAt = null,
@@ -1112,10 +1292,6 @@ class _$GetOrdersResponseDataCopyWithImpl<$Res,
           ? _value.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
               as String,
-      acceptedBy: freezed == acceptedBy
-          ? _value.acceptedBy
-          : acceptedBy // ignore: cast_nullable_to_non_nullable
-              as AcceptedBy?,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -1146,18 +1322,6 @@ class _$GetOrdersResponseDataCopyWithImpl<$Res,
       return _then(_value.copyWith(destinationLocation: value) as $Val);
     });
   }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $AcceptedByCopyWith<$Res>? get acceptedBy {
-    if (_value.acceptedBy == null) {
-      return null;
-    }
-
-    return $AcceptedByCopyWith<$Res>(_value.acceptedBy!, (value) {
-      return _then(_value.copyWith(acceptedBy: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
@@ -1176,7 +1340,6 @@ abstract class _$$GetOrdersResponseDataImplCopyWith<$Res>
       Location sourceLocation,
       Location destinationLocation,
       String createdBy,
-      AcceptedBy? acceptedBy,
       StatusType status,
       @DateTimeConvertor() DateTime createdAt,
       @DateTimeConvertor() DateTime updatedAt});
@@ -1185,8 +1348,6 @@ abstract class _$$GetOrdersResponseDataImplCopyWith<$Res>
   $LocationCopyWith<$Res> get sourceLocation;
   @override
   $LocationCopyWith<$Res> get destinationLocation;
-  @override
-  $AcceptedByCopyWith<$Res>? get acceptedBy;
 }
 
 /// @nodoc
@@ -1207,7 +1368,6 @@ class __$$GetOrdersResponseDataImplCopyWithImpl<$Res>
     Object? sourceLocation = null,
     Object? destinationLocation = null,
     Object? createdBy = null,
-    Object? acceptedBy = freezed,
     Object? status = null,
     Object? createdAt = null,
     Object? updatedAt = null,
@@ -1237,10 +1397,6 @@ class __$$GetOrdersResponseDataImplCopyWithImpl<$Res>
           ? _value.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
               as String,
-      acceptedBy: freezed == acceptedBy
-          ? _value.acceptedBy
-          : acceptedBy // ignore: cast_nullable_to_non_nullable
-              as AcceptedBy?,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -1267,7 +1423,6 @@ class _$GetOrdersResponseDataImpl implements _GetOrdersResponseData {
       required this.sourceLocation,
       required this.destinationLocation,
       required this.createdBy,
-      required this.acceptedBy,
       required this.status,
       @DateTimeConvertor() required this.createdAt,
       @DateTimeConvertor() required this.updatedAt});
@@ -1288,8 +1443,6 @@ class _$GetOrdersResponseDataImpl implements _GetOrdersResponseData {
   @override
   final String createdBy;
   @override
-  final AcceptedBy? acceptedBy;
-  @override
   final StatusType status;
   @override
   @DateTimeConvertor()
@@ -1300,7 +1453,7 @@ class _$GetOrdersResponseDataImpl implements _GetOrdersResponseData {
 
   @override
   String toString() {
-    return 'GetOrdersResponseData(id: $id, price: $price, distance: $distance, sourceLocation: $sourceLocation, destinationLocation: $destinationLocation, createdBy: $createdBy, acceptedBy: $acceptedBy, status: $status, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'GetOrdersResponseData(id: $id, price: $price, distance: $distance, sourceLocation: $sourceLocation, destinationLocation: $destinationLocation, createdBy: $createdBy, status: $status, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -1318,8 +1471,6 @@ class _$GetOrdersResponseDataImpl implements _GetOrdersResponseData {
                 other.destinationLocation == destinationLocation) &&
             (identical(other.createdBy, createdBy) ||
                 other.createdBy == createdBy) &&
-            (identical(other.acceptedBy, acceptedBy) ||
-                other.acceptedBy == acceptedBy) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
@@ -1337,7 +1488,6 @@ class _$GetOrdersResponseDataImpl implements _GetOrdersResponseData {
       sourceLocation,
       destinationLocation,
       createdBy,
-      acceptedBy,
       status,
       createdAt,
       updatedAt);
@@ -1365,7 +1515,6 @@ abstract class _GetOrdersResponseData implements GetOrdersResponseData {
           required final Location sourceLocation,
           required final Location destinationLocation,
           required final String createdBy,
-          required final AcceptedBy? acceptedBy,
           required final StatusType status,
           @DateTimeConvertor() required final DateTime createdAt,
           @DateTimeConvertor() required final DateTime updatedAt}) =
@@ -1386,8 +1535,6 @@ abstract class _GetOrdersResponseData implements GetOrdersResponseData {
   Location get destinationLocation;
   @override
   String get createdBy;
-  @override
-  AcceptedBy? get acceptedBy;
   @override
   StatusType get status;
   @override

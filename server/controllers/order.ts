@@ -12,7 +12,7 @@ import * as orderValidation from '@validation/order';
 import { getCurrentDateTimeAsString, withinGeoRadius } from '@utils/functions';
 
 /**
- * @route GET /api/orders
+ * @route GET /api/order
  * @desc Get all orders for the customer / driver
  * @secure true
  */
@@ -26,14 +26,13 @@ export const getOrders = catchAsync(async (req, res) => {
   const orders = await Order.find(queryCondition)
     .skip(skip)
     .limit(limit)
-    .populate('acceptedBy', 'id name phone avatar')
     .sort({ createdAt: -1 });
 
   res.status(200).json({ success: true, data: orders });
 });
 
 /**
- * @route GET /api/orders/nearby
+ * @route GET /api/order/nearby
  * @desc Get all orders nearby driver
  * @secure true
  */
@@ -62,7 +61,7 @@ export const getOrdersNearby = catchAsync(async (req, res) => {
 });
 
 /**
- * @route GET /api/orders/stats
+ * @route GET /api/order/stats
  * @desc Get all driver stats
  * @secure true
  */
@@ -171,9 +170,6 @@ export const updateOrderLocation = catchAsync(async (req, res) => {
     'id name fcmToken'
   );
 
-  const { body } = await zParse(orderValidation.updateOrderLocation, req);
-  const { index, message, coordinates, userCoordinates } = body;
-
   if (!order) {
     throw new ErrorResponse('Order not found', 404);
   }
@@ -181,6 +177,9 @@ export const updateOrderLocation = catchAsync(async (req, res) => {
   if (user.id !== order.acceptedBy.toString()) {
     throw new ErrorResponse('Unauthorized Access', 401);
   }
+
+  const { body } = await zParse(orderValidation.updateOrderLocation, req);
+  const { index, message, coordinates, userCoordinates } = body;
 
   if (!withinGeoRadius(userCoordinates, coordinates, 750)) {
     throw new ErrorResponse('Please, be near the location', 401);
@@ -221,7 +220,7 @@ export const updateOrderLocation = catchAsync(async (req, res) => {
 });
 
 /**
- * @route GET /api/orders/:id
+ * @route GET /api/order/:id
  * @desc Get a order by it's id
  * @secure true
  */
@@ -231,7 +230,9 @@ export const getOrder = catchAsync(async (req, res) => {
 
   const order = await Order.findById(id)
     .populate('createdBy', 'id name phone')
-    .populate('acceptedBy', 'id name phone avatar');
+    .populate('acceptedBy', 'id name phone avatar driverDetails');
+
+  console.log(order);
 
   if (!order) {
     throw new ErrorResponse('Order not found', 404);
@@ -245,13 +246,13 @@ export const getOrder = catchAsync(async (req, res) => {
 });
 
 /**
- * @route POST /api/orders
+ * @route POST /api/order
  * @desc Create a new order by the user
  * @secure true
  */
 export const createOrder = catchAsync(async (req, res) => {
-  const { body } = await zParse(orderValidation.createOrder, req);
   const user = req.user;
+  const { body } = await zParse(orderValidation.createOrder, req);
 
   const {
     vehicleType,
@@ -334,4 +335,51 @@ export const createOrder = catchAsync(async (req, res) => {
     start: startAddress,
     destination: destinationAddress
   }).sendOrderConfirm();
+});
+
+/**
+ * @route PUT /api/order/:id
+ * @desc Let a user update the order
+ * @secure true
+ */
+export const updateOrder = catchAsync(async (req, res) => {
+  const id = req.params.id;
+  const user = req.user;
+  const { body } = await zParse(orderValidation.updateOrder, req);
+  const { isPaymentDone } = body;
+
+  const order = await Order.findById(id).populate<{ acceptedBy: UserType }>(
+    'acceptedBy',
+    'id name fcmToken'
+  );
+
+  if (!order) {
+    throw new ErrorResponse('Order not found', 404);
+  }
+
+  if (user.id !== order.createdBy.toString()) {
+    throw new ErrorResponse('Unauthorized Access', 401);
+  }
+
+  if (isPaymentDone) {
+    order.isPaymentDone = isPaymentDone;
+    await order.save();
+
+    await Notification.create({
+      content: `Payment Recieved for Order ${order.id}`,
+      user: order.acceptedBy,
+      type: NotificationTypeEnum.info
+    });
+
+    await sendPushNotification({
+      title: `Payment Recieved for Order ${order.id}`,
+      body: `The customer has sent payment of ₹ ${order.price}`,
+      tokens: [order.acceptedBy.fcmToken]
+    });
+  }
+
+  res.status(200).json({
+    success: true,
+    message: 'Order Updated Successfully.'
+  });
 });

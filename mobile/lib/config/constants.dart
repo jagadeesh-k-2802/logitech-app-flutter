@@ -10,3 +10,9 @@ const tokenKey = "TOKEN_KEY";
 
 /// [customerSupportNumber] Support number shown in the application
 const customerSupportNumber = "+912345678790";
+
+/// [skipPayments] Skip payments on debug mode
+const skipPayments = !kReleaseMode;
+
+/// [fakePayments] Pay only 1 rupee
+const fakePayments = true;

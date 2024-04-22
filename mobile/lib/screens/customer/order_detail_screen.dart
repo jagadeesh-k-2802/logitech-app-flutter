@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_upi_payment/easy_upi_payment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logitech/config/constants.dart';
 import 'package:logitech/models/order.dart';
 import 'package:logitech/router/routes.dart';
+import 'package:logitech/services/order.dart';
 import 'package:logitech/state/order/order_provider.dart';
 import 'package:logitech/theme/theme.dart';
 import 'package:logitech/utils/formatters.dart';
@@ -20,6 +22,35 @@ class OrderDetailScreen extends ConsumerStatefulWidget {
 }
 
 class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
+  Future<void> onPayment(GetOrderResponseData data) async {
+    try {
+      if (!skipPayments) {
+        await EasyUpiPaymentPlatform.instance.startPayment(
+          EasyUpiPaymentModel(
+            payeeVpa: data.acceptedBy?.driverDetails?.upiId ?? '',
+            payeeName: data.acceptedBy?.name ?? '',
+            amount: fakePayments ? 1 : data.price,
+            description: 'Payment for LogiTech Delivery of Order ${data.id}',
+          ),
+        );
+      }
+
+      await OrderService.updateOrder(id: data.id, isPaymentDone: true);
+      ref.invalidate(orderProvider(widget.orderId));
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Payment Successful')),
+      );
+    } catch (error) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(error.toString())),
+      );
+    }
+  }
+
   Widget buildTimeLineItem(int index, GetOrderResponseData data) {
     return Padding(
       padding: const EdgeInsets.all(24.0),
@@ -59,7 +90,6 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // TODO: Use UPI ID To Make Payment
                 const SizedBox(height: 20),
                 Text(
                   'Your Order Has Been Delievered',
@@ -78,7 +108,7 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                 Visibility(
                   visible: !data.isPaymentDone,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async => await onPayment(data),
                     child: const Text('Make Payment'),
                   ),
                 ),

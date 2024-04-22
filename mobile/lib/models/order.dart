@@ -57,10 +57,21 @@ class CreatedBy with _$CreatedBy {
 }
 
 @freezed
+class DriverDetails with _$DriverDetails {
+  const factory DriverDetails({
+    required String? upiId,
+  }) = _DriverDetails;
+
+  factory DriverDetails.fromJson(Map<String, Object?> json) =>
+      _$DriverDetailsFromJson(json);
+}
+
+@freezed
 class AcceptedBy with _$AcceptedBy {
   const factory AcceptedBy({
     required String id,
     required String name,
+    required DriverDetails? driverDetails,
     required String avatar,
     required String phone,
   }) = _AcceptedBy;
@@ -89,7 +100,6 @@ class GetOrdersResponseData with _$GetOrdersResponseData {
     required Location sourceLocation,
     required Location destinationLocation,
     required String createdBy,
-    required AcceptedBy? acceptedBy,
     required StatusType status,
     @DateTimeConvertor() required DateTime createdAt,
     @DateTimeConvertor() required DateTime updatedAt,

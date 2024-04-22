@@ -44,7 +44,7 @@ export const register = z.object({
       driverNumber: z.string().optional().nullable(),
       ownerName: z.string().optional().nullable(),
       driverName: z.string().optional().nullable(),
-      city: z.string().optional().nullable(),
+      upiId: z.string().optional().nullable(),
       vehicleBodyType: z.string().optional().nullable(),
       vehicleCapacity: z.string().optional().nullable(),
       vehicleNumber: z.string().optional().nullable(),

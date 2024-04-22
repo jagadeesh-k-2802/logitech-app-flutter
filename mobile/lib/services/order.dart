@@ -139,7 +139,9 @@ class OrderService {
     }
   }
 
-  static Future<MessageResponse> acceptOrder({required String id}) async {
+  static Future<MessageResponse> acceptOrder({
+    required String id,
+  }) async {
     try {
       final dio = await getDioClient();
       final url = '$apiUrl/api/v1/order/accept/$id';
@@ -172,6 +174,31 @@ class OrderService {
         'message': message,
         'coordinates': coordinates,
         'userCoordinates': userCoordinates,
+      };
+
+      final response = await dio.put(url, data: data);
+
+      if (response.statusCode != 200) {
+        var errorResponse = ErrorResponse.fromJson(response.data);
+        throw errorResponse.error;
+      }
+
+      return MessageResponse.fromJson(response.data);
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  static Future<MessageResponse> updateOrder({
+    required String id,
+    required bool isPaymentDone,
+  }) async {
+    try {
+      final dio = await getDioClient();
+      final url = '$apiUrl/api/v1/order/$id';
+
+      final data = {
+        'isPaymentDone': isPaymentDone,
       };
 
       final response = await dio.put(url, data: data);

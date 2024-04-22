@@ -29,6 +29,7 @@ class _SignupScreenState extends ConsumerState<DriverAuthScreen> {
   TextEditingController dobController = TextEditingController();
   TextEditingController ownerNumberController = TextEditingController();
   TextEditingController driverNumberController = TextEditingController();
+  TextEditingController upiIdController = TextEditingController();
   TextEditingController ownerNameController = TextEditingController();
   TextEditingController driverNameController = TextEditingController();
   TextEditingController cityController = TextEditingController();
@@ -152,6 +153,7 @@ class _SignupScreenState extends ConsumerState<DriverAuthScreen> {
           'driverNumber': driverNumberController.text,
           'ownerName': ownerNameController.text,
           'driverName': driverNameController.text,
+          'upiId': upiIdController.text,
           'vehicleBodyType': vehicleBodyTypeController.text,
           'vehicleCapacity': vehicleCapacityController.text,
           'vehicleNumber': vehicleNumberController.text,
@@ -310,6 +312,15 @@ class _SignupScreenState extends ConsumerState<DriverAuthScreen> {
                   labelText: 'Driver Phone Number',
                 ),
                 keyboardType: TextInputType.phone,
+              ),
+            if (!isLogin) const SizedBox(height: 16.0),
+            if (!isLogin)
+              TextField(
+                controller: upiIdController,
+                decoration: const InputDecoration(
+                  labelText: 'UPI ID (For Payments)',
+                ),
+                keyboardType: TextInputType.text,
               ),
             if (!isLogin) const SizedBox(height: 16.0),
             if (!isLogin)

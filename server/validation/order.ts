@@ -31,3 +31,9 @@ export const updateOrderLocation = z.object({
     userCoordinates: z.tuple([z.number(), z.number()])
   })
 });
+
+export const updateOrder = z.object({
+  body: z.object({
+    isPaymentDone: z.boolean({ required_error: 'isPaymentDone is required' })
+  })
+});

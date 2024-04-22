@@ -21,6 +21,7 @@ interface DriverDetails {
   ownerName: string;
   driverName: string;
   location: Location;
+  upiId: string;
   vehicleBodyType: string;
   vehicleCapacity: string;
   vehicleNumber: string;
@@ -69,6 +70,7 @@ const driverDetailsSchema = new mongoose.Schema<DriverDetails>({
     address: { type: String },
     coordinates: { type: [Number], index: '2dsphere' }
   },
+  upiId: { type: String },
   vehicleBodyType: { type: String },
   vehicleCapacity: { type: String },
   vehicleNumber: { type: String },

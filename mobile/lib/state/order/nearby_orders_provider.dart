@@ -10,7 +10,6 @@ GetOrdersResponseData tempData = GetOrdersResponseData(
   distance: 0,
   sourceLocation: const Location(address: '', coordinates: []),
   destinationLocation: const Location(address: '', coordinates: []),
-  acceptedBy: null,
   createdBy: "",
   status: StatusType.pending,
   createdAt: DateTime.now(),

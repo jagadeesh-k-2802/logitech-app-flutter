@@ -14,6 +14,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   cached_network_image: ^3.3.1
   dio: ^5.4.1
+  easy_upi_payment: ^0.1.6
   flutter_native_splash: ^2.3.10
   flutter_secure_storage: ^9.0.0
   freezed_annotation: ^2.4.1

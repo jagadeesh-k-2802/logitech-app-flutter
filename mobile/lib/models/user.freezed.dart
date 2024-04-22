@@ -356,6 +356,7 @@ mixin _$DriverDetails {
   String? get driverNumber => throw _privateConstructorUsedError;
   String? get ownerName => throw _privateConstructorUsedError;
   String? get driverName => throw _privateConstructorUsedError;
+  String? get upiId => throw _privateConstructorUsedError;
   DriverLocation? get location => throw _privateConstructorUsedError;
   String? get vehicleBodyType => throw _privateConstructorUsedError;
   String? get vehicleCapacity => throw _privateConstructorUsedError;
@@ -379,6 +380,7 @@ abstract class $DriverDetailsCopyWith<$Res> {
       String? driverNumber,
       String? ownerName,
       String? driverName,
+      String? upiId,
       DriverLocation? location,
       String? vehicleBodyType,
       String? vehicleCapacity,
@@ -405,6 +407,7 @@ class _$DriverDetailsCopyWithImpl<$Res, $Val extends DriverDetails>
     Object? driverNumber = freezed,
     Object? ownerName = freezed,
     Object? driverName = freezed,
+    Object? upiId = freezed,
     Object? location = freezed,
     Object? vehicleBodyType = freezed,
     Object? vehicleCapacity = freezed,
@@ -427,6 +430,10 @@ class _$DriverDetailsCopyWithImpl<$Res, $Val extends DriverDetails>
       driverName: freezed == driverName
           ? _value.driverName
           : driverName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      upiId: freezed == upiId
+          ? _value.upiId
+          : upiId // ignore: cast_nullable_to_non_nullable
               as String?,
       location: freezed == location
           ? _value.location
@@ -477,6 +484,7 @@ abstract class _$$DriverDetailsImplCopyWith<$Res>
       String? driverNumber,
       String? ownerName,
       String? driverName,
+      String? upiId,
       DriverLocation? location,
       String? vehicleBodyType,
       String? vehicleCapacity,
@@ -502,6 +510,7 @@ class __$$DriverDetailsImplCopyWithImpl<$Res>
     Object? driverNumber = freezed,
     Object? ownerName = freezed,
     Object? driverName = freezed,
+    Object? upiId = freezed,
     Object? location = freezed,
     Object? vehicleBodyType = freezed,
     Object? vehicleCapacity = freezed,
@@ -524,6 +533,10 @@ class __$$DriverDetailsImplCopyWithImpl<$Res>
       driverName: freezed == driverName
           ? _value.driverName
           : driverName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      upiId: freezed == upiId
+          ? _value.upiId
+          : upiId // ignore: cast_nullable_to_non_nullable
               as String?,
       location: freezed == location
           ? _value.location
@@ -557,6 +570,7 @@ class _$DriverDetailsImpl implements _DriverDetails {
       required this.driverNumber,
       required this.ownerName,
       required this.driverName,
+      required this.upiId,
       required this.location,
       required this.vehicleBodyType,
       required this.vehicleCapacity,
@@ -575,6 +589,8 @@ class _$DriverDetailsImpl implements _DriverDetails {
   @override
   final String? driverName;
   @override
+  final String? upiId;
+  @override
   final DriverLocation? location;
   @override
   final String? vehicleBodyType;
@@ -587,7 +603,7 @@ class _$DriverDetailsImpl implements _DriverDetails {
 
   @override
   String toString() {
-    return 'DriverDetails(ownerNumber: $ownerNumber, driverNumber: $driverNumber, ownerName: $ownerName, driverName: $driverName, location: $location, vehicleBodyType: $vehicleBodyType, vehicleCapacity: $vehicleCapacity, vehicleNumber: $vehicleNumber, drivingLicenseNumber: $drivingLicenseNumber)';
+    return 'DriverDetails(ownerNumber: $ownerNumber, driverNumber: $driverNumber, ownerName: $ownerName, driverName: $driverName, upiId: $upiId, location: $location, vehicleBodyType: $vehicleBodyType, vehicleCapacity: $vehicleCapacity, vehicleNumber: $vehicleNumber, drivingLicenseNumber: $drivingLicenseNumber)';
   }
 
   @override
@@ -603,6 +619,7 @@ class _$DriverDetailsImpl implements _DriverDetails {
                 other.ownerName == ownerName) &&
             (identical(other.driverName, driverName) ||
                 other.driverName == driverName) &&
+            (identical(other.upiId, upiId) || other.upiId == upiId) &&
             (identical(other.location, location) ||
                 other.location == location) &&
             (identical(other.vehicleBodyType, vehicleBodyType) ||
@@ -623,6 +640,7 @@ class _$DriverDetailsImpl implements _DriverDetails {
       driverNumber,
       ownerName,
       driverName,
+      upiId,
       location,
       vehicleBodyType,
       vehicleCapacity,
@@ -649,6 +667,7 @@ abstract class _DriverDetails implements DriverDetails {
       required final String? driverNumber,
       required final String? ownerName,
       required final String? driverName,
+      required final String? upiId,
       required final DriverLocation? location,
       required final String? vehicleBodyType,
       required final String? vehicleCapacity,
@@ -666,6 +685,8 @@ abstract class _DriverDetails implements DriverDetails {
   String? get ownerName;
   @override
   String? get driverName;
+  @override
+  String? get upiId;
   @override
   DriverLocation? get location;
   @override

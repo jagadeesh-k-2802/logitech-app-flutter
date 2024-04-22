@@ -62,10 +62,24 @@ Map<String, dynamic> _$$CreatedByImplToJson(_$CreatedByImpl instance) =>
       'phone': instance.phone,
     };
 
+_$DriverDetailsImpl _$$DriverDetailsImplFromJson(Map<String, dynamic> json) =>
+    _$DriverDetailsImpl(
+      upiId: json['upiId'] as String?,
+    );
+
+Map<String, dynamic> _$$DriverDetailsImplToJson(_$DriverDetailsImpl instance) =>
+    <String, dynamic>{
+      'upiId': instance.upiId,
+    };
+
 _$AcceptedByImpl _$$AcceptedByImplFromJson(Map<String, dynamic> json) =>
     _$AcceptedByImpl(
       id: json['id'] as String,
       name: json['name'] as String,
+      driverDetails: json['driverDetails'] == null
+          ? null
+          : DriverDetails.fromJson(
+              json['driverDetails'] as Map<String, dynamic>),
       avatar: json['avatar'] as String,
       phone: json['phone'] as String,
     );
@@ -74,6 +88,7 @@ Map<String, dynamic> _$$AcceptedByImplToJson(_$AcceptedByImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'driverDetails': instance.driverDetails,
       'avatar': instance.avatar,
       'phone': instance.phone,
     };
@@ -102,9 +117,6 @@ _$GetOrdersResponseDataImpl _$$GetOrdersResponseDataImplFromJson(
       destinationLocation: Location.fromJson(
           json['destinationLocation'] as Map<String, dynamic>),
       createdBy: json['createdBy'] as String,
-      acceptedBy: json['acceptedBy'] == null
-          ? null
-          : AcceptedBy.fromJson(json['acceptedBy'] as Map<String, dynamic>),
       status: $enumDecode(_$StatusTypeEnumMap, json['status']),
       createdAt:
           const DateTimeConvertor().fromJson(json['createdAt'] as String),
@@ -121,7 +133,6 @@ Map<String, dynamic> _$$GetOrdersResponseDataImplToJson(
       'sourceLocation': instance.sourceLocation,
       'destinationLocation': instance.destinationLocation,
       'createdBy': instance.createdBy,
-      'acceptedBy': instance.acceptedBy,
       'status': _$StatusTypeEnumMap[instance.status]!,
       'createdAt': const DateTimeConvertor().toJson(instance.createdAt),
       'updatedAt': const DateTimeConvertor().toJson(instance.updatedAt),

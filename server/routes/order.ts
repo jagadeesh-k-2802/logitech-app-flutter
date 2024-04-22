@@ -10,5 +10,6 @@ router.put('/accept/:id', protect, orderController.acceptOrder);
 router.put('/location/:id', protect, orderController.updateOrderLocation);
 router.get('/:id', protect, orderController.getOrder);
 router.post('/', protect, orderController.createOrder);
+router.put('/:id', protect, orderController.updateOrder);
 
 export default router;
