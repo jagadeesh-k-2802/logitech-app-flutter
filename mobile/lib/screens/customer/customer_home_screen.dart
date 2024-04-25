@@ -278,7 +278,7 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
 
       setState(() {
         totalDistance = distance;
-        totalCost = distance * 20;
+        totalCost = distance * 15;
       });
 
       return true;
@@ -357,6 +357,37 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
     }
   }
 
+  Future<void> onPlaceOrder() async {
+    if (polylineCoordinates.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No Roadways Exists')),
+      );
+
+      return;
+    }
+
+    await context.pushNamed(
+      Routes.placeOrder,
+      extra: PlaceOrderScreenArgs(
+        startAddress: startController.text,
+        destinationAddress: destinationController.text,
+        startCoordinates: startCoordinates,
+        destinationCoordinates: destinationCoordinates,
+        totalCost: totalCost ?? 0,
+        totalDistance: totalDistance ?? 0,
+        hubs: activeHubs,
+      ),
+    );
+
+    setState(() {
+      markers.clear();
+      polylineCoordinates.clear();
+      destinationController.text = "";
+      totalDistance = null;
+      totalCost = null;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     UserResponseData? user = ref.watch(globalStateProvider).user;
@@ -400,30 +431,7 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
                         ? 'Place Order'
                         : 'Place Order (${moneyFormatter(totalCost)} | ${kilometresFormatter(totalDistance)})',
                   ),
-                  onPressed: totalDistance == null
-                      ? null
-                      : () async {
-                          await context.pushNamed(
-                            Routes.placeOrder,
-                            extra: PlaceOrderScreenArgs(
-                              startAddress: startController.text,
-                              destinationAddress: destinationController.text,
-                              startCoordinates: startCoordinates,
-                              destinationCoordinates: destinationCoordinates,
-                              totalCost: totalCost ?? 0,
-                              totalDistance: totalDistance ?? 0,
-                              hubs: activeHubs,
-                            ),
-                          );
-
-                          setState(() {
-                            markers.clear();
-                            polylineCoordinates.clear();
-                            destinationController.text = "";
-                            totalDistance = null;
-                            totalCost = null;
-                          });
-                        },
+                  onPressed: totalDistance == null ? null : onPlaceOrder,
                 ),
                 const SizedBox(height: 12),
               ],
