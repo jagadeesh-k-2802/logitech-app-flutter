@@ -32,6 +32,7 @@
 - Place your Google maps API key in `./mobile/config/env.example.json`
 - Again Place your Google Maps API key in `./mobile/android/secrets.defaults.properties` and remove the `defaults` from the filename
 - If running on iOS also Place Google Maps API key in `./mobile/ios/Runner/AppDelegate.swift`
+- Run this command ```dart run build_runner build``` to generate freezed JSON model files
 - open `./mobile` inside your code editor and run flutter app with the environment JSON file
 
 ## Screenshots 📷
@@ -63,5 +64,5 @@
 <img src="https://github.com/jagadeesh-k-2802/logitech-app-flutter/assets/63912668/4edff71e-2248-47e0-a0a5-9bc07a9fc50a" width="250" />
 <img src="https://github.com/jagadeesh-k-2802/logitech-app-flutter/assets/63912668/4d532b08-7072-4e00-b2e0-5af5eb149c17" width="250" />
 <img src="https://github.com/jagadeesh-k-2802/logitech-app-flutter/assets/63912668/2ae123b2-1d15-4407-a388-7086b38b3ff9" width="250" />
-<img src="https://github.com/jagadeesh-k-2802/logitech-app-flutter/assets/63912668/76fb83fb-80ca-421a-b460-d8f5c72d058d" width="250" />
 
+<img src="https://github.com/jagadeesh-k-2802/logitech-app-flutter/assets/63912668/76fb83fb-80ca-421a-b460-d8f5c72d058d" width="250" />

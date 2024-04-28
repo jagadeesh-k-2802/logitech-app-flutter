@@ -35,7 +35,14 @@ class _CustomerOrdersScreenState extends ConsumerState<CustomerOrdersScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Order ID: ${data.id}'),
-                Text(data.destinationLocation.address, maxLines: 1),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 1.5,
+                  child: Text(
+                    data.destinationLocation.address,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ),
                 Text(
                   '${moneyFormatter(data.price)} - ${kilometresFormatter(data.distance)}',
                 ),

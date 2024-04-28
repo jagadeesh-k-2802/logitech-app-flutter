@@ -26,7 +26,7 @@ const dataSchema = new mongoose.Schema<NotificationData>({
 
 const schema = new mongoose.Schema<Notification>(
   {
-    content: { type: String, required: true, maxlength: 100 },
+    content: { type: String, required: true, maxlength: 300 },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     data: { type: dataSchema, required: false },
     isRead: { type: Boolean, default: false },

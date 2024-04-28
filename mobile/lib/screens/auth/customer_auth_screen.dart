@@ -7,6 +7,7 @@ import 'package:logitech/router/routes.dart';
 import 'package:logitech/services/auth.dart';
 import 'package:logitech/state/global_state_provider.dart';
 import 'package:logitech/theme/theme.dart';
+import 'package:logitech/utils/functions.dart';
 
 class CustomerAuthScreen extends ConsumerStatefulWidget {
   const CustomerAuthScreen({super.key});
@@ -18,6 +19,7 @@ class CustomerAuthScreen extends ConsumerStatefulWidget {
 class _CustomerAuthScreenState extends ConsumerState<CustomerAuthScreen> {
   bool isLogin = true;
   bool obscureText = true;
+  List<double> coordinates = List.empty();
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
@@ -85,6 +87,22 @@ class _CustomerAuthScreenState extends ConsumerState<CustomerAuthScreen> {
     }
   }
 
+  Future<void> fetchLocation() async {
+    try {
+      addressController.text = 'Fetching Location...';
+      var location = await getCurrentLocation(context);
+      coordinates = [location?.$1.latitude ?? 0, location?.$1.longitude ?? 0];
+      addressController.text = location?.$2 ?? '';
+    } catch (error) {
+      addressController.text = '';
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(error.toString())),
+      );
+    }
+  }
+
   Future<void> onSignup() async {
     try {
       final fcmToken = await FirebaseMessaging.instance.getToken() ?? '';
@@ -97,6 +115,11 @@ class _CustomerAuthScreenState extends ConsumerState<CustomerAuthScreen> {
         phone: phoneController.text,
         gender: genderController.text,
         avatarPath: null,
+        location: {
+          'type': 'Point',
+          'address': addressController.text,
+          'coordinates': coordinates
+        },
         password: passwordController.text,
         fcmToken: fcmToken,
         driverDetails: {},
@@ -204,7 +227,13 @@ class _CustomerAuthScreenState extends ConsumerState<CustomerAuthScreen> {
             if (!isLogin)
               TextField(
                 controller: addressController,
-                decoration: const InputDecoration(labelText: 'Address'),
+                decoration: InputDecoration(
+                  labelText: 'Address',
+                  suffixIcon: IconButton(
+                    onPressed: fetchLocation,
+                    icon: const Icon(Icons.location_on),
+                  ),
+                ),
                 keyboardType: TextInputType.streetAddress,
                 minLines: 2,
                 maxLines: 3,
