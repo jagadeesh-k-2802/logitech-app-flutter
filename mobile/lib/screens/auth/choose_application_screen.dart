@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logitech/router/routes.dart';
@@ -12,6 +13,17 @@ class ChooseApplicationScreen extends StatefulWidget {
 }
 
 class _ChooseApplicationScreenState extends State<ChooseApplicationScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await FirebaseMessaging.instance.requestPermission(provisional: true);
+
+      if (!mounted) return;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;

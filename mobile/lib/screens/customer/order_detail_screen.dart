@@ -42,6 +42,12 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Payment Successful')),
       );
+    } on EasyUpiPaymentException {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Transaction Failed')),
+      );
     } catch (error) {
       if (!mounted) return;
 
@@ -96,7 +102,7 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                   style: titleLargeBold(context),
                 ),
                 Text(
-                  'Your order has been successfully delivered on ${data.locationUpdates.last.message.split(' ')[0]}',
+                  'Your order has been successfully delivered on ${data.locationUpdates.isNotEmpty ? data.locationUpdates.last.message.split(' ')[0] : ''}',
                 ),
                 Visibility(
                   visible: !data.isPaymentDone,

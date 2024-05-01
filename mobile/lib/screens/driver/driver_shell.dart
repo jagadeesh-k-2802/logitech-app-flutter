@@ -23,8 +23,6 @@ class _DriverShellState extends ConsumerState<DriverShell> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await FirebaseMessaging.instance.requestPermission(provisional: true);
-
       // Update state when notification recieved when on foreground
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
         ref.read(globalStateProvider.notifier).onNotification();
