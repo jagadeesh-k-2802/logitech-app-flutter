@@ -311,7 +311,7 @@ export const createOrder = catchAsync(async (req, res) => {
   await Promise.all(
     driversInRadius.map(user =>
       Notification.create({
-        body: `New Order requested to ${destinationAddress} of ${totalDistance} Km for ${totalCost} price`,
+        content: `New Order requested to ${destinationAddress} of ${totalDistance} Km for ${totalCost} price`,
         user: user.id,
         data: { order: order.id },
         type: NotificationTypeEnum.info
