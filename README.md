@@ -66,3 +66,10 @@
 <img src="https://github.com/jagadeesh-k-2802/logitech-app-flutter/assets/63912668/2ae123b2-1d15-4407-a388-7086b38b3ff9" width="250" />
 
 <img src="https://github.com/jagadeesh-k-2802/logitech-app-flutter/assets/63912668/76fb83fb-80ca-421a-b460-d8f5c72d058d" width="250" />
+
+## Screen Record 📽️
+
+
+
+https://github.com/jagadeesh-k-2802/logitech-app-flutter/assets/63912668/cdca0090-a6fc-4385-a24e-1216d8cf9914
+
