@@ -172,7 +172,7 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                 children: [
                   Text('${data.acceptedBy?.name}', maxLines: 1),
                   GestureDetector(
-                    child: Text(data.createdBy.phone, maxLines: 1),
+                    child: Text(data.acceptedBy?.phone ?? '', maxLines: 1),
                     onTap: () async {
                       await launchUrl(
                         Uri.parse('tel:${data.acceptedBy?.phone}'),

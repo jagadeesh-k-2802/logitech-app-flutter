@@ -296,6 +296,7 @@ export const createOrder = catchAsync(async (req, res) => {
   const limit = 500;
 
   const driversInRadius = await User.find({
+    type: AccountTypeEnum.driver,
     'driverDetails.location.coordinates': {
       $geoWithin: {
         $centerSphere: [
