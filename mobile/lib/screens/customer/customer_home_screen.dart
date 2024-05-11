@@ -411,6 +411,17 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
                     icon: Icon(Icons.start),
                     hintText: 'Start Address',
                   ),
+                  validator: (String? value) {
+                    if (value?.isEmpty == true) {
+                      return "Start Address is required";
+                    }
+
+                    if ((value?.length ?? 0) < 10) {
+                      return "Start Address should be atleast 10 characters";
+                    }
+
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 12),
                 TextFormField(
@@ -424,6 +435,17 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
                       child: const Icon(Icons.start_outlined),
                     ),
                   ),
+                  validator: (String? value) {
+                    if (value?.isEmpty == true) {
+                      return "Destination Address is required";
+                    }
+
+                    if ((value?.length ?? 0) < 10) {
+                      return "Destination Address should be atleast 10 characters";
+                    }
+
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 12),
                 ElevatedButton.icon(

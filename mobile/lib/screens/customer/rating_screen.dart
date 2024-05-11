@@ -27,6 +27,8 @@ class _RatingScreenState extends ConsumerState<RatingScreen> {
   TextEditingController commentController = TextEditingController();
 
   Future<void> onFormSubmit() async {
+    if (formKey.currentState?.validate() == false) return;
+
     try {
       await RatingService.createRating(
         name: nameController.text,
@@ -88,7 +90,7 @@ class _RatingScreenState extends ConsumerState<RatingScreen> {
                         }
 
                         if ((value?.length ?? 0) < 4) {
-                          return "Name should atleast be 4 characters";
+                          return "Name should be atleast 4 characters";
                         }
 
                         return null;
@@ -103,6 +105,10 @@ class _RatingScreenState extends ConsumerState<RatingScreen> {
                       validator: (String? value) {
                         if (value?.isEmpty == true) {
                           return "Comment is required";
+                        }
+
+                        if ((value?.length ?? 0) < 10) {
+                          return "Name should be atleast 10 characters";
                         }
 
                         return null;

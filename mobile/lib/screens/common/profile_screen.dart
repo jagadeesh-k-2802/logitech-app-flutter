@@ -8,6 +8,7 @@ import 'package:logitech/models/auth.dart';
 import 'package:logitech/services/auth.dart';
 import 'package:logitech/state/global_state_provider.dart';
 import 'package:logitech/theme/theme.dart';
+import 'package:logitech/utils/functions.dart';
 import 'package:logitech/widgets/core/clickable_list_item.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -22,6 +23,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController upiIdController = TextEditingController();
   String? selectedGender;
 
   @override
@@ -33,6 +35,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileScreen> {
       nameController.text = user?.name ?? '';
       emailController.text = user?.email ?? '';
       phoneController.text = user?.phone ?? '';
+      upiIdController.text = user?.driverDetails?.upiId ?? '';
       selectedGender = user?.gender;
       setState(() {});
     });
@@ -136,6 +139,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileScreen> {
         email: emailController.text,
         phone: phoneController.text,
         gender: selectedGender ?? '',
+        upiId: upiIdController.text
       );
 
       UserResponse userResponse = await AuthService.getMe();
@@ -158,6 +162,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     UserResponseData? user = ref.watch(globalStateProvider).user;
+    bool isDriver = user?.type == UserType.driver;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Edit Profile')),
@@ -211,6 +216,10 @@ class _ProfileEditScreenState extends ConsumerState<ProfileScreen> {
                         return 'Please, Enter your email';
                       }
 
+                      if (!validEmailAddress(value ?? '')) {
+                        return 'Please, Enter valid email';
+                      }
+
                       return null;
                     },
                   ),
@@ -221,6 +230,13 @@ class _ProfileEditScreenState extends ConsumerState<ProfileScreen> {
                       labelText: 'Phone',
                       hintText: 'Add Phone Number',
                     ),
+                    validator: (String? value) {
+                      if (value?.isEmpty == true) {
+                        return 'Please, Enter your Phone';
+                      }
+
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 14),
                   DropdownButtonFormField<String>(
@@ -249,6 +265,37 @@ class _ProfileEditScreenState extends ConsumerState<ProfileScreen> {
                   ),
                 ]),
               ),
+              const SizedBox(height: 14),
+              TextFormField(
+                controller: phoneController,
+                decoration: const InputDecoration(
+                  labelText: 'Phone',
+                  hintText: 'Add Phone Number',
+                ),
+                validator: (String? value) {
+                  if (value?.isEmpty == true) {
+                    return 'Please, Enter your Phone';
+                  }
+
+                  return null;
+                },
+              ),
+              if (isDriver) const SizedBox(height: 14),
+              if (isDriver)
+                TextFormField(
+                  controller: upiIdController,
+                  decoration: const InputDecoration(
+                    labelText: 'UPI ID (For Payments)',
+                  ),
+                  keyboardType: TextInputType.text,
+                  validator: (String? value) {
+                    if (value?.isEmpty == true) {
+                      return "UPI ID is required";
+                    }
+
+                    return null;
+                  },
+                ),
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: onUpdateProfileInformation,

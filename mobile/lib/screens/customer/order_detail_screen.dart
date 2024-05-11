@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:easy_upi_payment/easy_upi_payment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -11,6 +10,7 @@ import 'package:logitech/state/order/order_provider.dart';
 import 'package:logitech/theme/theme.dart';
 import 'package:logitech/utils/formatters.dart';
 import 'package:timelines/timelines.dart';
+import 'package:upi_india/upi_india.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OrderDetailScreen extends ConsumerStatefulWidget {
@@ -25,13 +25,28 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
   Future<void> onPayment(GetOrderResponseData data) async {
     try {
       if (!skipPayments) {
-        await EasyUpiPaymentPlatform.instance.startPayment(
-          EasyUpiPaymentModel(
-            payeeVpa: data.acceptedBy?.driverDetails?.upiId ?? '',
-            payeeName: data.acceptedBy?.name ?? '',
-            amount: fakePayments ? 1 : data.price,
-            description: 'Payment for LogiTech Delivery of Order ${data.id}',
-          ),
+        // This only works for business UPI IDs
+        // Not working for normal UPI IDS shows exceeded bank limit
+        UpiIndia upiIndia = UpiIndia();
+        final apps = await upiIndia.getAllUpiApps();
+
+        if (apps.isEmpty) {
+          if (!mounted) return;
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('No UPI Apps Found')),
+          );
+
+          return;
+        }
+
+        await upiIndia.startTransaction(
+          app: apps.last,
+          receiverUpiId: data.acceptedBy?.driverDetails?.upiId ?? '',
+          receiverName: data.acceptedBy?.name ?? '',
+          transactionRefId: data.id,
+          transactionNote: 'Payment for LogiTech Delivery of Order ${data.id}',
+          amount: fakePayments ? 1.00 : data.price,
         );
       }
 
@@ -41,12 +56,6 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Payment Successful')),
-      );
-    } on EasyUpiPaymentException {
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Transaction Failed')),
       );
     } catch (error) {
       if (!mounted) return;

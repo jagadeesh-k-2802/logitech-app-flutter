@@ -232,8 +232,6 @@ export const getOrder = catchAsync(async (req, res) => {
     .populate('createdBy', 'id name phone')
     .populate('acceptedBy', 'id name phone avatar driverDetails');
 
-  console.log(order);
-
   if (!order) {
     throw new ErrorResponse('Order not found', 404);
   }
@@ -291,23 +289,49 @@ export const createOrder = catchAsync(async (req, res) => {
     createdBy: user
   });
 
-  // Send Push Notification to Nearby Drivers in 50 KM
-  const searchRadiusInKilometres = 50 / 6378.1;
-  const limit = 500;
+  // Send Push Notification to Nearby Available Drivers in 100 KM
+  const searchRadiusInKilometres = 100 / 6378.1;
+  type DriverInRadiusType = Pick<UserType, 'id' | 'name' | 'fcmToken'>;
 
-  const driversInRadius = await User.find({
-    type: AccountTypeEnum.driver,
-    'driverDetails.location.coordinates': {
-      $geoWithin: {
-        $centerSphere: [
-          [startLongitude, startLatitude],
-          searchRadiusInKilometres
-        ]
+  const driversInRadius = await User.aggregate<DriverInRadiusType>([
+    {
+      $match: {
+        type: AccountTypeEnum.driver,
+        'driverDetails.location.coordinates': {
+          $geoWithin: {
+            $centerSphere: [
+              [startLongitude, startLatitude],
+              searchRadiusInKilometres
+            ]
+          }
+        }
+      }
+    },
+    {
+      $lookup: {
+        from: 'orders',
+        let: { userId: '$_id' },
+        pipeline: [
+          {
+            $match: {
+              $expr: { $eq: ['$acceptedBy', '$$userId'] },
+              status: StatusEnum.accepted
+            }
+          }
+        ],
+        as: 'acceptedOrders'
+      }
+    },
+    { $match: { acceptedOrders: { $size: 0 } } },
+    {
+      $project: {
+        _id: 1,
+        name: 1,
+        fcmToken: 1,
+        createdAt: 1
       }
     }
-  })
-    .select('id name fcmToken')
-    .limit(limit);
+  ]);
 
   await Promise.all(
     driversInRadius.map(user =>

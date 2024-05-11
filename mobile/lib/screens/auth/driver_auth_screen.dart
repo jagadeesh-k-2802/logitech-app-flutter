@@ -21,6 +21,7 @@ class _SignupScreenState extends ConsumerState<DriverAuthScreen> {
   bool isLogin = true;
   bool obscureText = true;
   bool showDocumentScreen = false;
+  final formKey = GlobalKey<FormState>();
   List<double> coordinates = List.empty();
 
   TextEditingController emailController = TextEditingController();
@@ -107,6 +108,8 @@ class _SignupScreenState extends ConsumerState<DriverAuthScreen> {
   }
 
   Future<void> onLogin() async {
+    if (formKey.currentState?.validate() == false) return;
+
     try {
       final fcmToken = await FirebaseMessaging.instance.getToken() ?? '';
 
@@ -117,10 +120,18 @@ class _SignupScreenState extends ConsumerState<DriverAuthScreen> {
       );
 
       UserResponse userResponse = await AuthService.getMe();
-      ref.read(globalStateProvider.notifier).setUser(userResponse.data);
 
-      if (!mounted) return;
-      context.goNamed(Routes.driverHome);
+      if (userResponse.data.type == UserType.customer) {
+        if (!mounted) return;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please Login using Customer Login')),
+        );
+      } else {
+        ref.read(globalStateProvider.notifier).setUser(userResponse.data);
+        if (!mounted) return;
+        context.goNamed(Routes.driverHome);
+      }
     } catch (error) {
       if (!mounted) return;
 
@@ -130,7 +141,33 @@ class _SignupScreenState extends ConsumerState<DriverAuthScreen> {
     }
   }
 
+  Future<void> onGoToDocumentScreen() async {
+    if (formKey.currentState?.validate() == false) return;
+
+    if (coordinates.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Tap on Location Button in City')),
+      );
+
+      return;
+    }
+
+    setState(() => showDocumentScreen = true);
+  }
+
   Future<void> onSignup() async {
+    if (aadharCardFilePath?.isEmpty == true ||
+        drivingLicenseFilePath?.isEmpty == true ||
+        fcCertificateFilePath?.isEmpty == true ||
+        vehiclePhotoFilePath?.isEmpty == true ||
+        driverSelfieFilePath?.isEmpty == true) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Upload all files')),
+      );
+
+      return;
+    }
+
     try {
       final fcmToken = await FirebaseMessaging.instance.getToken() ?? '';
 
@@ -277,193 +314,307 @@ class _SignupScreenState extends ConsumerState<DriverAuthScreen> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: defaultPagePadding),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 16.0),
-            if (!isLogin) const SizedBox(height: 16.0),
-            if (!isLogin)
-              TextField(
-                controller: ownerNameController,
-                decoration: const InputDecoration(labelText: 'Owner Name'),
-                keyboardType: TextInputType.name,
-              ),
-            if (!isLogin) const SizedBox(height: 16.0),
-            if (!isLogin)
-              TextField(
-                controller: driverNameController,
-                decoration: const InputDecoration(labelText: 'Driver Name'),
-                keyboardType: TextInputType.name,
-              ),
-            if (!isLogin) const SizedBox(height: 16.0),
-            if (!isLogin)
-              TextField(
-                controller: ownerNumberController,
-                decoration: const InputDecoration(
-                  labelText: 'Owner Phone Number',
+        child: Form(
+          key: formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: 16.0),
+              if (!isLogin) const SizedBox(height: 16.0),
+              if (!isLogin)
+                TextFormField(
+                  controller: ownerNameController,
+                  decoration: const InputDecoration(labelText: 'Owner Name'),
+                  keyboardType: TextInputType.name,
+                  validator: (String? value) {
+                    if (value?.isEmpty == true) {
+                      return "Owner Name is required";
+                    }
+
+                    if ((value?.length ?? 0) < 5) {
+                      return "Owner Name should be atleast 5 characters";
+                    }
+
+                    return null;
+                  },
                 ),
-                keyboardType: TextInputType.phone,
-              ),
-            if (!isLogin) const SizedBox(height: 16.0),
-            if (!isLogin)
-              TextField(
-                controller: driverNumberController,
-                decoration: const InputDecoration(
-                  labelText: 'Driver Phone Number',
+              if (!isLogin) const SizedBox(height: 16.0),
+              if (!isLogin)
+                TextFormField(
+                  controller: driverNameController,
+                  decoration: const InputDecoration(labelText: 'Driver Name'),
+                  keyboardType: TextInputType.name,
+                  validator: (String? value) {
+                    if (value?.isEmpty == true) {
+                      return "Driver Name is required";
+                    }
+
+                    if ((value?.length ?? 0) < 5) {
+                      return "Driver Name should be atleast 5 characters";
+                    }
+
+                    return null;
+                  },
                 ),
-                keyboardType: TextInputType.phone,
-              ),
-            if (!isLogin) const SizedBox(height: 16.0),
-            if (!isLogin)
-              TextField(
-                controller: upiIdController,
-                decoration: const InputDecoration(
-                  labelText: 'UPI ID (For Payments)',
+              if (!isLogin) const SizedBox(height: 16.0),
+              if (!isLogin)
+                TextFormField(
+                  controller: ownerNumberController,
+                  decoration: const InputDecoration(
+                    labelText: 'Owner Phone Number',
+                  ),
+                  keyboardType: TextInputType.phone,
+                  validator: (String? value) {
+                    if (value?.isEmpty == true) {
+                      return "Owner Phone Number is required";
+                    }
+
+                    if ((value?.length ?? 0) != 10) {
+                      return "Owner Phone Number should be 10 characters";
+                    }
+
+                    return null;
+                  },
                 ),
-                keyboardType: TextInputType.text,
-              ),
-            if (!isLogin) const SizedBox(height: 16.0),
-            if (!isLogin)
-              DropdownButtonFormField(
-                value: genderController.text.isNotEmpty
-                    ? genderController.text
-                    : null,
-                decoration: const InputDecoration(labelText: 'Gender'),
-                items: ['Male', 'Female', 'Other'].map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    genderController.text = value.toString();
-                  });
-                },
-              ),
-            if (!isLogin) const SizedBox(height: 16.0),
-            if (!isLogin)
-              GestureDetector(
-                onTap: () => selectDate(context),
-                child: AbsorbPointer(
-                  child: TextField(
-                    controller: dobController,
-                    decoration: const InputDecoration(
-                      labelText: 'Date of Birth',
+              if (!isLogin) const SizedBox(height: 16.0),
+              if (!isLogin)
+                TextFormField(
+                  controller: driverNumberController,
+                  decoration: const InputDecoration(
+                    labelText: 'Driver Phone Number',
+                  ),
+                  keyboardType: TextInputType.phone,
+                  validator: (String? value) {
+                    if (value?.isEmpty == true) {
+                      return "Driver Phone Number is required";
+                    }
+
+                    if ((value?.length ?? 0) != 10) {
+                      return "Driver Phone Number should be 10 characters";
+                    }
+
+                    return null;
+                  },
+                ),
+              if (!isLogin) const SizedBox(height: 16.0),
+              if (!isLogin)
+                TextFormField(
+                  controller: upiIdController,
+                  decoration: const InputDecoration(
+                    labelText: 'UPI ID (For Payments)',
+                  ),
+                  keyboardType: TextInputType.text,
+                  validator: (String? value) {
+                    if (value?.isEmpty == true) {
+                      return "UPI ID is required";
+                    }
+
+                    return null;
+                  },
+                ),
+              if (!isLogin) const SizedBox(height: 16.0),
+              if (!isLogin)
+                DropdownButtonFormField(
+                  value: genderController.text.isNotEmpty
+                      ? genderController.text
+                      : null,
+                  decoration: const InputDecoration(labelText: 'Gender'),
+                  items: ['Male', 'Female', 'Other'].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      genderController.text = value.toString();
+                    });
+                  },
+                  validator: (String? value) {
+                    if (value?.isEmpty == true) {
+                      return "Gender is required";
+                    }
+
+                    return null;
+                  },
+                ),
+              if (!isLogin) const SizedBox(height: 16.0),
+              if (!isLogin)
+                GestureDetector(
+                  onTap: () => selectDate(context),
+                  child: AbsorbPointer(
+                    child: TextFormField(
+                      controller: dobController,
+                      decoration: const InputDecoration(
+                        labelText: 'Date of Birth',
+                      ),
+                      validator: (String? value) {
+                        if (value?.isEmpty == true) {
+                          return "Date of Birth is required";
+                        }
+
+                        return null;
+                      },
                     ),
                   ),
                 ),
-              ),
-            if (!isLogin) const SizedBox(height: 16.0),
-            if (!isLogin)
-              TextField(
-                controller: cityController,
-                decoration: InputDecoration(
-                  labelText: 'City',
-                  suffixIcon: IconButton(
-                    onPressed: fetchLocation,
-                    icon: const Icon(Icons.location_on),
+              if (!isLogin) const SizedBox(height: 16.0),
+              if (!isLogin)
+                TextFormField(
+                  controller: cityController,
+                  decoration: InputDecoration(
+                    labelText: 'City',
+                    suffixIcon: IconButton(
+                      onPressed: fetchLocation,
+                      icon: const Icon(Icons.location_on),
+                    ),
                   ),
+                  keyboardType: TextInputType.streetAddress,
+                  validator: (String? value) {
+                    if (value?.isEmpty == true) {
+                      return "City is required";
+                    }
+
+                    return null;
+                  },
                 ),
-                keyboardType: TextInputType.streetAddress,
-              ),
-            if (!isLogin) const SizedBox(height: 16.0),
-            if (!isLogin)
-              DropdownButtonFormField(
-                value: vehicleBodyTypeController.text.isNotEmpty
-                    ? vehicleBodyTypeController.text
-                    : null,
-                decoration: const InputDecoration(
-                  labelText: 'Vehicle Body Type',
+              if (!isLogin) const SizedBox(height: 16.0),
+              if (!isLogin)
+                DropdownButtonFormField(
+                  value: vehicleBodyTypeController.text.isNotEmpty
+                      ? vehicleBodyTypeController.text
+                      : null,
+                  decoration: const InputDecoration(
+                    labelText: 'Vehicle Body Type',
+                  ),
+                  items: [
+                    'Goods Container (Opened)',
+                    'Goods Container (Closed)',
+                    'Refrigerated Container',
+                  ].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      vehicleBodyTypeController.text = value.toString();
+                    });
+                  },
                 ),
-                items: [
-                  'Goods Container (Opened)',
-                  'Goods Container (Closed)',
-                  'Refrigerated Container',
-                ].map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    vehicleBodyTypeController.text = value.toString();
-                  });
+              if (!isLogin) const SizedBox(height: 16.0),
+              if (!isLogin)
+                TextFormField(
+                  controller: vehicleCapacityController,
+                  decoration: const InputDecoration(
+                    labelText: 'Vehicle Capacity (Litres)',
+                  ),
+                  keyboardType: TextInputType.number,
+                  validator: (String? value) {
+                    if (value?.isEmpty == true) {
+                      return "Vehicle Capacity is required";
+                    }
+
+                    return null;
+                  },
+                ),
+              if (!isLogin) const SizedBox(height: 16.0),
+              if (!isLogin)
+                TextFormField(
+                  controller: vehicleNumberController,
+                  decoration: const InputDecoration(
+                    labelText: 'Vehicle Registration Number',
+                  ),
+                  validator: (String? value) {
+                    if (value?.isEmpty == true) {
+                      return "Vehicle Registration is required";
+                    }
+
+                    return null;
+                  },
+                ),
+              if (!isLogin) const SizedBox(height: 16.0),
+              if (!isLogin)
+                TextFormField(
+                  controller: drivingLicenseController,
+                  decoration: const InputDecoration(
+                    labelText: 'Driving License Number',
+                  ),
+                  validator: (String? value) {
+                    if (value?.isEmpty == true) {
+                      return "Driving License Number is required";
+                    }
+
+                    return null;
+                  },
+                ),
+              const SizedBox(height: 16.0),
+              TextFormField(
+                controller: emailController,
+                decoration: const InputDecoration(labelText: 'Email'),
+                keyboardType: TextInputType.emailAddress,
+                validator: (String? value) {
+                  if (value?.isEmpty == true) {
+                    return "Email is required";
+                  }
+
+                  if (!validEmailAddress(value)) {
+                    return "Please, Enter valid email";
+                  }
+
+                  return null;
                 },
               ),
-            if (!isLogin) const SizedBox(height: 16.0),
-            if (!isLogin)
-              TextField(
-                controller: vehicleCapacityController,
-                decoration: const InputDecoration(
-                  labelText: 'Vehicle Capacity (Litres)',
-                ),
-                keyboardType: TextInputType.number,
-              ),
-            if (!isLogin) const SizedBox(height: 16.0),
-            if (!isLogin)
-              TextField(
-                controller: vehicleNumberController,
-                decoration: const InputDecoration(
-                  labelText: 'Vehicle Registration Number',
-                ),
-              ),
-            if (!isLogin) const SizedBox(height: 16.0),
-            if (!isLogin)
-              TextField(
-                controller: drivingLicenseController,
-                decoration: const InputDecoration(
-                  labelText: 'Driving License Number',
-                ),
-              ),
-            const SizedBox(height: 16.0),
-            TextField(
-              controller: emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
-              keyboardType: TextInputType.emailAddress,
-            ),
-            const SizedBox(height: 16.0),
-            TextField(
-              controller: passwordController,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    obscureText ? Icons.visibility : Icons.visibility_off,
+              const SizedBox(height: 16.0),
+              TextFormField(
+                controller: passwordController,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      obscureText ? Icons.visibility : Icons.visibility_off,
+                    ),
+                    onPressed: togglePasswordVisibility,
                   ),
-                  onPressed: togglePasswordVisibility,
+                ),
+                obscureText: obscureText,
+                keyboardType: TextInputType.visiblePassword,
+                validator: (String? value) {
+                  if (value?.isEmpty == true) {
+                    return "Password is required";
+                  }
+
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: () {
+                  isLogin ? onLogin() : onGoToDocumentScreen();
+                },
+                child: Text(isLogin ? 'Login' : 'Sign Up'),
+              ),
+              const SizedBox(height: 16.0),
+              TextButton(
+                onPressed: () {
+                  setState(() => isLogin = !isLogin);
+                },
+                child: Text(
+                  isLogin
+                      ? 'Don\'t have an account? Sign Up'
+                      : 'Already have an account? Login',
                 ),
               ),
-              obscureText: obscureText,
-              keyboardType: TextInputType.visiblePassword,
-            ),
-            const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                isLogin ? onLogin() : setState(() => showDocumentScreen = true);
-              },
-              child: Text(isLogin ? 'Login' : 'Sign Up'),
-            ),
-            const SizedBox(height: 16.0),
-            TextButton(
-              onPressed: () {
-                setState(() => isLogin = !isLogin);
-              },
-              child: Text(
-                isLogin
-                    ? 'Don\'t have an account? Sign Up'
-                    : 'Already have an account? Login',
-              ),
-            ),
-            Visibility(
-              visible: isLogin,
-              child: TextButton(
-                onPressed: () => context.pushNamed(Routes.forgotPassword),
-                child: const Text('Forgot Password'),
-              ),
-            )
-          ],
+              Visibility(
+                visible: isLogin,
+                child: TextButton(
+                  onPressed: () => context.pushNamed(Routes.forgotPassword),
+                  child: const Text('Forgot Password'),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

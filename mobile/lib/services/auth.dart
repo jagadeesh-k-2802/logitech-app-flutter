@@ -106,49 +106,6 @@ class AuthService {
     }
   }
 
-  static Future<MessageResponse> sendConfirmationCode({
-    required String email,
-  }) async {
-    try {
-      final dio = await getDioClient();
-      const url = '$apiUrl/api/v1/auth/send-confirmation';
-      var data = {'email': email};
-
-      final response = await dio.post(url, data: data);
-
-      if (response.statusCode != 200) {
-        var errorResponse = ErrorResponse.fromJson(response.data);
-        throw errorResponse.error;
-      }
-
-      return MessageResponse.fromJson(response.data);
-    } catch (error) {
-      rethrow;
-    }
-  }
-
-  static Future<MessageResponse> verifyConfirmationCode({
-    required String email,
-    required String code,
-  }) async {
-    try {
-      final dio = await getDioClient();
-      const url = '$apiUrl/api/v1/auth/verify-confirmation';
-      var data = {'email': email, 'code': code};
-
-      final response = await dio.post(url, data: data);
-
-      if (response.statusCode != 200) {
-        var errorResponse = ErrorResponse.fromJson(response.data);
-        throw errorResponse.error;
-      }
-
-      return MessageResponse.fromJson(response.data);
-    } catch (error) {
-      rethrow;
-    }
-  }
-
   static Future<MessageResponse> logout() async {
     try {
       final dio = await getDioClient();
@@ -174,6 +131,7 @@ class AuthService {
     required String email,
     required String phone,
     required String gender,
+    required String upiId,
   }) async {
     try {
       final dio = await getDioClient();
@@ -184,6 +142,7 @@ class AuthService {
         'email': email,
         'phone': phone,
         'gender': gender,
+        'upiId': upiId,
       };
 
       final response = await dio.post(url, data: data);

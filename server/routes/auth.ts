@@ -6,8 +6,6 @@ const router = express.Router();
 
 router.post('/login', authController.login);
 router.post('/register', authController.register);
-router.post('/send-confirmation', authController.sendConfirmationCode);
-router.post('/verify-confirmation', authController.verifyConfirmationCode);
 router.post('/update-details', protect, authController.updateDetails);
 router.post('/update-password', protect, authController.updatePassword);
 router.post('/update-avatar', protect, authController.updateAvatar);

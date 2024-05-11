@@ -1,8 +1,7 @@
 import { Response } from 'express';
 import { formidable } from 'formidable';
-import { UserType, User } from '@models/User';
+import { UserType, User, AccountTypeEnum } from '@models/User';
 import { Notification } from '@models/Notification';
-import { Confirmation } from '@models/Confirmations';
 import catchAsync from '@utils/catchAsync';
 import ErrorResponse from '@utils/errorResponse';
 import Email from '@utils/email';
@@ -153,52 +152,6 @@ export const register = catchAsync(async (req, res) => {
 });
 
 /**
- * @route POST /api/auth/send-confirmation
- * @desc sends confirmation code to the user entered email address
- * @secure false
- */
-export const sendConfirmationCode = catchAsync(async (req, res) => {
-  const { body } = await zParse(authValidation.sendConfirmationCode, req);
-  const { email } = body;
-  const otp = functions.generateSixDigitRandomNumber().toString();
-
-  const confirmation = await Confirmation.findOne({ email });
-
-  if (confirmation != null) {
-    await Confirmation.updateOne({ email }, { email, code: otp });
-  } else {
-    await Confirmation.create({ code: otp, email });
-  }
-
-  await new Email(email, email, { otp }).sendConfirmationCode();
-
-  res.status(200).json({
-    success: true,
-    message: 'Confirmation code sent sucessfully'
-  });
-});
-
-/**
- * @route POST /api/auth/verify-confirmation
- * @desc verify the confirmation code sent to the user
- * @secure false
- */
-export const verifyConfirmationCode = catchAsync(async (req, res, next) => {
-  const { body } = await zParse(authValidation.verifyConfirmationCode, req);
-  const { email, code } = body;
-  const confirmation = await Confirmation.findOne({ email, code });
-
-  if (!confirmation) {
-    return next(new ErrorResponse('Invalid code entered or expired', 401));
-  }
-
-  res.status(200).json({
-    success: true,
-    message: 'Confirmation code verified sucessfully'
-  });
-});
-
-/**
  * @route GET /api/auth/me
  * @desc Returns the current user
  * @secure false
@@ -244,14 +197,28 @@ export const logout = catchAsync(async (req, res) => {
  */
 export const updateDetails = catchAsync(async (req, res) => {
   const { body } = await zParse(authValidation.updateDetails, req);
-  const { name, email, phone, gender } = body;
+  const { name, email, phone, gender, upiId } = body;
   const user = req.user;
-  const fieldsToUpdate = { name, email, phone, gender };
 
-  await User.findByIdAndUpdate(user.id, fieldsToUpdate, {
-    new: true,
-    runValidators: true
-  });
+  await User.findByIdAndUpdate(
+    user.id,
+    { name, email, phone, gender },
+    {
+      new: true,
+      runValidators: true
+    }
+  );
+
+  if (user.type === AccountTypeEnum.driver) {
+    await User.findByIdAndUpdate(
+      user.id,
+      { 'driverDetails.upiId': upiId },
+      {
+        new: true,
+        runValidators: true
+      }
+    );
+  }
 
   res.status(200).json({
     success: true,

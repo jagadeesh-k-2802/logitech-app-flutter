@@ -89,7 +89,7 @@ class _OrderDetailScreenState extends ConsumerState<OrderManageScreen> {
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: ElevatedButton(
           onPressed: null,
-          child: Text('Completed'),
+          child: Text('Done'),
         ),
       );
     } else if (index == size) {

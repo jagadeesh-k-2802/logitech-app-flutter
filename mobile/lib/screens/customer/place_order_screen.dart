@@ -38,6 +38,8 @@ class PlaceOrderScreen extends ConsumerStatefulWidget {
 class _PlaceOrderScreenState extends ConsumerState<PlaceOrderScreen> {
   int currentStep = 0;
   String vehicleType = 'Goods Container (Opened)';
+  final locationDetailsFormKey = GlobalKey<FormState>();
+  final goodsDetailsFormKey = GlobalKey<FormState>();
   TextEditingController startController = TextEditingController();
   TextEditingController destinationController = TextEditingController();
   TextEditingController noteController = TextEditingController();
@@ -66,6 +68,16 @@ class _PlaceOrderScreenState extends ConsumerState<PlaceOrderScreen> {
   }
 
   Future<void> onFinish() async {
+    if (locationDetailsFormKey.currentState?.validate() == false) {
+      setState(() => currentStep = 1);
+      return;
+    }
+
+    if (goodsDetailsFormKey.currentState?.validate() == false) {
+      setState(() => currentStep = 2);
+      return;
+    }
+
     try {
       await OrderService.createOrder(
         vehicleType: vehicleType,
@@ -143,6 +155,7 @@ class _PlaceOrderScreenState extends ConsumerState<PlaceOrderScreen> {
             ),
             const SizedBox(height: 12),
             Form(
+              key: locationDetailsFormKey,
               child: Column(
                 children: [
                   TextFormField(
@@ -151,6 +164,17 @@ class _PlaceOrderScreenState extends ConsumerState<PlaceOrderScreen> {
                     decoration: const InputDecoration(
                       hintText: 'Start Address',
                     ),
+                    validator: (String? value) {
+                      if (value?.isEmpty == true) {
+                        return "Start Address is required";
+                      }
+
+                      if ((value?.length ?? 0) < 10) {
+                        return "Start Address should be atleast 10 characters";
+                      }
+
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 12),
                   TextFormField(
@@ -159,6 +183,17 @@ class _PlaceOrderScreenState extends ConsumerState<PlaceOrderScreen> {
                     decoration: const InputDecoration(
                       hintText: 'Destination Address',
                     ),
+                    validator: (String? value) {
+                      if (value?.isEmpty == true) {
+                        return "Destination Address is required";
+                      }
+
+                      if ((value?.length ?? 0) < 10) {
+                        return "Destination Address should be atleast 10 characters";
+                      }
+
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 12),
                   TextFormField(
@@ -177,6 +212,13 @@ class _PlaceOrderScreenState extends ConsumerState<PlaceOrderScreen> {
                       hintText: 'Total Distance',
                       suffixText: 'Km',
                     ),
+                    validator: (String? value) {
+                      if (value?.isEmpty == true) {
+                        return "Total Distance is required";
+                      }
+
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 12),
                 ],
@@ -196,12 +238,20 @@ class _PlaceOrderScreenState extends ConsumerState<PlaceOrderScreen> {
             ),
             const SizedBox(height: 12),
             Form(
+              key: goodsDetailsFormKey,
               child: Column(
                 children: [
                   TextFormField(
                     decoration: const InputDecoration(
                       hintText: 'Type Of Goods',
                     ),
+                    validator: (String? value) {
+                      if (value?.isEmpty == true) {
+                        return "Type Of Goods is required";
+                      }
+
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 12),
                   TextFormField(
@@ -211,6 +261,17 @@ class _PlaceOrderScreenState extends ConsumerState<PlaceOrderScreen> {
                       hintText: 'Approx Weight (Kg)',
                       suffixText: 'Kg',
                     ),
+                    validator: (String? value) {
+                      if (value?.isEmpty == true) {
+                        return "Weight is required";
+                      }
+
+                      if ((int.tryParse(value ?? '0') ?? 0) > 25000) {
+                        return "Weight should be less than 25 Ton";
+                      }
+
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 12),
                 ],

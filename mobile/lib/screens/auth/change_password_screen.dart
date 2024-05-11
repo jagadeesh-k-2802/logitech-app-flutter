@@ -18,6 +18,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   TextEditingController confirmPasswordController = TextEditingController();
 
   Future<void> onChangePassword() async {
+    if (formKey.currentState?.validate() == false) {}
+
     try {
       await AuthService.updatePassword(
         currentPassword: currentPasswordController.text,

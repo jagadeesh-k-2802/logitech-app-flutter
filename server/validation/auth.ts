@@ -59,23 +59,6 @@ export const register = z.object({
     .nullable()
 });
 
-export const sendConfirmationCode = z.object({
-  body: z.object({
-    email: z
-      .string({ required_error: 'Email is required' })
-      .email('Not a valid email')
-  })
-});
-
-export const verifyConfirmationCode = z.object({
-  body: z.object({
-    email: z
-      .string({ required_error: 'Email is required' })
-      .email('Not a valid email'),
-    code: z.string({ required_error: 'Code is required' })
-  })
-});
-
 export const updateDetails = z.object({
   body: z.object({
     name: z
@@ -84,8 +67,9 @@ export const updateDetails = z.object({
     email: z
       .string({ required_error: 'Email is required' })
       .email('Not a valid email'),
-    phone: z.string().optional().nullable(),
-    gender: z.string({ required_error: 'Gender is required' })
+    phone: z.string({ required_error: 'Phone is required' }),
+    gender: z.string({ required_error: 'Gender is required' }),
+    upiId: z.string({ required_error: 'UPI ID is required' })
   })
 });
 

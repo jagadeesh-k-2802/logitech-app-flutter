@@ -74,10 +74,18 @@ class _CustomerAuthScreenState extends ConsumerState<CustomerAuthScreen> {
       );
 
       UserResponse userResponse = await AuthService.getMe();
-      ref.read(globalStateProvider.notifier).setUser(userResponse.data);
 
-      if (!mounted) return;
-      context.goNamed(Routes.customerHome);
+      if (userResponse.data.type == UserType.driver) {
+        if (!mounted) return;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please Login using Driver Login')),
+        );
+      } else {
+        ref.read(globalStateProvider.notifier).setUser(userResponse.data);
+        if (!mounted) return;
+        context.goNamed(Routes.customerHome);
+      }
     } catch (error) {
       if (!mounted) return;
 

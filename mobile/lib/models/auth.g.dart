@@ -51,6 +51,7 @@ _$DriverDetailsImpl _$$DriverDetailsImplFromJson(Map<String, dynamic> json) =>
       driverNumber: json['driverNumber'] as String?,
       ownerName: json['ownerName'] as String?,
       driverName: json['driverName'] as String?,
+      upiId: json['upiId'] as String?,
       location: json['location'] == null
           ? null
           : DriverLocation.fromJson(json['location'] as Map<String, dynamic>),
@@ -66,6 +67,7 @@ Map<String, dynamic> _$$DriverDetailsImplToJson(_$DriverDetailsImpl instance) =>
       'driverNumber': instance.driverNumber,
       'ownerName': instance.ownerName,
       'driverName': instance.driverName,
+      'upiId': instance.upiId,
       'location': instance.location,
       'vehicleBodyType': instance.vehicleBodyType,
       'vehicleCapacity': instance.vehicleCapacity,

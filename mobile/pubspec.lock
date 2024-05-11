@@ -305,14 +305,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.4.1"
-  easy_upi_payment:
-    dependency: "direct main"
-    description:
-      name: easy_upi_payment
-      sha256: "46c9c62dbcb190f89180451bc7310b2b5f712de390506b4384e976b2fed56d62"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.6"
   fake_async:
     dependency: transitive
     description:
@@ -1389,6 +1381,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.2"
+  upi_india:
+    dependency: "direct main"
+    description:
+      name: upi_india
+      sha256: "483f1425ee8f0897397861b107e50b3aa195fec71215f86e906b625e841e90dd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   url_launcher:
     dependency: "direct main"
     description:

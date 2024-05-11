@@ -63,10 +63,6 @@ class Email {
     await this._send('welcome', 'Welcome To Logitech');
   }
 
-  async sendConfirmationCode() {
-    await this._send('confirmation', 'Logitech- Confirmation Code');
-  }
-
   async sendPasswordReset() {
     await this._send('password-reset', 'Logitech- Password Reset');
   }

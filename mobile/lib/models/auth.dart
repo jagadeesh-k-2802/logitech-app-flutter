@@ -50,6 +50,7 @@ class DriverDetails with _$DriverDetails {
     required String? driverNumber,
     required String? ownerName,
     required String? driverName,
+    required String? upiId,
     required DriverLocation? location,
     required String? vehicleBodyType,
     required String? vehicleCapacity,
